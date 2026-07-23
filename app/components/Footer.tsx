@@ -37,6 +37,7 @@ export default function Footer() {
         <div className="ft-divider" />
 
         <p className="ft-partner">PROF. ZACCHEAUS ADANGOR (SAN)</p>
+        <p className="ft-rights">&copy; 2026 All rights reserved.</p>
       </div>
 
       <style jsx>{`
@@ -77,14 +78,14 @@ export default function Footer() {
         .ft-right {
           display: flex;
           flex-direction: row;
-          align-items: center;
-          gap: 40px;
-          flex-wrap: wrap;
+          align-items: flex-start;
+          gap: 24px;
         }
         .ft-nav {
           display: flex;
-          gap: 32px;
-          flex-wrap: wrap;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 12px;
         }
         .ft-nav a {
           color: #919191;
@@ -122,6 +123,13 @@ export default function Footer() {
           line-height: 49px;
           letter-spacing: -1.793px;
           margin: 0;
+        }
+        .ft-rights {
+          color: #6D6D6D;
+          font-family: var(--font-roboto-slab), serif;
+          font-size: 13px;
+          font-weight: 300;
+          margin: 8px 0 0 0;
         }
 
         @media (max-width: 1024px) {
