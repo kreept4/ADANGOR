@@ -76,7 +76,7 @@ export default function Hero() {
         </div>
 
         <div
-          className="relative flex-1 min-w-0 h-[280px] md:h-[556px]"
+          className="relative flex-none md:flex-1 min-w-0 h-[280px] md:h-[556px]"
           style={{
             overflow: "hidden",
             backgroundColor: "#0d0605",
