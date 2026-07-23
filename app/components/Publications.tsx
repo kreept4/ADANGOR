@@ -24,12 +24,13 @@ const books = [
 export default function Publications() {
   return (
     <section className="pub-section">
+      <div className="pub-inner">
       <div className="pub-heading-wrap">
         <h2 className="pub-heading">Publications</h2>
         <div style={{ height: "1px", alignSelf: "stretch", background: "#CD9610" }} />
       </div>
 
-      <div className="pub-grid">
+      <div className="pub-grid" style={{ display: undefined }}>
         {books.map((book, i) => (
           <div key={i} className="pub-card">
             <div className="pub-card-top">
@@ -42,14 +43,20 @@ export default function Publications() {
           </div>
         ))}
       </div>
+      </div>
 
       <style jsx>{`
         .pub-section {
           padding: 80px 114px;
+          box-sizing: border-box;
+        }
+        .pub-inner {
+          max-width: 1440px;
+          margin: 0 auto;
+          width: 100%;
           display: flex;
           flex-direction: column;
           gap: 40px;
-          box-sizing: border-box;
         }
         .pub-heading-wrap {
           display: flex;

@@ -152,8 +152,6 @@ export default function MapContact() {
           </form>
         </div>
       </div>
-
-      </div>
       <div className="mc-info-strip">
         <div>
           <p style={infoLabelStyle}>Abuja Address</p>
@@ -169,6 +167,7 @@ export default function MapContact() {
             04053, Kyiv, Gogolivska str., 3904053, Kyiv, Gogolivska str., 3904053, Kyiv, Gogolivska str., 3904053,
           </p>
         </div>
+      </div>
       </div>
 
       <style jsx>{`
