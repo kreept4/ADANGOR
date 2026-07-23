@@ -207,6 +207,7 @@ export default function MapContact() {
           border-radius: 4px;
           border: 1px solid #9f9f9f;
           background: #fff;
+          color: #000;
           cursor: pointer;
           font-family: var(--font-roboto-slab), serif;
           font-size: 14px;
