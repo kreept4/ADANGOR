@@ -36,7 +36,7 @@ export default function Footer() {
 
         <div className="ft-divider" />
 
-        <p className="ft-partner">PROF. ZACCHEAUS ADANGOR (SAN)</p>
+        <p className="ft-partner">PROF. ZACCHAEUS ADANGOR (SAN)</p>
         <p className="ft-rights">&copy; 2026 All rights reserved.</p>
       </div>
 

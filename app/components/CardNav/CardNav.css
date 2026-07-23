@@ -202,7 +202,8 @@
   }
 
   .card-nav-contact-button {
-    display: none;
+    width: 36px;
+    height: 36px;
   }
 
   .card-nav-content {

@@ -189,10 +189,9 @@ export default function MapContact() {
         }
         .mc-map {
           position: relative;
-          flex: 1 1 480px;
-          align-self: flex-start;
+          flex: none;
+          width: 100%;
           overflow: hidden;
-          background-color: #d9d9d9;
         }
         .mc-map-img {
           display: block;
