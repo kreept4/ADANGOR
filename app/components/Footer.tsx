@@ -76,9 +76,10 @@ export default function Footer() {
         }
         .ft-right {
           display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-          gap: 32px;
+          flex-direction: row;
+          align-items: center;
+          gap: 40px;
+          flex-wrap: wrap;
         }
         .ft-nav {
           display: flex;
