@@ -1,5 +1,5 @@
-﻿import type { Metadata } from "next";
-import { Roboto_Slab, Roboto_Mono } from "next/font/google";
+import type { Metadata } from "next";
+import { Roboto_Slab, Roboto_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import CardNav from "./components/CardNav/CardNav";
 
@@ -11,6 +11,11 @@ const robotoSlab = Roboto_Slab({
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
   variable: "--font-roboto-mono",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -49,7 +54,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoSlab.variable} ${robotoMono.variable}`}>
+      <body className={`${robotoSlab.variable} ${robotoMono.variable} ${inter.variable}`}>
         <CardNav
           firmName="PROF. Z. ADANGOR (SAN) & CO"
           items={navItems}
