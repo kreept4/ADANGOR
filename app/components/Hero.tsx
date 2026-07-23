@@ -22,8 +22,7 @@ export default function Hero() {
             style={{ color: "#D4E3FF", fontWeight: 400 }}
             className="w-full max-w-[484px] text-[16px] md:text-[24px]"
           >
-            For nearly 5 decades, Our reputation has been earned through decades
-            of principled legal practice. For nearly 5 decades,
+            For nearly 5 decades, Our reputation has been earned through decades of principled legal practice.
           </motion.p>
 
           <div className="mt-10 md:mt-16 flex flex-col items-start w-full max-w-[532px] md:ml-auto">

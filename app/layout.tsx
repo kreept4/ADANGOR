@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto_Slab, Roboto_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import CardNav from "./components/CardNav/CardNav";
+import Footer from "./components/Footer";
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
@@ -61,6 +62,7 @@ export default function RootLayout({
           contactEmail="Zacchaeusadangor@nigerianbar.ng"
         />
         {children}
+        <Footer />
       </body>
     </html>
   );

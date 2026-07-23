@@ -67,7 +67,7 @@ export default function MapContact() {
         <div className="mc-map-col">
           <h2 className="mc-heading">Visit Us</h2>
           <p className="mc-intro">
-            From consultation to representation, we provide clear legal guidance and steadfast advocacy at every stage of your matter.
+            From consultation to representation.
           </p>
           <div className="mc-map">
             <img
@@ -81,7 +81,7 @@ export default function MapContact() {
         <div className="mc-contact">
           <h2 className="mc-heading">Contact Us</h2>
           <p className="mc-intro">
-            From consultation to representation, we provide clear legal guidance and steadfast advocacy at every stage of your matter.
+            From consultation to representation.
           </p>
 
           <form onSubmit={handleSubmit} className="mc-form">
