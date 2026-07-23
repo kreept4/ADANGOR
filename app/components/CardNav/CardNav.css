@@ -175,8 +175,15 @@
 
 @media (max-width: 768px) {
   .card-nav-container {
-    width: 90%;
-    top: 1.2em;
+    width: 100%;
+    top: 0;
+  }
+
+  .card-nav {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
   }
 
   .card-nav-top {
