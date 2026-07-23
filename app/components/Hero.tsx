@@ -7,38 +7,37 @@ export default function Hero() {
   return (
     <>
       <section
-        className="relative w-full overflow-hidden"
+        className="relative w-full overflow-hidden min-h-[440px] md:min-h-[595px]"
         style={{
-          height: "595px",
           background:
             "linear-gradient(0deg, rgba(1,2,73,0.50) 0%, rgba(1,2,73,0.50) 100%), url('/images/hero-bg.jpg') lightgray 50% / cover no-repeat",
         }}
       >
-        <div className="relative z-10 h-full max-w-[1440px] mx-auto px-[59px] py-[100px] font-[family-name:var(--font-roboto-slab)]">
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 py-12 md:px-[59px] md:py-[100px] font-[family-name:var(--font-roboto-slab)]">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            style={{ color: "#D4E3FF", fontSize: "24px", fontWeight: 400 }}
-            className="w-[484px]"
+            style={{ color: "#D4E3FF", fontWeight: 400 }}
+            className="w-full max-w-[484px] text-[16px] md:text-[24px]"
           >
             For nearly 5 decades, Our reputation has been earned through decades
             of principled legal practice. For nearly 5 decades,
           </motion.p>
 
-          <div className="mt-16 flex flex-col items-start w-[532px] ml-auto">
+          <div className="mt-10 md:mt-16 flex flex-col items-start w-full max-w-[532px] md:ml-auto">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
               style={{
                 color: "#FFF",
-                fontSize: "48px",
                 fontWeight: 400,
                 lineHeight: "134%",
                 letterSpacing: "0.96px",
                 textTransform: "uppercase",
               }}
+              className="text-[30px] md:text-[48px]"
             >
               Built on Justice. Guided by Ethics.
             </motion.h1>
@@ -47,7 +46,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-8 bg-white text-black rounded-[4px] py-4 px-6 flex items-center gap-8 font-medium"
+              className="mt-6 md:mt-8 bg-white text-black rounded-[4px] py-3 px-5 md:py-4 md:px-6 flex items-center gap-4 md:gap-8 font-medium text-sm md:text-base"
             >
               Speak to a Lawyer
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,11 +61,11 @@ export default function Hero() {
       </section>
 
       <section className="w-full flex flex-col md:flex-row bg-[#F9FCE4] font-[family-name:var(--font-roboto-slab)]">
-        <div className="w-full md:w-1/2 flex flex-col justify-center px-[59px] py-16">
-          <p className="text-[20px] leading-[180%] text-[#525731] mb-4">
+        <div className="w-full md:w-1/2 flex flex-col justify-center px-6 py-10 md:px-[59px] md:py-16">
+          <p className="text-[16px] md:text-[20px] leading-[180%] text-[#525731] mb-4">
             Established 1977
           </p>
-          <h2 className="text-[32px] leading-[138%] tracking-[-0.32px] uppercase text-black mb-6">
+          <h2 className="text-[24px] md:text-[32px] leading-[138%] tracking-[-0.32px] uppercase text-black mb-6">
             Built on Justice.
             <br />
             Guided by Ethics.
@@ -77,9 +76,8 @@ export default function Hero() {
         </div>
 
         <div
-          className="relative flex-1 min-w-0"
+          className="relative flex-1 min-w-0 h-[280px] md:h-[556px]"
           style={{
-            height: "556px",
             overflow: "hidden",
             backgroundColor: "#0d0605",
           }}
@@ -88,7 +86,7 @@ export default function Hero() {
             src="/images/hero-judge-full.jpg"
             alt="Judge"
             fill
-            sizes="720px"
+            sizes="(max-width: 768px) 100vw, 720px"
             style={{ objectFit: "contain", objectPosition: "50% 50%" }}
           />
           <div

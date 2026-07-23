@@ -8,84 +8,31 @@ const values = [
 
 export default function OurValues() {
   return (
-    <section
-      style={{
-        width: "100%",
-        backgroundColor: "#FFF",
-        fontFamily: "var(--font-roboto-slab), serif",
-        padding: "128px 96px",
-        boxSizing: "border-box",
-      }}
-    >
-      <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
-        {/* Heading */}
-        <h2
-          style={{
-            color: "#CD9610",
-            fontSize: "48px",
-            fontWeight: 400,
-            lineHeight: "180%",
-            margin: 0,
-          }}
-        >
-          OUR VALUES
-        </h2>
-
-        {/* Full-width divider under heading */}
+    <section className="ov-section">
+      <div className="ov-inner">
+        <h2 className="ov-heading">OUR VALUES</h2>
         <div style={{ width: "100%", height: "1px", backgroundColor: "#E5E5E5", marginTop: "24px" }} />
 
-        {/* Bottom row: stats left, vertical divider, [01/02/03 + paragraph] right column (fixed 873px per Figma) */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "64px", marginTop: "64px", alignItems: "flex-start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "40px", flexShrink: 0 }}>
+        <div className="ov-row">
+          <div className="ov-stats">
             <div>
-              <div
-                style={{
-                  fontFamily: "var(--font-roboto-mono), monospace",
-                  color: "#291D00",
-                  fontSize: "48px",
-                  fontWeight: 400,
-                }}
-              >
-                40+
-              </div>
+              <div className="ov-stat-num">40+</div>
               <div style={{ width: "40px", height: "1px", background: "#FFD46C", margin: "8px 0" }} />
               <div style={{ color: "#383131", fontSize: "16px", fontWeight: 400 }}>YEARS OF PRACTICE</div>
             </div>
             <div>
-              <div
-                style={{
-                  fontFamily: "var(--font-roboto-mono), monospace",
-                  color: "#291D00",
-                  fontSize: "48px",
-                  fontWeight: 400,
-                }}
-              >
-                12
-              </div>
+              <div className="ov-stat-num">12</div>
               <div style={{ width: "40px", height: "1px", background: "#FFD46C", margin: "8px 0" }} />
               <div style={{ color: "#383131", fontSize: "16px", fontWeight: 400 }}>PRACTICE AREAS</div>
             </div>
           </div>
 
-          {/* Vertical gold divider between stats and the values/paragraph column */}
-          <div style={{ width: "1px", height: "366px", background: "#FFD46C", flexShrink: 0 }} />
+          <div className="ov-divider" />
 
-          {/* Fixed-width value column per Figma spec: display flex, width 873px, align-items flex-start, gap 40px */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "873px",
-              maxWidth: "100%",
-              alignItems: "flex-start",
-              gap: "40px",
-              flexShrink: 0,
-            }}
-          >
-            {/* 01 / 02 / 03 row, left-aligned, directly above the paragraph */}
-            <div style={{ display: "flex", gap: "64px" }}>
+          <div className="ov-values-col">
+            <div className="ov-values-row">
               {values.map((v) => (
-                <div key={v.label + v.num} style={{ display: "flex", flexDirection: "column", gap: "12px", width: "140px" }}>
+                <div key={v.label + v.num} className="ov-value-item">
                   <span
                     style={{
                       fontFamily: "var(--font-roboto-mono), monospace",
@@ -101,17 +48,7 @@ export default function OurValues() {
                 </div>
               ))}
             </div>
-
-            <p
-              style={{
-                width: "100%",
-                margin: 0,
-                color: "#000",
-                fontSize: "24px",
-                fontWeight: 400,
-                lineHeight: "169%",
-              }}
-            >
+            <p className="ov-paragraph">
               At Prof. Z. Adangor &amp; Co, the practice of law is guided by
               diligence, cognate experience, and an unwavering commitment to
               our clients. Every matter entrusted to us is approached with
@@ -121,6 +58,122 @@ export default function OurValues() {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .ov-section {
+          width: 100%;
+          background-color: #fff;
+          font-family: var(--font-roboto-slab), serif;
+          padding: 128px 96px;
+          box-sizing: border-box;
+        }
+        .ov-inner {
+          max-width: 1440px;
+          margin: 0 auto;
+        }
+        .ov-heading {
+          color: #cd9610;
+          font-size: 48px;
+          font-weight: 400;
+          line-height: 180%;
+          margin: 0;
+        }
+        .ov-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 64px;
+          margin-top: 64px;
+          align-items: flex-start;
+        }
+        .ov-stats {
+          display: flex;
+          flex-direction: column;
+          gap: 40px;
+          flex-shrink: 0;
+        }
+        .ov-stat-num {
+          font-family: var(--font-roboto-mono), monospace;
+          color: #291d00;
+          font-size: 48px;
+          font-weight: 400;
+        }
+        .ov-divider {
+          width: 1px;
+          height: 366px;
+          background: #ffd46c;
+          flex-shrink: 0;
+        }
+        .ov-values-col {
+          display: flex;
+          flex-direction: column;
+          width: 873px;
+          max-width: 100%;
+          align-items: flex-start;
+          gap: 40px;
+          flex-shrink: 0;
+        }
+        .ov-values-row {
+          display: flex;
+          gap: 64px;
+          flex-wrap: wrap;
+        }
+        .ov-value-item {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          width: 140px;
+        }
+        .ov-paragraph {
+          width: 100%;
+          margin: 0;
+          color: #000;
+          font-size: 24px;
+          font-weight: 400;
+          line-height: 169%;
+        }
+
+        @media (max-width: 1024px) {
+          .ov-section {
+            padding: 80px 48px;
+          }
+          .ov-heading {
+            font-size: 40px;
+          }
+          .ov-divider {
+            display: none;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .ov-section {
+            padding: 56px 24px;
+          }
+          .ov-heading {
+            font-size: 32px;
+          }
+          .ov-row {
+            gap: 40px;
+            margin-top: 40px;
+          }
+          .ov-stats {
+            flex-direction: row;
+            gap: 32px;
+            flex-wrap: wrap;
+          }
+          .ov-stat-num {
+            font-size: 36px;
+          }
+          .ov-values-row {
+            gap: 24px;
+          }
+          .ov-value-item {
+            width: calc(50% - 12px);
+          }
+          .ov-paragraph {
+            font-size: 18px;
+          }
+        }
+      `}</style>
     </section>
   );
 }
