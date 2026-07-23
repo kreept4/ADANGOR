@@ -63,6 +63,7 @@ export default function MapContact() {
 
   return (
     <section className="mc-section">
+      <div className="mc-inner">
       <div className="mc-row">
         <div className="mc-map-col">
           <h2 className="mc-heading">Visit Us</h2>
@@ -152,6 +153,7 @@ export default function MapContact() {
         </div>
       </div>
 
+      </div>
       <div className="mc-info-strip">
         <div>
           <p style={infoLabelStyle}>Abuja Address</p>
@@ -175,6 +177,11 @@ export default function MapContact() {
           flex-direction: column;
           width: 100%;
           background: #F1EFD9;
+        }
+        .mc-inner {
+          max-width: 1440px;
+          margin: 0 auto;
+          width: 100%;
         }
         .mc-row {
           display: flex;

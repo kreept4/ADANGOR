@@ -36,15 +36,19 @@ const navItems = [
     bgColor: "#242D4D",
     textColor: "#fff",
     links: [
-      { label: "Our Workplace", href: "/workplace" },
-      { label: "Our Impact", href: "/impact" },
+      { label: "Our Expertise", href: "/expertise" },
+      { label: "Our Practice Areas", href: "/practice" },
+      { label: "Our Professionals", href: "/professionals" },
     ],
   },
   {
     label: "News",
     bgColor: "#242D4D",
     textColor: "#fff",
-    links: [{ label: "Latest News", href: "/news" }],
+    links: [
+      { label: "Publications", href: "/publications" },
+      { label: "Contact", href: "/contact" },
+    ],
   },
 ];
 
