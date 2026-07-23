@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import BlurText from "./BlurText";
 
 export default function Hero() {
   return (
@@ -26,21 +27,22 @@ export default function Hero() {
           </motion.p>
 
           <div className="mt-10 md:mt-16 flex flex-col items-start w-full max-w-[532px] md:ml-auto">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
+            <BlurText
+              as="h1"
+              text="Built on Justice. Guided by Ethics."
+              delay={120}
+              animateBy="words"
+              direction="top"
+              className="text-[30px] md:text-[48px]"
               style={{
                 color: "#FFF",
                 fontWeight: 400,
                 lineHeight: "134%",
                 letterSpacing: "0.96px",
                 textTransform: "uppercase",
+                margin: 0,
               }}
-              className="text-[30px] md:text-[48px]"
-            >
-              Built on Justice. Guided by Ethics.
-            </motion.h1>
+            />
 
             <motion.button
               initial={{ opacity: 0, y: 20 }}

@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 
+// Replace this with your actual Formspree endpoint after creating a form at formspree.io
+// (looks like "https://formspree.io/f/xxxxabcd")
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
 const fieldLabelStyle = {
   color: "var(--Labels-Primary, #000)",
   fontFamily: "var(--font-inter), sans-serif",
@@ -33,6 +37,29 @@ const infoValueStyle = {
 
 export default function MapContact() {
   const [form, setForm] = useState({ name: "", phone: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        setForm({ name: "", phone: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
 
   return (
     <section className="mc-section">
@@ -51,12 +78,13 @@ export default function MapContact() {
             From consultation to representation, we provide clear legal guidance and steadfast advocacy at every stage of your matter.
           </p>
 
-          <form onSubmit={(e) => e.preventDefault()} className="mc-form">
+          <form onSubmit={handleSubmit} className="mc-form">
             <div className="mc-form-row">
               <div className="mc-field">
                 <label style={fieldLabelStyle}>Name</label>
                 <input
                   type="text"
+                  required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   className="mc-input"
@@ -67,6 +95,7 @@ export default function MapContact() {
                 <label style={fieldLabelStyle}>Phone</label>
                 <input
                   type="tel"
+                  required
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   className="mc-input"
@@ -79,6 +108,7 @@ export default function MapContact() {
               <label style={fieldLabelStyle}>Message</label>
               <input
                 type="text"
+                required
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 className="mc-input"
@@ -86,9 +116,20 @@ export default function MapContact() {
               <div className="mc-underline" />
             </div>
 
-            <button type="submit" className="mc-send">
-              Send <span aria-hidden="true">&rarr;</span>
+            <button type="submit" className="mc-send" disabled={status === "sending"}>
+              {status === "sending" ? "Sending..." : "Send"} <span aria-hidden="true">&rarr;</span>
             </button>
+
+            {status === "success" && (
+              <p className="mc-status mc-status-success">
+                Message sent successfully. We&apos;ll be in touch soon.
+              </p>
+            )}
+            {status === "error" && (
+              <p className="mc-status mc-status-error">
+                Something went wrong. Please try again, or call the number below.
+              </p>
+            )}
           </form>
         </div>
       </div>
@@ -189,6 +230,8 @@ export default function MapContact() {
           border: none;
           outline: none;
           width: 100%;
+          font-family: var(--font-roboto-slab), serif;
+          font-size: 16px;
         }
         .mc-underline {
           width: 100%;
@@ -212,7 +255,21 @@ export default function MapContact() {
           font-family: var(--font-roboto-slab), serif;
           font-size: 14px;
           text-transform: uppercase;
-          box-sizing: border-box;
+        }
+        .mc-send:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+        .mc-status {
+          font-family: var(--font-roboto-slab), serif;
+          font-size: 14px;
+          margin: 0;
+        }
+        .mc-status-success {
+          color: #1a7a1a;
+        }
+        .mc-status-error {
+          color: #b3261e;
         }
         .mc-info-strip {
           display: grid;
