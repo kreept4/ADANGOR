@@ -36,7 +36,7 @@ const infoValueStyle = {
 };
 
 export default function MapContact() {
-  const [form, setForm] = useState({ name: "", phone: "", message: "" });
+  const [form, setForm] = useState({ name: "", phone: "", message: "", email: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,7 +52,7 @@ export default function MapContact() {
 
       if (res.ok) {
         setStatus("success");
-        setForm({ name: "", phone: "", message: "" });
+        setForm({ name: "", phone: "", message: "", email: "" });
       } else {
         setStatus("error");
       }
@@ -64,12 +64,18 @@ export default function MapContact() {
   return (
     <section className="mc-section">
       <div className="mc-row">
-        <div className="mc-map">
-          <img
-            src="/images/map2.png"
-            alt="Map showing our Abuja and Port-Harcourt office locations, marked with red pins"
-            className="mc-map-img"
-          />
+        <div className="mc-map-col">
+          <h2 className="mc-heading">Visit Us</h2>
+          <p className="mc-intro">
+            From consultation to representation, we provide clear legal guidance and steadfast advocacy at every stage of your matter.
+          </p>
+          <div className="mc-map">
+            <img
+              src="/images/map2.png"
+              alt="Map showing our Abuja and Port-Harcourt office locations, marked with red pins"
+              className="mc-map-img"
+            />
+          </div>
         </div>
 
         <div className="mc-contact">
@@ -116,6 +122,18 @@ export default function MapContact() {
               <div className="mc-underline" />
             </div>
 
+            <div className="mc-field mc-field-full">
+              <label style={fieldLabelStyle}>Email Address</label>
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="mc-input"
+              />
+              <div className="mc-underline" />
+            </div>
+
             <button type="submit" className="mc-send" disabled={status === "sending"}>
               {status === "sending" ? "Sending..." : "Send"} <span aria-hidden="true">&rarr;</span>
             </button>
@@ -135,10 +153,6 @@ export default function MapContact() {
       </div>
 
       <div className="mc-info-strip">
-        <div>
-          <p style={infoLabelStyle}>Phone</p>
-          <p style={infoValueStyle}>+234-012-345-6789</p>
-        </div>
         <div>
           <p style={infoLabelStyle}>Abuja Address</p>
           {/* NOTE: placeholder address - replace with the real Abuja office address */}
@@ -160,6 +174,7 @@ export default function MapContact() {
           display: flex;
           flex-direction: column;
           width: 100%;
+          background: #F1EFD9;
         }
         .mc-row {
           display: flex;
@@ -240,8 +255,7 @@ export default function MapContact() {
         }
         .mc-send {
           display: flex;
-          width: 100%;
-          max-width: 639px;
+          align-self: stretch;
           height: 64px;
           padding: 16px 24px;
           justify-content: center;
@@ -255,6 +269,14 @@ export default function MapContact() {
           font-family: var(--font-roboto-slab), serif;
           font-size: 14px;
           text-transform: uppercase;
+        }
+        .mc-map-col {
+          flex: 1 1 480px;
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+          padding: 80px 114px;
+          box-sizing: border-box;
         }
         .mc-send:disabled {
           opacity: 0.6;
@@ -273,7 +295,7 @@ export default function MapContact() {
         }
         .mc-info-strip {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(2, 1fr);
           gap: 32px;
           width: 100%;
           padding: 40px 114px 80px 114px;
