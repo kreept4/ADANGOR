@@ -200,7 +200,7 @@ export default function MapContact() {
         }
         .mc-contact {
           flex: 1 1 480px;
-          padding: 80px 114px;
+          padding: 80px 59px;
           display: flex;
           flex-direction: column;
           gap: 32px;
@@ -280,7 +280,7 @@ export default function MapContact() {
           display: flex;
           flex-direction: column;
           gap: 32px;
-          padding: 80px 114px;
+          padding: 80px 59px;
           box-sizing: border-box;
         }
         .mc-send:disabled {
@@ -303,12 +303,15 @@ export default function MapContact() {
           grid-template-columns: repeat(2, 1fr);
           gap: 32px;
           width: 100%;
-          padding: 40px 114px 80px 114px;
+          padding: 40px 59px 80px 59px;
           box-sizing: border-box;
         }
 
         @media (max-width: 1024px) {
           .mc-contact {
+            padding: 56px 48px;
+          }
+          .mc-map-col {
             padding: 56px 48px;
           }
           .mc-info-strip {
@@ -319,6 +322,9 @@ export default function MapContact() {
 
         @media (max-width: 640px) {
           .mc-contact {
+            padding: 40px 24px;
+          }
+          .mc-map-col {
             padding: 40px 24px;
           }
           .mc-heading {

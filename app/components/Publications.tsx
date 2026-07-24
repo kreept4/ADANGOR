@@ -47,7 +47,7 @@ export default function Publications() {
 
       <style jsx>{`
         .pub-section {
-          padding: 80px 114px;
+          padding: 80px 59px;
           box-sizing: border-box;
         }
         .pub-inner {
