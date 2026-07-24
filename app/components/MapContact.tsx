@@ -155,16 +155,20 @@ export default function MapContact() {
       <div className="mc-info-strip">
         <div>
           <p style={infoLabelStyle}>Abuja Address</p>
-          {/* NOTE: placeholder address - replace with the real Abuja office address */}
           <p style={infoValueStyle}>
-            04053, Kyiv, Gogolivska str., 3904053, Kyiv, Gogolivska str., 3904053, Kyiv, Gogolivska str., 3904053,
+            No 5, Kaltungo Street, off Ladoke Akintola Boulevard, Garki 2, Abuja, FCT
           </p>
         </div>
         <div>
           <p style={infoLabelStyle}>Port-Harcourt Address</p>
-          {/* NOTE: placeholder address - replace with the real Port-Harcourt office address */}
           <p style={infoValueStyle}>
-            04053, Kyiv, Gogolivska str., 3904053, Kyiv, Gogolivska str., 3904053, Kyiv, Gogolivska str., 3904053,
+            No 1D, Okomoko Street, off Wogu Street, D/line, Port Harcourt, Rivers State
+          </p>
+        </div>
+        <div>
+          <p style={infoLabelStyle}>Phone</p>
+          <p style={infoValueStyle}>
+            08033384056; 07059423385
           </p>
         </div>
       </div>
@@ -300,7 +304,7 @@ export default function MapContact() {
         }
         .mc-info-strip {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(3, 1fr);
           gap: 32px;
           width: 100%;
           padding: 40px 59px 80px 59px;
@@ -326,6 +330,9 @@ export default function MapContact() {
           }
           .mc-map-col {
             padding: 40px 24px;
+          }
+          .mc-info-strip {
+            grid-template-columns: 1fr;
           }
           .mc-heading {
             font-size: 26px;

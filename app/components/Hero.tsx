@@ -28,7 +28,7 @@ export default function Hero() {
           <div className="mt-10 md:mt-16 flex flex-col items-start w-full max-w-[532px] md:ml-auto">
             <BlurText
               as="h1"
-              text="Built on Justice. Guided by Ethics."
+              text="Upholding Justice and the Highest Ethical Standards"
               delay={120}
               animateBy="words"
               direction="top"
@@ -64,12 +64,10 @@ export default function Hero() {
       <section className="w-full flex flex-col md:flex-row bg-[#F9FCE4] font-[family-name:var(--font-roboto-slab)]">
         <div className="w-full md:w-1/2 flex flex-col justify-center px-6 py-10 md:px-[59px] md:py-16">
           <p className="text-[16px] md:text-[20px] leading-[180%] text-[#525731] mb-4">
-            Established 1977
+            Established 1997
           </p>
           <h2 className="text-[24px] md:text-[32px] leading-[138%] tracking-[-0.32px] uppercase text-black mb-6">
-            Built on Justice.
-            <br />
-            Guided by Ethics.
+            Upholding Justice and the Highest Ethical Standards
           </h2>
           <a href="#" className="underline font-medium w-fit">
             Learn More

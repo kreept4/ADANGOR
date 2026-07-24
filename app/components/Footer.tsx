@@ -13,7 +13,7 @@ export default function Footer() {
               <path d="M25.3477 26.7372L39.2467 26.7879L40.538 23.894L26.639 23.8398L25.3477 26.7372Z" fill="rgba(180, 76, 18, 0.80)"/>
             </svg>
             <p className="ft-tagline">
-              Built on Justice,<br />Guided by Ethics
+              Upholding justice and the highest ethical standards
             </p>
           </div>
 
@@ -67,12 +67,12 @@ export default function Footer() {
           gap: 16px;
         }
         .ft-tagline {
-          color: #949494;
+          color: #7A7A7A;
           font-family: var(--font-roboto-slab), serif;
-          font-size: 40px;
-          font-weight: 500;
-          line-height: 49px;
-          letter-spacing: -1.793px;
+          font-size: 26px;
+          font-weight: 400;
+          line-height: 34px;
+          letter-spacing: -0.4px;
           margin: 0;
         }
         .ft-right {
