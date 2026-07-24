@@ -90,7 +90,7 @@ export default function Expertise() {
         </div>
 
         {/* Right: EXPERTISE heading - appears first on mobile, right column on desktop */}
-        <div className="flex-shrink-0 lg:w-[380px] text-left lg:text-right order-1 lg:order-2">
+        <div className="flex-shrink-0 lg:w-[380px] text-left order-1 lg:order-2">
           <h2
             style={{
               color: "#CD9610",
@@ -102,8 +102,8 @@ export default function Expertise() {
             EXPERTISE
           </h2>
 
-          <div className="mt-8 w-full">
-            <ScrollStack itemDistance={0} itemStackDistance={150} baseScale={0.85}>
+          <div className="mt-2 w-full">
+            <ScrollStack itemDistance={0} itemStackDistance={6} baseScale={1} itemScale={0}>
               {practiceAreas.map((area, i) => (
                 <ScrollStackItem key={area.title}>
                   <span className="scroll-stack-card-num">{String(i + 1).padStart(2, "0")}</span>
