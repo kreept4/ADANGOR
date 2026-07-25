@@ -8,13 +8,13 @@ export default function Hero() {
   return (
     <>
       <section
-        className="relative w-full overflow-hidden min-h-[440px] md:min-h-[595px]"
+        className="relative w-full overflow-hidden min-h-[380px] md:min-h-[460px]"
         style={{
           background:
             "linear-gradient(0deg, rgba(1,2,73,0.50) 0%, rgba(1,2,73,0.50) 100%), url('/images/hero-bg.jpg') lightgray 50% / cover no-repeat",
         }}
       >
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 py-12 md:px-[59px] md:py-[100px] font-[family-name:var(--font-roboto-slab)]">
+        <div className="relative z-10 max-w-[1440px] mx-auto px-6 py-8 md:px-[59px] md:py-[64px] font-[family-name:var(--font-roboto-slab)]">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -25,7 +25,7 @@ export default function Hero() {
             For nearly 5 decades, Our reputation has been earned through decades of principled legal practice.
           </motion.p>
 
-          <div className="mt-10 md:mt-16 flex flex-col items-start w-full max-w-[532px] md:ml-auto">
+          <div className="mt-6 md:mt-10 flex flex-col items-start w-full max-w-[532px] md:ml-auto">
             <BlurText
               as="h1"
               text="Upholding Justice and the Highest Ethical Standards"

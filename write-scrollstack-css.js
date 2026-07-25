@@ -1,0 +1,87 @@
+const fs = require('fs');
+
+fs.writeFileSync('app/components/ScrollStack/ScrollStack.css', `.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scroll-stack-scroller::-webkit-scrollbar {
+  display: none;
+}
+.scroll-stack-inner {
+  padding: 12px 0 200px;
+}
+.scroll-stack-card {
+  transform-origin: top center;
+  will-change: transform;
+  background: #151515;
+  border: 1px solid rgba(205, 150, 16, 0.4);
+  border-radius: 12px;
+  padding: 28px 40px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 150px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+  overflow: hidden;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.scroll-stack-card:hover {
+  border-color: rgba(205, 150, 16, 0.75);
+  background: #1a1a1a;
+}
+.scroll-stack-card-num {
+  font-family: var(--font-roboto-mono), monospace;
+  color: #CD9610;
+  font-size: 22px;
+  flex: 0 0 56px;
+}
+.scroll-stack-card-title {
+  color: #fff;
+  font-family: var(--font-roboto-slab), serif;
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  flex: 0 0 280px;
+}
+.scroll-stack-card-note {
+  color: #A6A6A6;
+  font-family: var(--font-roboto-slab), serif;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 150%;
+  text-transform: none;
+  flex: 1;
+}
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+@media (max-width: 640px) {
+  .scroll-stack-scroller {
+    height: 360px;
+  }
+  .scroll-stack-card {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+    padding: 20px 24px;
+  }
+  .scroll-stack-card-title,
+  .scroll-stack-card-num {
+    flex: none;
+  }
+}
+`);
+
+console.log('ScrollStack.css: cards go horizontal on desktop, vertical stack preserved on mobile');

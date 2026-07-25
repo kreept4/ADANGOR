@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
@@ -190,11 +190,8 @@ const CardNav = ({
           </div>
 
           <div className="logo-container">
-            {logo ? (
-              <img src={logo} alt={logoAlt} className="logo" />
-            ) : (
-              <span className="logo-text">{firmName}</span>
-            )}
+            {logo && <img src={logo} alt={logoAlt} className="logo-icon" />}
+            <span className="logo-text">{firmName}</span>
           </div>
 
           <a
