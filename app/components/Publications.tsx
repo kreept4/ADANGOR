@@ -101,7 +101,7 @@ const books: Entry[] = [
 // Splits a citation into the main body and a trailing "(pp. ...)" chunk
 // so the page-range can be styled separately, per design spec.
 function splitCitation(citation: string): { main: string; pp: string } {
-  const match = citation.match(/^(.*?)(\(pp\.[^)]*\)\.?;?[^)]*)$/s);
+  const match = citation.match(/^([\s\S]*?)(\(pp\.[^)]*\)\.?;?[^)]*)$/);
   if (!match) return { main: citation, pp: "" };
   return { main: match[1].trim(), pp: match[2].trim() };
 }
