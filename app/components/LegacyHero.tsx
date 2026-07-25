@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { CSSProperties } from "react";
 
@@ -23,7 +23,7 @@ const timelineItems = [
   },
 ];
 
-const valueTabs = ["JUSTICE", "HONESTY", "INTEGRITY"];
+const valueTabs = ["JUSTICE", "INTEGRITY", "HONESTY"];
 
 const awards = [
   {
@@ -83,10 +83,10 @@ function TrophyIcon() {
 
 export default function LegacyHero() {
   return (
-    <section className="w-full bg-white" style={{ padding: "0 clamp(24px, 6vw, 96px) clamp(48px, 10vw, 128px)" }}>
+    <section className="w-full bg-white" style={{ padding: "0 clamp(12px, 6vw, 96px) clamp(48px, 10vw, 128px)" }}>
       <div
         className="mx-auto flex flex-col gap-16"
-        style={{ maxWidth: "1400px", background: "#FFFFFF", borderRadius: "24px", padding: "clamp(24px, 5vw, 64px)" }}
+        style={{ maxWidth: "1400px", background: "#FFFFFF", borderRadius: "24px", padding: "clamp(14px, 5vw, 64px)" }}
       >
           <h2
             style={{
@@ -107,6 +107,8 @@ export default function LegacyHero() {
             style={{
               background: "#0D0904",
               overflow: "visible",
+              ["--quoteW" as any]: "clamp(190px, 41.76vw, 585px)",
+              ["--quoteH" as any]: "clamp(140px, 19.5vw, 273px)",
               ["--cardPadY" as any]: "clamp(24px, 4vw, 56px)",
               ["--cardPadX" as any]: "clamp(20px, 4vw, 64px)",
               paddingTop: "var(--cardPadY)",
@@ -116,7 +118,7 @@ export default function LegacyHero() {
             }}
           >
             <div className="flex flex-col gap-10">
-              {/* Section heading — sits above the whole row (per Figma, node 644:23938),
+              {/* Section heading â€” sits above the whole row (per Figma, node 644:23938),
                   not tied to the middle column's own height, so it can't push that
                   column's marker out of line with the other two. */}
               <span
@@ -129,7 +131,7 @@ export default function LegacyHero() {
               <div className="flex flex-col gap-4">
                 {/* Above the line: every column shows only its date now, so all three
                     columns are the same height here and the markers land on one row. */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div className="grid grid-cols-3 gap-2 sm:gap-5 md:gap-10">
                   {timelineItems.map((item, i) => (
                     <div key={i} className="flex justify-center text-center">
                       <span style={{ fontFamily: "var(--font-roboto-mono), monospace", color: "#8A8A8A", fontSize: "12px", letterSpacing: "1px" }}>
@@ -141,8 +143,8 @@ export default function LegacyHero() {
 
                 {/* Marker in its natural orientation: stem on top, ball below.
                     Figma (node 644:23935 line vs. 644:23940/57/47 markers) puts the
-                    dashed line 56px down the marker's 66px height — inside the lower
-                    part of the ball, not at its top edge — so the ball reads as
+                    dashed line 56px down the marker's 66px height â€” inside the lower
+                    part of the ball, not at its top edge â€” so the ball reads as
                     resting on the line with the stem pointing up out of it. */}
                 <div className="relative" style={{ height: "66px" }}>
                   <div className="absolute inset-0 grid grid-cols-3" style={{ zIndex: 1 }}>
@@ -165,7 +167,7 @@ export default function LegacyHero() {
                 </div>
 
                 {/* Below the line: label + write-up for the first and third columns only. */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div className="grid grid-cols-3 gap-2 sm:gap-5 md:gap-10">
                   {timelineItems.map((item, i) =>
                     i === 1 ? (
                       <div key={i} />
@@ -174,7 +176,7 @@ export default function LegacyHero() {
                         <span style={{ fontFamily: "var(--font-roboto-slab), serif", color: "#fff", fontWeight: 700, fontSize: "clamp(13px, 1.4vw, 16px)" }}>
                           {item.label}
                         </span>
-                        <p className="text-center" style={{ fontFamily: "var(--font-roboto-slab), serif", color: "#B5B5B5", fontSize: "clamp(12px, 1.3vw, 14px)", lineHeight: "155%", margin: 0 }}>
+                        <p className="text-center" style={{ fontFamily: "var(--font-roboto-slab), serif", color: "#B5B5B5", fontSize: "clamp(9px, 1.3vw, 14px)", lineHeight: "140%", margin: 0 }}>
                           {item.summary}
                         </p>
                       </div>
@@ -184,7 +186,7 @@ export default function LegacyHero() {
               </div>
             </div>
 
-            {/* Paragraph and quote card are flex siblings now — the quote card can
+            {/* Paragraph and quote card are flex siblings now â€” the quote card can
                 only overflow the black card's own edge via negative margin, it can
                 never overlap the paragraph or the timeline above it. */}
             <div className="flex flex-col lg:flex-row gap-8 items-end">
@@ -207,7 +209,7 @@ export default function LegacyHero() {
 
               {/* Invisible spacer reserves the gold box's footprint in the flex row so the
                   paragraph wraps correctly. The real box is positioned absolutely below,
-                  which takes it out of flow entirely — it can bleed past the card's edge
+                  which takes it out of flow entirely â€” it can bleed past the card's edge
                   without shrinking the card the way a negative margin on an in-flow
                   element would. */}
               {/* Invisible spacer reserves the gold box's full footprint (width AND
@@ -216,8 +218,8 @@ export default function LegacyHero() {
               <div
                 aria-hidden
                 style={{
-                  width: "clamp(280px, 41.76vw, 585px)",
-                  height: "clamp(160px, 19.5vw, 273px)",
+                  width: "var(--quoteW)",
+                  height: "var(--quoteH)",
                   flexShrink: 0,
                 }}
               />
@@ -225,7 +227,7 @@ export default function LegacyHero() {
 
             {/* White pocket: Figma builds this as a boolean-subtract cutout in the
                 black card itself (node 644:23924, 615.29 x 297 at (819.78, 2696.996)),
-                revealing the white page behind it — not a same-size shape peeking out
+                revealing the white page behind it â€” not a same-size shape peeking out
                 bottom-right. The cutout is bigger than the gold box on every side, but
                 its right/bottom edges are almost flush with the box's (within ~4px),
                 while its top/left edges sit ~31px/~28px further out. So the visible
@@ -235,19 +237,19 @@ export default function LegacyHero() {
               className="absolute rounded-[26px]"
               style={{
                 background: "#FFFFFF",
-                width: "clamp(294px, 43.95vw, 615px)",
-                height: "clamp(174px, 21.21vw, 297px)",
-                right: "-15px",
-                bottom: "-9px",
+                width: "calc(var(--quoteW) + 16px)",
+                height: "calc(var(--quoteH) + 16px)",
+                right: "-14px",
+                bottom: "-10px",
                 zIndex: 0,
               }}
             />
 
             {/* Exact geometry pulled from Figma (node 644:23925): box is 584.572 x 273
-                at (851, 2725) inside a card at (20, 2103) 1400 x 881.997 — meaning it
+                at (851, 2725) inside a card at (20, 2103) 1400 x 881.997 â€” meaning it
                 overflows the card by ~15.6px right / ~13px bottom. Positioned absolute
                 and anchored to the card (which is position: relative). Offset is a
-                fixed px value, not vw — vw scales with the whole browser viewport,
+                fixed px value, not vw â€” vw scales with the whole browser viewport,
                 not this 1400px-capped card, so it kept growing past intent on wide
                 screens. */}
             <div
@@ -257,12 +259,12 @@ export default function LegacyHero() {
                 border: "1px solid #000",
                 borderRadius: "26px",
                 boxSizing: "border-box",
-                padding: "clamp(24px, 5.46vw, 76px) clamp(16px, 2.64vw, 37px)",
-                gap: "clamp(12px, 1.714vw, 24px)",
-                width: "clamp(280px, 41.76vw, 585px)",
-                height: "clamp(160px, 19.5vw, 273px)",
-                right: "-16px",
-                bottom: "-13px",
+                padding: "clamp(14px, 5.46vw, 76px) clamp(10px, 2.64vw, 37px)",
+                gap: "clamp(8px, 1.714vw, 24px)",
+                width: "var(--quoteW)",
+                height: "var(--quoteH)",
+                right: "-14px",
+                bottom: "-10px",
                 zIndex: 1,
               }}
             >
@@ -272,7 +274,7 @@ export default function LegacyHero() {
                     fontFamily: "var(--font-nunito), sans-serif",
                     color: "#000",
                     fontWeight: 400,
-                    fontSize: "clamp(28px, 6.857vw, 96px)",
+                    fontSize: "clamp(16px, 6.857vw, 96px)",
                     lineHeight: "1",
                     textDecorationLine: "line-through",
                     flexShrink: 0,
@@ -300,7 +302,7 @@ export default function LegacyHero() {
                       fontFamily: "var(--font-nunito), sans-serif",
                       color: "#000",
                       fontWeight: 400,
-                      fontSize: "clamp(28px, 6.857vw, 96px)",
+                      fontSize: "clamp(16px, 6.857vw, 96px)",
                       lineHeight: "1",
                       textDecorationLine: "line-through",
                       transform: "rotate(180deg) scaleY(-1)",
@@ -314,19 +316,8 @@ export default function LegacyHero() {
             </div>
 
           <div className="flex flex-col lg:flex-row gap-10 items-start">
-            <div className="relative flex gap-3 shrink-0">
-              {/* White backing block — unifies the staggered tabs into one shape */}
-              <div
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  inset: "-8px -8px 0 -8px",
-                  background: "#FFFFFF",
-                  borderRadius: "10px",
-                  zIndex: 0,
-                }}
-              />
-              <div className="relative flex gap-3 items-start" style={{ zIndex: 1 }}>
+            <div className="relative flex shrink-0" style={{ gap: "clamp(12px, 1.5vw, 21px)" }}>
+              <div className="relative flex items-start" style={{ zIndex: 1, gap: "clamp(12px, 1.5vw, 21px)" }}>
                 {valueTabs.map((word, i) => {
                   const isHonesty = word === "HONESTY";
                   return (
@@ -334,9 +325,10 @@ export default function LegacyHero() {
                       key={i}
                       className="flex flex-col items-center"
                       style={{
-                        background: "#FCEFC7",
-                        padding: isHonesty ? "12px 24px 24px 24px" : "12px 24px",
-                        gap: isHonesty ? "8px" : undefined,
+                        background: "rgba(255,242,178,0.66)",
+                        padding: isHonesty
+                          ? "clamp(8px, 2.5vw, 12px) clamp(12px, 4vw, 24px) clamp(70px, 24vw, 150px) clamp(12px, 4vw, 24px)"
+                          : "clamp(8px, 2.5vw, 12px) clamp(12px, 4vw, 24px)",
                         borderRadius: "6px",
                       }}
                     >
@@ -346,7 +338,7 @@ export default function LegacyHero() {
                           style={{
                             fontFamily: "var(--font-roboto-slab), serif",
                             color: "#533700",
-                            fontSize: "clamp(18px, 2vw, 28px)",
+                            fontSize: "clamp(13px, 4vw, 28px)",
                             fontWeight: 400,
                             lineHeight: "120%",
                             textAlign: "center",

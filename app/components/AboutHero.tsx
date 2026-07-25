@@ -1,12 +1,11 @@
-"use client";
-
+﻿"use client";
 export default function AboutHero() {
   return (
-    <section className="w-full bg-white" style={{ padding: "128px 96px" }}>
-      <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row items-start gap-16 lg:gap-20">
+    <section className="w-full bg-white overflow-x-hidden px-6 py-16 sm:px-10 sm:py-20 md:px-16 md:py-24 lg:px-24 lg:py-32">
+      <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row items-start gap-10 md:gap-14 lg:gap-20">
         <div
-          className="relative shrink-0 rounded-[24px] overflow-hidden"
-          style={{ background: "#150E09", width: "480px", maxWidth: "100%", padding: "24px" }}
+          className="relative shrink-0 rounded-[24px] overflow-hidden w-full sm:w-[380px] lg:w-[480px] max-w-full p-4 sm:p-5 lg:p-6 mx-auto lg:mx-0"
+          style={{ background: "#150E09" }}
         >
           {/* TODO: swap in the actual portrait photo */}
           <img
@@ -15,29 +14,26 @@ export default function AboutHero() {
             className="w-full h-auto rounded-[16px] relative z-10"
           />
         </div>
-
-        <div className="flex flex-col gap-6 max-w-[680px]">
+        <div className="flex flex-col gap-4 sm:gap-5 md:gap-6 w-full max-w-[680px] min-w-0">
           <h1
+            className="uppercase break-words"
             style={{
               fontFamily: "var(--font-roboto-slab), serif",
               color: "#181100",
               fontWeight: 700,
-              fontSize: "56px",
+              fontSize: "clamp(1.75rem, 6vw, 3.5rem)",
               lineHeight: "120%",
-              textTransform: "uppercase",
               margin: 0,
             }}
           >
-            Professor. Z Adangor,
-            <br />
-            SAN &amp; Co
+            Professor. Z Adangor, SAN &amp; Co
           </h1>
           <p
             style={{
               fontFamily: "var(--font-roboto-slab), serif",
               color: "#383131",
               fontWeight: 400,
-              fontSize: "20px",
+              fontSize: "clamp(1rem, 1.2vw + 0.7rem, 1.25rem)",
               lineHeight: "170%",
               margin: 0,
             }}

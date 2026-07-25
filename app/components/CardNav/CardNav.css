@@ -1,4 +1,4 @@
-.card-nav-container {
+﻿.card-nav-container {
   position: relative;
   z-index: 99;
 }
@@ -201,6 +201,20 @@
     position: static;
     transform: none;
     order: 1;
+    gap: 6px;
+  }
+
+  .logo-icon {
+    height: 15px;
+  }
+
+  .logo-text {
+    font-size: 14px;
+  }
+
+  .mail-icon {
+    width: 15px;
+    height: 15px;
   }
 
   .card-nav-contact-button {
