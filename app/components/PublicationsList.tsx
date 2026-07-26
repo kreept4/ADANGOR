@@ -26,7 +26,6 @@ export default function PublicationsList() {
     <section className="pb-section">
       <div className="pb-inner">
         <header className="pb-head">
-          <p className="pb-eyebrow">Prof. Z. Adangor (SAN) &amp; Co</p>
           <h1 className="pb-title">Publications</h1>
           <p className="pb-intro">
             Books, chapters and journal articles on Nigerian federalism,
@@ -71,13 +70,19 @@ export default function PublicationsList() {
              text is set in, because the bright gold only clears 2.6:1 against
              this background and is unreadable at label sizes. */
           --ink: #181100;
+          /* Grey for the category headings, so they sit a clear step below the
+             near-black page title instead of matching it. Same grey as the
+             running copy on Our Expertise. */
+          --grey: #525252;
           --muted: #5c5344;
           --accent: #cd9610;
           --accent-ink: #8a6410;
           --hairline: rgba(24, 17, 0, 0.12);
 
           width: 100%;
-          background: #fffdf4;
+          /* Same white as Our Expertise, so the interior pages sit on one
+             ground rather than each carrying its own tint. */
+          background: #fff;
           font-family: var(--font-instrument-sans), sans-serif;
           box-sizing: border-box;
         }
@@ -94,14 +99,6 @@ export default function PublicationsList() {
           gap: clamp(10px, 1.2vw, 16px);
           padding-bottom: clamp(24px, 2.8vw, 40px);
           border-bottom: 2px solid var(--accent);
-        }
-        .pb-eyebrow {
-          margin: 0;
-          color: var(--accent-ink);
-          font-size: var(--fs-micro);
-          font-weight: 600;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
         }
         .pb-title {
           margin: 0;
@@ -129,7 +126,7 @@ export default function PublicationsList() {
           margin: 0;
           padding-bottom: clamp(10px, 1.1vw, 16px);
           border-bottom: 1px solid var(--accent);
-          color: var(--ink);
+          color: var(--grey);
           font-size: var(--fs-h3);
           font-weight: 500;
           line-height: 1.2;
