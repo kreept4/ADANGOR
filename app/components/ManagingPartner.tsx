@@ -20,8 +20,8 @@ export default function ManagingPartner() {
                 To build an outstanding legal practice with integrity, honesty,
                 and diligence.
               </p>
-              <span className="mp-mark mp-mark-close" aria-hidden="true">
-                &ldquo;
+              <span className="mp-mark" aria-hidden="true">
+                &rdquo;
               </span>
             </blockquote>
           </div>
@@ -92,23 +92,28 @@ export default function ManagingPartner() {
         .mp-quote-box {
           display: flex;
           align-items: flex-start;
-          gap: clamp(10px, 1.7vw, 24px);
+          /* Tighter than the comp: at the size the quote is now set, the marks
+             and their gaps were taking about a third of the line, which left
+             the words in a column too narrow to break well. */
+          gap: clamp(8px, 1.2vw, 16px);
           margin: 0;
           background: #9e460e;
           border-radius: 21px;
           padding: clamp(18px, 2.2vw, 32px) clamp(14px, 1.7vw, 24px);
         }
+        /* Subordinate to the words rather than competing with them. */
         .mp-mark {
           flex-shrink: 0;
           font-family: var(--font-roboto-slab), serif;
           color: #fff;
           font-weight: 400;
-          font-size: clamp(24px, 3.3vw, 48px);
+          font-size: clamp(20px, 2.4vw, 34px);
           line-height: 1;
         }
-        .mp-mark-close {
-          transform: rotate(180deg) scaleY(-1);
-        }
+        /* The panel is tied to the height of the portrait card beside it, so it
+           is the quote that grows to meet the panel rather than the panel that
+           shrinks to the quote — at the old size one sentence sat in roughly
+           320px of empty orange. */
         .mp-quote-text {
           margin: 0;
           flex: 1 1 auto;
@@ -116,8 +121,8 @@ export default function ManagingPartner() {
           font-family: var(--font-roboto-slab), serif;
           color: #fff;
           font-weight: 400;
-          font-size: clamp(17px, 2.2vw, 32px);
-          line-height: 1.2;
+          font-size: clamp(20px, 3.2vw, 46px);
+          line-height: 1.25;
         }
 
         .mp-photo-card {
