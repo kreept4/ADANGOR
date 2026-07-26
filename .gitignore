@@ -42,6 +42,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# browser-testing output: timestamped console logs and page snapshots, written
+# fresh on every run and of no use once the run is over
+.playwright-mcp/
+
 .vercel
 
 fix-*.js
