@@ -2,7 +2,7 @@
 
 const values = [
   { num: "01", label: "INTEGRITY" },
-  { num: "02", label: "DILIGENCE" },
+  { num: "02", label: "JUSTICE" },
   { num: "03", label: "HONESTY" },
 ];
 
@@ -64,16 +64,15 @@ export default function OurValues() {
           width: 100%;
           background-color: #fff;
           font-family: var(--font-roboto-slab), serif;
-          padding: 128px 96px;
+          padding: clamp(56px, 7vw, 112px) clamp(20px, 5.5vw, 140px);
           box-sizing: border-box;
         }
         .ov-inner {
-          max-width: 1440px;
-          margin: 0 auto;
+          width: 100%;
         }
         .ov-heading {
           color: #cd9610;
-          font-size: 48px;
+          font-size: clamp(28px, 3.2vw, 42px);
           font-weight: 400;
           line-height: 180%;
           margin: 0;
@@ -94,7 +93,7 @@ export default function OurValues() {
         .ov-stat-num {
           font-family: var(--font-roboto-mono), monospace;
           color: #291d00;
-          font-size: 48px;
+          font-size: clamp(30px, 3vw, 40px);
           font-weight: 400;
         }
         .ov-divider {
@@ -106,11 +105,10 @@ export default function OurValues() {
         .ov-values-col {
           display: flex;
           flex-direction: column;
-          width: 873px;
-          max-width: 100%;
+          flex: 1 1 0;
+          min-width: 0;
           align-items: flex-start;
           gap: 40px;
-          flex-shrink: 0;
         }
         .ov-values-row {
           display: flex;
@@ -125,9 +123,11 @@ export default function OurValues() {
         }
         .ov-paragraph {
           width: 100%;
+          /* Cap the measure so the text stays readable on ultrawide displays. */
+          max-width: 68ch;
           margin: 0;
           color: #000;
-          font-size: 24px;
+          font-size: clamp(15px, 1.35vw, 20px);
           font-weight: 400;
           line-height: 169%;
         }

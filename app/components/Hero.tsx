@@ -1,102 +1,330 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
 import Image from "next/image";
 import BlurText from "./BlurText";
 
-export default function Hero() {
-  return (
-    <>
-      <section
-        className="relative w-full overflow-hidden min-h-[380px] md:min-h-[460px]"
-        style={{
-          background:
-            "linear-gradient(0deg, rgba(1,2,73,0.50) 0%, rgba(1,2,73,0.50) 100%), url('/images/hero-bg.jpg') lightgray 50% / cover no-repeat",
-        }}
-      >
-        <div className="relative z-10 max-w-[1440px] mx-auto px-6 py-8 md:px-[59px] md:py-[64px] font-[family-name:var(--font-roboto-slab)]">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ color: "#D4E3FF", fontWeight: 400 }}
-            className="w-full max-w-[484px] text-[16px] md:text-[24px]"
-          >
-            For nearly 5 decades, Our reputation has been earned through decades of principled legal practice.
-          </motion.p>
+type Citation = {
+  text: string;
+  pages: string;
+};
 
-          <div className="mt-6 md:mt-10 flex flex-col items-start w-full max-w-[532px] md:ml-auto">
+const citations: Citation[] = [
+  {
+    text: "“The Role of the Court in the Regulation and Control of Take-overs and Mergers in Nigeria” (2000) 3 Journal of Commercial, Private & Property Law (JCPPL)",
+    pages: " (pp. 97-111).",
+  },
+  {
+    text: "“Delimiting the Jurisdiction of the Federal High Court in civil causes and matters connected with Mines and Minerals including oil fields, oil mining, geological surveys and natural gas” (2001) 4 Journal of Commercial, Private & Property Law (JCPPL)",
+    pages: " (pp. 1-20).",
+  },
+  {
+    text: "“Can the Election Tribunal or the Court of Appeal Order a bye-election under the Electoral Act, 2002?” (2004) 1 Ph.BJ",
+    pages: " (pp. 109-124).",
+  },
+  {
+    text: "“Rights, Duties, Obligations and Privileges of Members of the House of Assembly under the 1999 Constitution” (2002-2003) 7 PCLJ",
+    pages: " (pp. 162-183).",
+  },
+  {
+    text: "“Action for Declaration of Title to Right of Occupancy over Land Based on Traditional Evidence: Hurdles and Pitfalls” (2014) 4 JPPL",
+    pages: " (pp. 91-100).",
+  },
+];
+
+export default function Hero() {
+  const [index, setIndex] = useState(0);
+  const current = citations[index];
+
+  const go = (step: number) =>
+    setIndex((i) => (i + step + citations.length) % citations.length);
+
+  return (
+    <section className="hero-section">
+      <div className="hero-inner">
+        <div className="hero-top">
+          <div className="hero-headline">
             <BlurText
               as="h1"
-              text="Upholding Justice and the Highest Ethical Standards"
+              text="Built on Justice."
               delay={120}
               animateBy="words"
               direction="top"
-              className="text-[30px] md:text-[48px]"
-              style={{
-                color: "#FFF",
-                fontWeight: 400,
-                lineHeight: "134%",
-                letterSpacing: "0.96px",
-                textTransform: "uppercase",
-                margin: 0,
-              }}
+              className="hero-line"
+              style={{ color: "#7A7A7A", margin: 0 }}
             />
-
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-6 md:mt-8 bg-white text-black rounded-[4px] py-3 px-5 md:py-4 md:px-6 flex items-center gap-4 md:gap-8 font-medium text-sm md:text-base"
-            >
-              Speak to a Lawyer
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M6.11378 4.66752C5.98962 4.79242 5.91992 4.96139 5.91992 5.13752C5.91992 5.31364 5.98962 5.48261 6.11378 5.60751L8.47378 8.00085L6.11378 10.3608C5.98962 10.4858 5.91992 10.6547 5.91992 10.8308C5.91992 11.007 5.98962 11.1759 6.11378 11.3008C6.17576 11.3633 6.24949 11.4129 6.33073 11.4468C6.41197 11.4806 6.49911 11.498 6.58712 11.498C6.67512 11.498 6.76226 11.4806 6.8435 11.4468C6.92474 11.4129 6.99847 11.3633 7.06045 11.3008L9.88712 8.47418C9.9496 8.41221 9.9992 8.33847 10.033 8.25723C10.0669 8.17599 10.0843 8.08886 10.0843 8.00085C10.0843 7.91284 10.0669 7.8257 10.033 7.74446C9.9992 7.66322 9.9496 7.58949 9.88712 7.52751L7.06045 4.66752C6.99847 4.60503 6.92474 4.55543 6.8435 4.52159C6.76226 4.48774 6.67512 4.47032 6.58712 4.47032C6.49911 4.47032 6.41197 4.48774 6.33073 4.52159C6.24949 4.55543 6.17576 4.60503 6.11378 4.66752Z"
-                  fill="black"
-                />
-              </svg>
-            </motion.button>
+            <BlurText
+              as="h1"
+              text="Guided by Ethics."
+              delay={120}
+              animateBy="words"
+              direction="top"
+              className="hero-line"
+              style={{ color: "#000", margin: 0 }}
+            />
           </div>
-        </div>
-      </section>
 
-      <section className="w-full flex flex-col md:flex-row bg-[#F9FCE4] font-[family-name:var(--font-roboto-slab)]">
-        <div className="w-full md:w-1/2 flex flex-col justify-center px-6 py-10 md:px-[59px] md:py-16">
-          <p className="text-[16px] md:text-[20px] leading-[180%] text-[#525731] mb-4">
-            Established 1997
-          </p>
-          <h2 className="text-[24px] md:text-[32px] leading-[138%] tracking-[-0.32px] uppercase text-black mb-6">
-            Upholding Justice and the Highest Ethical Standards
-          </h2>
-          <a href="#" className="underline font-medium w-fit">
-            Learn More
+          <a href="/contact" className="hero-cta">
+            <span className="hero-cta-label">Speak to a Lawyer</span>
+            <span className="hero-cta-arrow" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 17.2416 16.7702" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.0776 8.38509H16.164" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M8.62082 1.0776L16.164 8.38509L8.62082 15.6926" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
           </a>
         </div>
+      </div>
 
-        <div
-          className="relative flex-none md:flex-1 min-w-0 h-[280px] md:h-[556px]"
-          style={{
-            overflow: "hidden",
-            backgroundColor: "#0d0605",
-          }}
-        >
+      <div className="hero-card">
           <Image
-            src="/images/hero-judge-full.jpg"
-            alt="Judge"
+            src="/images/hero-holographic.jpg"
+            alt=""
             fill
-            sizes="(max-width: 768px) 100vw, 720px"
-            style={{ objectFit: "contain", objectPosition: "50% 50%" }}
+            priority
+            sizes="100vw"
+            className="hero-card-bg"
           />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(91deg, rgba(0,0,0,0.66) 22.52%, rgba(51,51,51,0.33) 51.2%, rgba(102,102,102,0.00) 62.82%)",
-            }}
-          />
-        </div>
-      </section>
-    </>
+
+          <div className="hero-quote">
+            <div className="hero-quote-box">
+              <p className="hero-quote-author">Prof Z. Adangor SAN</p>
+              <div className="hero-quote-rule" />
+              <p className="hero-quote-text">
+                <span>{current.text}</span>
+                <span className="hero-quote-pages">{current.pages}</span>
+              </p>
+            </div>
+
+            <div className="hero-quote-nav">
+              <button type="button" onClick={() => go(-1)} aria-label="Previous publication">
+                <svg width="15" height="15" viewBox="0 0 17.2416 16.7702" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.164 8.38509H1.0776" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M8.62082 15.6926L1.0776 8.38509L8.62082 1.0776" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <button type="button" onClick={() => go(1)} aria-label="Next publication">
+                <svg width="15" height="15" viewBox="0 0 17.2416 16.7702" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1.0776 8.38509H16.164" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M8.62082 1.0776L16.164 8.38509L8.62082 15.6926" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+      </div>
+
+      <style jsx>{`
+        .hero-section {
+          width: 100%;
+          background: #fff;
+          font-family: var(--font-roboto-slab), serif;
+          box-sizing: border-box;
+        }
+        /* No max-width cap: gutters scale with the viewport so wide monitors
+           fill out instead of leaving the page stranded in the middle. */
+        .hero-inner {
+          width: 100%;
+          padding: clamp(40px, 6vw, 96px) clamp(20px, 5.5vw, 140px)
+            clamp(36px, 5vw, 72px);
+          box-sizing: border-box;
+        }
+        .hero-top {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: clamp(20px, 3vw, 40px);
+          margin-bottom: clamp(28px, 4vw, 56px);
+        }
+        .hero-headline {
+          max-width: 585px;
+          min-width: 0;
+        }
+        /* BlurText renders a motion component, which styled-jsx cannot scope. */
+        .hero-headline :global(.hero-line) {
+          font-size: clamp(28px, 3.8vw, 54px);
+          font-weight: 400;
+          line-height: 1.34;
+          letter-spacing: 0.02em;
+        }
+
+        .hero-cta {
+          display: inline-flex;
+          align-items: stretch;
+          height: clamp(52px, 4.6vw, 64px);
+          background: #fff;
+          border: 1px solid #000;
+          border-radius: 2px;
+          color: #000;
+          text-decoration: none;
+          flex-shrink: 0;
+          overflow: hidden;
+          transition: background-color 0.25s ease, color 0.25s ease;
+          animation: hero-fade 0.6s ease 0.35s both;
+        }
+        .hero-cta-label {
+          display: flex;
+          align-items: center;
+          padding: 0 clamp(16px, 1.5vw, 22px);
+          font-size: clamp(14px, 1.15vw, 17px);
+          white-space: nowrap;
+        }
+        .hero-cta-arrow {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: clamp(44px, 3.6vw, 52px);
+          border-left: 1px solid currentColor;
+        }
+        .hero-cta:hover {
+          background: #000;
+          color: #fff;
+        }
+
+        /* Full-bleed: spans the viewport, ignoring the inner container gutter. */
+        .hero-card {
+          position: relative;
+          width: 100%;
+          height: clamp(340px, 34vw, 520px);
+          overflow: hidden;
+          display: flex;
+          align-items: flex-end;
+          justify-content: flex-end;
+          padding: clamp(20px, 3vw, 48px);
+          box-sizing: border-box;
+          animation: hero-fade 0.8s ease 0.15s both;
+        }
+        /* next/image renders its own element, so scope it globally. */
+        .hero-card :global(.hero-card-bg) {
+          object-fit: cover;
+          object-position: center;
+          z-index: 0;
+        }
+        .hero-quote {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 14px;
+          width: clamp(320px, 38vw, 500px);
+          max-width: 100%;
+        }
+        .hero-quote-box {
+          width: 100%;
+          box-sizing: border-box;
+          background: rgba(255, 251, 238, 0.56);
+          backdrop-filter: blur(2px);
+          -webkit-backdrop-filter: blur(2px);
+          border-radius: 4px 32px 4px 32px;
+          padding: 16px 16px 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+        .hero-quote-author {
+          margin: 0;
+          color: #2c2c2c;
+          font-size: clamp(13px, 1.05vw, 15px);
+          font-weight: 400;
+          letter-spacing: -0.02em;
+        }
+        .hero-quote-rule {
+          width: 100%;
+          height: 1px;
+          background: rgba(201, 189, 150, 0.83);
+        }
+        .hero-quote-text {
+          margin: 0;
+          font-size: clamp(12px, 1.02vw, 15px);
+          font-weight: 500;
+          line-height: 1.7;
+          letter-spacing: 0.01em;
+          color: #000;
+        }
+        .hero-quote-pages {
+          color: #797979;
+        }
+        .hero-quote-nav {
+          display: flex;
+          gap: 16px;
+        }
+        .hero-quote-nav button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          padding: 0;
+          border: none;
+          background: transparent;
+          color: #fff;
+          cursor: pointer;
+          transition: opacity 0.2s ease;
+        }
+        .hero-quote-nav button:hover {
+          opacity: 0.65;
+        }
+
+        @keyframes hero-fade {
+          from {
+            opacity: 0;
+            transform: translateY(24px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+
+        /* Tablets (iPad mini / Air portrait) — headline stacks above the button. */
+        @media (max-width: 900px) {
+          .hero-top {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .hero-headline {
+            max-width: 100%;
+          }
+          .hero-headline :global(.hero-line) {
+            font-size: clamp(28px, 5.6vw, 44px);
+          }
+          .hero-card {
+            height: clamp(340px, 46vw, 440px);
+          }
+        }
+
+        /* Phones — quote fills the card, type drops to a readable floor. */
+        @media (max-width: 600px) {
+          .hero-card {
+            height: auto;
+            min-height: 300px;
+            align-items: flex-end;
+          }
+          .hero-quote {
+            width: 100%;
+            gap: 12px;
+          }
+          .hero-quote-box {
+            border-radius: 4px 24px 4px 24px;
+            padding: 14px 14px 10px;
+          }
+          .hero-quote-text {
+            font-size: 13px;
+            line-height: 1.6;
+          }
+          .hero-quote-nav button {
+            width: 32px;
+            height: 32px;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .hero-cta,
+          .hero-card {
+            animation: none;
+          }
+        }
+      `}</style>
+    </section>
   );
 }

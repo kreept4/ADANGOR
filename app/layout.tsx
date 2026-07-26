@@ -41,14 +41,14 @@ export const metadata: Metadata = {
 const navItems = [
   {
     label: "Home",
-    bgColor: "#1A2340",
-    textColor: "#fff",
+    bgColor: "#EFE7A3",
+    textColor: "#2F2100",
     links: [{ label: "Home", href: "/" }],
   },
   {
     label: "Who We Are",
-    bgColor: "#242D4D",
-    textColor: "#fff",
+    bgColor: "#E9DF90",
+    textColor: "#2F2100",
     links: [
       { label: "Our Expertise", href: "/expertise" },
       { label: "Our Professionals", href: "/professionals" },
@@ -57,8 +57,8 @@ const navItems = [
   },
   {
     label: "News",
-    bgColor: "#242D4D",
-    textColor: "#fff",
+    bgColor: "#E3D77D",
+    textColor: "#2F2100",
     links: [
       { label: "Publications", href: "/publications" },
       { label: "Contact", href: "/contact" },
@@ -80,6 +80,7 @@ export default function RootLayout({
           firmName="PROF. Z. ADANGOR (SAN) & CO"
           items={navItems}
           contactEmail="Zacchaeusadangor@nigerianbar.ng"
+          baseColor="#F7F3C6"
         />
         {children}
         <Footer />
