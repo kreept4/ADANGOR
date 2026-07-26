@@ -1,6 +1,7 @@
+// No interactivity left on this page — the directive is here only because
+// styled-jsx, which every section on the site uses, is client-only.
 "use client";
 
-import { useEffect, useRef } from "react";
 import {
   articles,
   books,
@@ -16,81 +17,11 @@ const groups: { key: string; label: string; entries: Entry[] }[] = [
   { key: "books", label: "Books & Book Chapters", entries: books },
 ];
 
+// Set as a bibliography rather than as a feed: the whole list sits in the page
+// flow, hierarchy is carried by size and weight, and gold is an accent on the
+// rules rather than the colour the text is set in. Nothing here is a link, so
+// nothing carries a hover or an arrow that would imply one.
 export default function PublicationsList() {
-  const scrollerRef = useRef<HTMLDivElement>(null);
-  const rowsRef = useRef<(HTMLLIElement | null)[]>([]);
-
-  useEffect(() => {
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let frame = 0;
-
-    const update = () => {
-      frame = 0;
-      const rows = rowsRef.current;
-
-      if (reduced.matches) {
-        rows.forEach((row) => {
-          row?.style.setProperty("--t", "0");
-          row?.style.setProperty("--s", "0");
-        });
-        return;
-      }
-
-      // When the list is its own scroll container the focus band is the middle
-      // of that container; once the media query collapses it back into the page
-      // flow, the viewport becomes the band instead.
-      const isInnerScroller = scroller.scrollHeight > scroller.clientHeight + 1;
-      const bandTop = isInnerScroller ? scroller.getBoundingClientRect().top : 0;
-      const bandHeight = isInnerScroller ? scroller.clientHeight : window.innerHeight;
-      const center = bandTop + bandHeight / 2;
-      const span = Math.max(bandHeight / 2, 1);
-
-      let activeIndex = 0;
-      let activeDistance = Infinity;
-
-      rows.forEach((row, i) => {
-        if (!row) return;
-        const rect = row.getBoundingClientRect();
-        const offset = rect.top + rect.height / 2 - center;
-        const distance = Math.abs(offset);
-        // Normalised 0 (dead centre) to 1 (edge of the band) — drives the fade,
-        // while the signed form drives which way the row glides.
-        const t = Math.min(distance / span, 1);
-        row.style.setProperty("--t", t.toFixed(3));
-        row.style.setProperty("--s", Math.max(-1, Math.min(1, offset / span)).toFixed(3));
-        if (distance < activeDistance) {
-          activeDistance = distance;
-          activeIndex = i;
-        }
-      });
-
-      rows.forEach((row, i) => row?.classList.toggle("is-active", i === activeIndex));
-    };
-
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    update();
-    scroller.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    reduced.addEventListener("change", schedule);
-
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      scroller.removeEventListener("scroll", schedule);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      reduced.removeEventListener("change", schedule);
-    };
-  }, []);
-
-  let rowIndex = -1;
-
   return (
     <section className="pb-section">
       <div className="pb-inner">
@@ -103,62 +34,48 @@ export default function PublicationsList() {
           </p>
         </header>
 
-        <div className="pb-rule" />
+        {groups.map((group) => (
+          <section className="pb-group" key={group.key}>
+            <h2 className="pb-group-label">{group.label}</h2>
 
-        <div className="pb-scroller" ref={scrollerRef}>
-          {groups.map((group, g) => (
-            <div className="pb-group" key={group.key}>
-              {g > 0 && <div className="pb-split" aria-hidden="true" />}
+            <ol className="pb-list">
+              {group.entries.map((entry, i) => {
+                const { authors, title, meta } = parseCitation(entry.citation);
 
-              <div className="pb-group-head">
-                <h2 className="pb-group-label">{group.label}</h2>
-                <span className="pb-group-count">
-                  {String(group.entries.length).padStart(2, "0")}
-                </span>
-              </div>
-
-              <ol className="pb-list">
-                {group.entries.map((entry, i) => {
-                  const { authors, title, meta } = parseCitation(entry.citation);
-                  rowIndex += 1;
-                  const slot = rowIndex;
-
-                  return (
-                    <li
-                      className="pb-row"
-                      key={`${group.key}-${i}`}
-                      ref={(el) => {
-                        rowsRef.current[slot] = el;
-                      }}
-                    >
-                      <span className="pb-num" aria-hidden="true">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <div className="pb-body">
-                        <h3 className="pb-entry-title">{title}</h3>
-                        <p className="pb-entry-meta">
-                          {authors && <span className="pb-authors">{authors}</span>}
-                          {authors && meta ? " · " : ""}
-                          {meta}
-                        </p>
-                      </div>
-                      <span className="pb-mark" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M5.5 14.5L14.5 5.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          <path d="M7 5.5H14.5V13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </span>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          ))}
-        </div>
+                return (
+                  <li className="pb-row" key={`${group.key}-${i}`}>
+                    <span className="pb-num" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="pb-body">
+                      <h3 className="pb-entry-title">{title}</h3>
+                      <p className="pb-entry-meta">
+                        {authors && <span className="pb-authors">{authors}</span>}
+                        {authors && meta ? " · " : ""}
+                        {meta}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </section>
+        ))}
       </div>
 
       <style jsx>{`
         .pb-section {
+          /* One palette for the page, so a tone is chosen once rather than
+             re-mixed slightly differently at each place it is used. --accent is
+             for rules and marks; --accent-ink is the darkened form that small
+             text is set in, because the bright gold only clears 2.6:1 against
+             this background and is unreadable at label sizes. */
+          --ink: #181100;
+          --muted: #5c5344;
+          --accent: #cd9610;
+          --accent-ink: #8a6410;
+          --hairline: rgba(24, 17, 0, 0.12);
+
           width: 100%;
           background: #fffdf4;
           font-family: var(--font-instrument-sans), sans-serif;
@@ -175,11 +92,12 @@ export default function PublicationsList() {
           display: flex;
           flex-direction: column;
           gap: clamp(10px, 1.2vw, 16px);
-          margin-bottom: clamp(28px, 3.2vw, 48px);
+          padding-bottom: clamp(24px, 2.8vw, 40px);
+          border-bottom: 2px solid var(--accent);
         }
         .pb-eyebrow {
           margin: 0;
-          color: #cd9610;
+          color: var(--accent-ink);
           font-size: var(--fs-micro);
           font-weight: 600;
           letter-spacing: 0.14em;
@@ -187,91 +105,35 @@ export default function PublicationsList() {
         }
         .pb-title {
           margin: 0;
-          color: #181100;
+          color: var(--ink);
           font-size: var(--fs-hero);
-          font-weight: 400;
+          font-weight: 500;
           line-height: 1.1;
-          letter-spacing: -0.04em;
+          letter-spacing: -0.03em;
         }
         .pb-intro {
           margin: 0;
           max-width: 62ch;
-          color: #6a5f43;
+          color: var(--muted);
           font-size: var(--fs-lead);
           font-weight: 400;
           line-height: 1.65;
         }
-        .pb-rule {
-          width: 100%;
-          height: 1px;
-          background: #cd9610;
-        }
 
-        /* The list is its own scroll container on pointer devices, which is what
-           gives the snap something to snap against without hijacking the page.
-           Proximity rather than mandatory, so a deliberate flick is never
-           yanked back. Scroll chaining is left on: reaching the end of the list
-           carries straight on down the page. */
-        .pb-scroller {
-          margin-top: clamp(20px, 2.4vw, 36px);
-          max-height: clamp(420px, 72svh, 780px);
-          overflow-y: auto;
-          scroll-snap-type: y proximity;
-          scroll-behavior: smooth;
-          -webkit-mask-image: linear-gradient(
-            to bottom,
-            transparent 0,
-            #000 56px,
-            #000 calc(100% - 56px),
-            transparent 100%
-          );
-          mask-image: linear-gradient(
-            to bottom,
-            transparent 0,
-            #000 56px,
-            #000 calc(100% - 56px),
-            transparent 100%
-          );
-          scrollbar-width: thin;
-          scrollbar-color: rgba(205, 150, 16, 0.5) transparent;
+        .pb-group {
+          margin-top: clamp(40px, 4.4vw, 72px);
         }
-        .pb-scroller::-webkit-scrollbar {
-          width: 4px;
-        }
-        .pb-scroller::-webkit-scrollbar-thumb {
-          background: rgba(205, 150, 16, 0.5);
-          border-radius: 4px;
-        }
-
-        .pb-group-head {
-          display: flex;
-          align-items: baseline;
-          justify-content: space-between;
-          gap: 16px;
-          padding: clamp(20px, 2.2vw, 32px) 0 clamp(12px, 1.2vw, 18px);
-        }
+        /* The group heading outranks the entries beneath it — larger and darker,
+           where before it was smaller than the titles it was introducing. */
         .pb-group-label {
           margin: 0;
-          color: #cd9610;
-          font-size: var(--fs-small);
-          font-weight: 700;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-        }
-        .pb-group-count {
-          color: #bda76a;
-          font-size: var(--fs-small);
+          padding-bottom: clamp(10px, 1.1vw, 16px);
+          border-bottom: 1px solid var(--accent);
+          color: var(--ink);
+          font-size: var(--fs-h3);
           font-weight: 500;
-          letter-spacing: 0.08em;
-        }
-
-        /* The dividing line between the two categories — deliberately heavier
-           than the hairlines that separate individual records. */
-        .pb-split {
-          height: 3px;
-          margin: clamp(28px, 3vw, 48px) 0 0;
-          background: #cd9610;
-          border-radius: 2px;
+          line-height: 1.2;
+          letter-spacing: -0.02em;
         }
 
         .pb-list {
@@ -281,115 +143,57 @@ export default function PublicationsList() {
         }
 
         .pb-row {
-          display: flex;
-          align-items: flex-start;
+          display: grid;
+          grid-template-columns: auto 1fr;
           gap: clamp(14px, 1.8vw, 28px);
-          padding: clamp(18px, 2vw, 30px) clamp(10px, 1.2vw, 18px);
-          /* The grid line between records, matching Our Expertise but keyed to
-             gold rather than grey. */
-          border-bottom: 1px solid rgba(205, 150, 16, 0.28);
-          scroll-snap-align: center;
-          border-left: 2px solid transparent;
-          background: transparent;
-          transition: background-color 0.35s ease, border-left-color 0.35s ease;
-          /* --t (0 centred → 1 at the edge of the band) and --s (the signed
-             form) are written by the scroll handler; both default to 0 so the
-             server-rendered list is fully legible before hydration. */
-          opacity: calc(1 - var(--t, 0) * 0.6);
-          transform: translateY(calc(var(--s, 0) * 10px));
+          padding: clamp(18px, 2vw, 30px) 0;
+          border-bottom: 1px solid var(--hairline);
         }
-        .pb-row:first-child {
-          border-top: 1px solid rgba(205, 150, 16, 0.28);
-        }
-        .pb-row.is-active {
-          background: rgba(205, 150, 16, 0.07);
-          border-left-color: #cd9610;
+        .pb-row:last-child {
+          border-bottom: none;
         }
 
         .pb-num {
-          flex-shrink: 0;
-          width: clamp(24px, 2.4vw, 36px);
-          color: #b3a071;
-          font-size: var(--fs-lead);
-          font-weight: 400;
-          line-height: 1.6;
+          color: var(--accent-ink);
+          font-size: var(--fs-small);
+          font-weight: 500;
+          /* Nudged onto the title's first baseline rather than the top of its
+             line box, which is what keeps the number column looking set rather
+             than floated. */
+          line-height: 2.1;
           font-variant-numeric: tabular-nums;
-          transition: color 0.3s ease;
-        }
-        .pb-row.is-active .pb-num {
-          color: #cd9610;
-          font-weight: 600;
         }
 
         .pb-body {
-          flex: 1 1 auto;
           min-width: 0;
           display: flex;
           flex-direction: column;
-          gap: 6px;
+          gap: clamp(4px, 0.5vw, 8px);
         }
+        /* Instrument Sans throughout, as on the rest of the site — the work is
+           separated from its citation by weight and colour, not by family. */
         .pb-entry-title {
           margin: 0;
-          color: #181100;
-          font-family: var(--font-merriweather), serif;
+          color: var(--ink);
           font-size: var(--fs-body);
-          font-weight: 700;
-          line-height: 1.62;
+          font-weight: 600;
+          line-height: 1.5;
           letter-spacing: -0.01em;
         }
         .pb-entry-meta {
           margin: 0;
-          color: #6a5f43;
+          color: var(--muted);
           font-size: var(--fs-small);
           font-weight: 400;
-          line-height: 1.62;
+          line-height: 1.6;
         }
         .pb-authors {
-          color: #97844f;
-        }
-
-        .pb-mark {
-          flex-shrink: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: clamp(28px, 2.6vw, 38px);
-          height: clamp(28px, 2.6vw, 38px);
-          border-radius: 50%;
-          border: 1px solid rgba(205, 150, 16, 0.35);
-          color: #cd9610;
-          opacity: 0.45;
-          transition: opacity 0.3s ease, background-color 0.3s ease,
-            color 0.3s ease;
-        }
-        .pb-row.is-active .pb-mark {
-          opacity: 1;
-          background: #cd9610;
-          color: #fffdf4;
+          font-weight: 500;
         }
 
         @media (max-width: 640px) {
           .pb-row {
             gap: 12px;
-            padding-left: 8px;
-            padding-right: 8px;
-          }
-        }
-
-        /* Touch devices and reduced-motion users get the list back in the page
-           flow: no nested scroller to trap a swipe, no snap, no fade. */
-        @media (hover: none), (prefers-reduced-motion: reduce) {
-          .pb-scroller {
-            max-height: none;
-            overflow-y: visible;
-            scroll-snap-type: none;
-            scroll-behavior: auto;
-            -webkit-mask-image: none;
-            mask-image: none;
-          }
-          .pb-row {
-            opacity: 1 !important;
-            transform: none !important;
           }
         }
       `}</style>

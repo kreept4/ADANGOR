@@ -1,16 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import BlurText from "./BlurText";
 import { heroCitations } from "../data/publications";
 
+// How long each citation holds before the next one takes over. Long, because
+// these are full citations rather than headlines — a reader has to get to the
+// end of one before it is worth moving on.
+const SLIDE_MS = 7000;
+
 export default function Hero() {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   const current = heroCitations[index];
 
   const go = (step: number) =>
     setIndex((i) => (i + step + heroCitations.length) % heroCitations.length);
+
+  // `index` is a dependency so that clicking an arrow restarts the dwell rather
+  // than leaving the reader with whatever was left of the previous tick. The
+  // timer never starts for a reader who has asked for reduced motion, and it
+  // stops while the card is hovered or focused so a citation can be read or
+  // the arrows used without it moving underneath.
+  useEffect(() => {
+    if (paused) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const id = window.setInterval(() => {
+      setIndex((i) => (i + 1) % heroCitations.length);
+    }, SLIDE_MS);
+
+    return () => window.clearInterval(id);
+  }, [paused, index]);
 
   return (
     <section className="hero-section">
@@ -59,13 +81,21 @@ export default function Hero() {
             className="hero-card-bg"
           />
 
-          <div className="hero-quote">
+          <div
+            className="hero-quote"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocusCapture={() => setPaused(true)}
+            onBlurCapture={() => setPaused(false)}
+          >
             <div className="hero-quote-box">
               <div className="hero-quote-head">
                 <p className="hero-quote-author">PROFESSOR, ADANGOR, SAN</p>
                 <div className="hero-quote-rule" />
               </div>
-              <p className="hero-quote-text">
+              {/* Keyed on the index so each citation is a fresh element and
+                  replays the fade, rather than the text swapping in place. */}
+              <p className="hero-quote-text" key={index}>
                 <span>{current.text}</span>
                 <span className="hero-quote-pages">{current.pages}</span>
               </p>
@@ -240,6 +270,22 @@ export default function Hero() {
           line-height: 1.78;
           letter-spacing: 0.04em;
           color: #000;
+          animation: hero-quote-in 0.6s ease both;
+        }
+        @keyframes hero-quote-in {
+          from {
+            opacity: 0;
+            transform: translateY(6px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-quote-text {
+            animation: none;
+          }
         }
         .hero-quote-pages {
           color: #797979;

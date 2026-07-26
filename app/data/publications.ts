@@ -55,6 +55,170 @@ export const articles: Entry[] = [
     citation:
       "Adangor, Z., “Action for Declaration of Title to Right of Occupancy over Land Based on Traditional Evidence: Hurdles and Pitfalls” (2014) 4 JPPL (pp. 91-100).",
   },
+  {
+    citation:
+      "Adangor, Z., “Lawyer’s Negligence or Incompetence in the Conduct of a Client’s Case: What Categories and Degree of Negligence are Punishable?” (2014) 1 (No. 1) (January-June) Ife Journal of International and Comparative Law (pp. 185-214).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Petroleum Industry Bill (PIB) 2012 and the Niger Delta Region of Nigeria: Panacea or Placebo?” (2015) 38 Journal of Law, Policy and Globalization (pp. 47-62); available at www.iiste.org",
+  },
+  {
+    citation:
+      "Adangor, Z., “The Presidential Pardon Granted Chief D. S. P. Alamieyeseigh: Time to Revisit the President’s Pardoning Powers” (2015) 39 Journal of Law, Policy and Globalization (JLPG) (pp. 178-191); available at www.iiste.org",
+  },
+  {
+    citation:
+      "Adangor, Z., “The Principle of Derivation and the Search for Distributive Justice in the Niger Delta Region of Nigeria: The Journey So Far” (2015) 41 Journal of Law, Policy and Globalization (JLPG) (pp. 115-133); available at www.iiste.org",
+  },
+  {
+    citation:
+      "Adangor, Z., “Depoliticizing the Appointment of the Chief Judge of a State in Nigeria: Lessons from the Crisis over the Appointment of the Chief Judge of Rivers State of Nigeria” (2015) 44 Journal of Law, Policy and Globalization (pp. 62-79); available at www.iiste.org",
+  },
+  {
+    citation:
+      "Adangor, Z., “What is Innovative in the Evidence Act, 2011?” (2015) 43 Journal of Law, Policy and Globalization (JLPG) (pp. 34-48); available at www.iiste.org",
+  },
+  {
+    citation:
+      "Adangor, Z., “Reflections on the Agitations for Resource Control in the Niger Delta Region of Nigeria: Lessons from Seven Federations” (2015) 1 & 2 Ife Journal of International & Comparative Law (pp. 171-218).",
+  },
+  {
+    citation:
+      "Adangor, Z., “The Petroleum Industry Bill (PIB) 2012 and the Principle of Vicarious Liability of Oil-Producing States and Local Government Councils for Sabotage of Petroleum Facilities: Resurrecting an Old Colonial Policy in the Niger Delta Region of Nigeria?” (2016) 8(1) Journal of Law and Conflict Resolution (pp. 1-14); available at http://www.academicjournals.org/JLCR",
+  },
+  {
+    citation:
+      "Adangor, Z., “Globalization of Legal Practice in Nigeria: Challenges and Obstacles” (2016) 51 Journal of Law, Policy and Globalization (JLPG) (pp. 7-20); available at www.iiste.org",
+  },
+  {
+    citation:
+      "Adangor, Z., “Enhancing State Control of the Oil and Gas Sector in Nigeria: Development of Indigenous Technology as an option” (2016) 2(1) Port Harcourt Journal of Business Law (pp. 92-110).",
+  },
+  {
+    citation:
+      "Adangor, Z., “E-Business and the Admissibility of Electronically-Generated Evidence in Nigeria” (2016) 2(2) Port Harcourt Journal of Business Law (pp. 247-264).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Enforcement of Fundamental Rights against Agencies of the Federal Government in the Federal and State High Courts: The Concurrent Jurisdictional Controversy” (2016) 8 (2) Journal of Jurisprudence and Contemporary Issues (pp. 165-185).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Civil Actions founded on Fraud: Reflections on Substantive and Procedural Issues” (2017) 5 (1) Journal of Property Law and Contemporary Issues (pp. 105-136).",
+  },
+  {
+    citation:
+      "Adangor, Z., “A Critical Discourse on the Extension of International Legal Personality to Multinational Corporations” (2017) 7 (1) AJLC (pp. 113-123); available at www.centurypublications.com",
+  },
+  {
+    citation:
+      "Adangor, Z., “Separatist Agitations and the Search for Political Stability in Nigeria” (2017) 3(1) Donnish Journal of Law and Conflict Resolution (pp. 001-017); available at http://www.donnishjournals.org/djlcr",
+  },
+  {
+    citation:
+      "Adangor, Z., “Agitation for the Sovereign State of Biafra and the Right to Self-Determination: Highlighting the Illusions” (2017) 9 (1) Journal of Jurisprudence and Contemporary Issues (pp. 324-341).",
+  },
+  {
+    citation:
+      "Emejuru, C. T., and Adangor, Z., “Nigerian Maritime Jurisdiction and Effective Arrest and Detention of Vessels and Persons in Nigeria: An Overview” (2017) 9 (1) Journal of Jurisprudence and Contemporary Issues (pp. 313-323).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Proposals for Equitable Governance and Management of Natural Resources in Nigeria” (2018) 7 (1) International Law Review (pp. 213-226); available at http://www.ccsenet.org/journal/index.php/ilr/issue/view/",
+  },
+  {
+    citation:
+      "Adangor, Z., “Core Issues Involved in Application for Extension of Time Within Which to Appeal” (2018) 5(1) R/S/UJPL (Rivers State University Journal of Public Law) (pp. 36-63).",
+  },
+  {
+    citation:
+      "Adangor, Z., and Emejuru, C. T., “Freedom of Information Act, 2011 and the Quest for Good Governance in Nigeria: Challenges and Prospects” (2018) 5(1) R/S/UJPL (Rivers State University Journal of Public Law) (pp. 488-514).",
+  },
+  {
+    citation:
+      "Adangor, Z., “The Ijaws (Izons) of the Niger Delta Region and Political Agitations in Nigeria: Past and Present” (2018) 5 (No. 3) Advances in Social Sciences Research Journal (pp. 361-376); available at http://scholarpublishing.org/index.php/ASSRJ/article/view/4304",
+  },
+  {
+    citation:
+      "Adangor, Z., “Obstacles Hindering Effective Implementation of the Contributory Pension Scheme in Nigeria: The Way Forward” (2018) 4(1) DELSU Law Review (pp. 142-178).",
+  },
+  {
+    citation:
+      "Adangor, Z., “The Proscription of the Indigenous People of Biafra (IPOB) and the Politics of Terrorism in Nigeria” (2018) 10 (1) Journal of Jurisprudence and Contemporary Issues (pp. 143-156).",
+  },
+  {
+    citation:
+      "Adangor, Z., “The Role of Women in the Fight against Corruption in Nigeria under the Administration of Criminal Justice Act, 2015 and the corresponding State Laws” (2018) 7(1) Port Harcourt Law Journal (pp. 12-4).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Garnishee Proceedings: An examination of the Right of the Judgment Debtor to be Heard” (2018) 4 (1) Port Harcourt Journal of Business Law (pp. 24-37).",
+  },
+  {
+    citation:
+      "Kingston, K. G., and Adangor, Z., “The Vacuum in Nigeria’s Crude Oil Laws: An Inquiry Into the Decommissioning of Onshore and Offshore Facilities” (2018) 8(1) Cranbrook Law Review (pp. 1-8); available at www.juliapublishers.com",
+  },
+  {
+    citation:
+      "Adangor, Z., and Kingston, K. G., “Composition of Customary Courts in Rivers State of Nigeria: A Case for Appointment of Chiefs as Members” (2018) 1 (3) Journal of Law and Judicial System (pp. 82-95); available at https://www.sryahwapublications.com/journal-of-law-and-judicial-system/volume-1-issue-3.php",
+  },
+  {
+    citation:
+      "Adangor, Z., “No Case Submission in Civil Trials and Objection to the Jurisdiction of the Court after close of Claimant’s Case: An Analysis” (2018) 1 (1) JPPL (Abia State University) (pp. 105-123).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Book Review: Chieftaincy Institution Among the Kalabari Ijaw by Chief (Justice) A. G. Karibi-Whyte” (Ulamba Publishers, ISBN: 978-978-530-65-3-8, 2018) (2018) 79 Journal of Law, Policy and Globalization (JLPG) (pp. 63-69); available at www.iiste.org",
+  },
+  {
+    citation:
+      "Adangor, Z., “Redefining Estoppel as a Shield and Sword under Nigerian Evidence Law” (2018) 8 (1) Journal of Property Law and Contemporary Issues (pp. 413-431).",
+  },
+  {
+    citation:
+      "Adangor, Z., and Arugu, O. W., “An Evaluation of the Rights and Duties of Coastal States Under the United Nations Convention on the Law of the Sea 1982” (2018) 8 (1) AJLC (pp. 65-84); available at www.centurypublications.com",
+  },
+  {
+    citation:
+      "Adangor, Z., “Promoting Internal Democracy in Political Parties in Nigeria: Looking Beyond Section 87(9) of the Electoral Act, 2010 (as Amended)” (2019) 9 (1) AJLC (pp. 1-16); available at www.centurypublications.com",
+  },
+  {
+    citation:
+      "Adangor, Z., and Arugu, O. W., “Powers and Functions of Local Government Legislative Council under the Rivers State Local Government Law, 2018” (2018) 5 (No. 2) Rivers State University Journal of Public Law (R/S/UJPL) (pp. 15-40).",
+  },
+  {
+    citation:
+      "Adangor, Z., and Gilbert, S., “A Review of Key Issues in the Arbitration and Conciliation Bill, 2017” (2018) 5 (No. 2) R/S/UJPL (pp. 138-152).",
+  },
+  {
+    citation:
+      "Adangor, Z., and Gilbert, S., “Future of International Arbitration: What Changes are on the Horizon?” (2019) 9 (No. 1) Journal of Property Law and Contemporary Issues (pp. 195-206).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Locus Standi in Constitutional Cases in Nigeria: Is the Shift from Conservatism to Liberalism Real?” (2019) 12 (1) Journal of Jurisprudence and Contemporary Issues (pp. 73-91).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Sanctity of Oath of Office under Nigerian Constitutional Law” (2019) 11 (1) Journal of Jurisprudence and Contemporary Issues (pp. 234-246).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Towards Speedy, Cheap and Efficient Administration of Justice by Customary Courts in Nigeria” (2020) 1 (No. 1) Gregory University Law Journal (pp. 42-56).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Power of the Attorney-General to Institute Criminal Proceedings Without Prior Police Investigation: Rationale, Scope and Limits” (2020) 1 Rivers State Ministry of Justice Journal of Law and Practice (pp. 1-18).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Evidence Act, 2011 and Remote Hearing of Matters by the Courts: Challenges and Pitfalls” (2020) 1 Rivers State Ministry of Justice Journal of Law and Practice (pp. 143-152).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Remand Proceedings under the Rivers State Administration of Criminal Justice Law, 2015: Challenges and Hurdles” (Forthcoming).",
+  },
 ];
 
 export const books: Entry[] = [
@@ -97,6 +261,34 @@ export const books: Entry[] = [
   {
     citation:
       "Adangor, Z., “Security and Welfare of the People and the Constitutionality of the Rivers State Neighbourhood Safety Corps Law, 2018” in Okene, O. V. C. (ed), Excellence in Governance and Creativity: Legal Essays in Honour of His Excellency, Nyesom Ezenwo Wike, Governor of Rivers State (Princeton & Associates Publishing Co., Lagos 2019) (pp. 568-599).",
+  },
+  {
+    citation:
+      "Adangor, Z., “The Business of Law Practice and Law Teaching: A Case for Law Teachers” in Akolokwu, G. O., Gabriel-Whyte, A. E., and Fab-Eme, C. (eds.), Pedagogy in Legal Education: Every Law Teacher’s Handbook (Princeton & Associates Publishing Co. Limited, Lagos 2019) (pp. 201-226).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Challenges of Natural Resource Federalism in Nigeria” in Benson Dele Oloworaran and Uchechukwu E. Oloworaran (eds.), Current Law and Policy Issues: Essays in Honour of The Honourable Justice C. A. Okirie, Judge (Institute of Human Capacity Development and Continuing Education, Port Harcourt 2020) (pp. 20-65).",
+  },
+  {
+    citation:
+      "Adangor, Z., Allen, F., and Amadi, E., “Role of the Legislature in the Administration and Governance of Rivers State since Creation in 1967 to the Present Day” in Karibi T. George and Biobele Da-Wariboko (eds.), Rivers Golden Expedition: Trials and Triumphs of Rivers People (2019).",
+  },
+  {
+    citation:
+      "Adangor, Z., “The Power of the Court to Administer Justice: Philosophy, Principles, Scope and Limitation” in Halliday, C. E. (ed), The Journey: Legal Essays in Honour of Snr. Chief Kola Babalola, SAN (Vivid Media Nigeria, Port Harcourt 2021) Chapter 3 (pp. 25-46).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Examination of the Extent of the Jurisdiction of the Federal High Court under section 251(1)(r) of the Constitution of the Federal Republic of Nigeria, 1999 (as amended)” in Yemi Akinseye-George (ed), Contemporary Essays on Law and Practice in Honour of Hon. Justice A. I. Chikere (2nd edn, Centre for Socio-Legal Studies (CSLS) Nigeria, 2022) (pp. 73-101).",
+  },
+  {
+    citation:
+      "Adangor, Z., “Exclusion of Evidence in Judicial Proceedings and the Interpretation of section 2 of the Evidence Act, 2011” in Jerry Amadi (ed), Enthronement of Substantive Justice in Nigeria: Essays in Honour of Hon. Justice Ejembi Eko, JSC (Emu Integrated Services Ltd, Port Harcourt 2022) (pp. 81-100).",
+  },
+  {
+    citation:
+      "Adangor, Z., “An Examination of the Relevance of Forensic Evidence in Proof of Rape under Nigerian Law” in Elsie N. Thompson, Ezinwa Okoroafor, Inime I. Chinwenwo-Aguma and others (eds.), Essays in Honour of Hon. Justice Mary Ukaego Peter-Odili, CFR, DSSRS (Rtd), Justice of the Supreme Court (Vol II, FIDA Nigeria, 2022) (pp. 85-113).",
   },
 ];
 
