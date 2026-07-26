@@ -1,27 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { mapAlt, mapImage, offices } from "../data/offices";
 
 // Replace this with your actual Formspree endpoint after creating a form at formspree.io
 // (looks like "https://formspree.io/f/xxxxabcd")
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
-
-const offices = [
-  {
-    label: "Abuja Address",
-    value:
-      "No 5, Kaltungo Street, off Ladoke Akintola Boulevard, Garki 2, Abuja, FCT",
-  },
-  {
-    label: "Port-Harcourt Address",
-    value:
-      "No 1D, Okomoko Street, off Wogu Street, D/line, Port Harcourt, Rivers State",
-  },
-  {
-    label: "Phone",
-    value: "08033384056; 07059423385",
-  },
-];
 
 export default function MapContact() {
   const [form, setForm] = useState({ name: "", phone: "", message: "", email: "" });
@@ -62,11 +46,7 @@ export default function MapContact() {
               <p className="mc-intro">Two offices, one standard of care.</p>
             </div>
             <div className="mc-map">
-              <img
-                src="/images/map2.png"
-                alt="Map showing our Abuja and Port-Harcourt office locations, marked with red pins"
-                className="mc-map-img"
-              />
+              <img src={mapImage} alt={mapAlt} className="mc-map-img" />
             </div>
           </div>
 

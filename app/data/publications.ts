@@ -100,6 +100,47 @@ export const books: Entry[] = [
   },
 ];
 
+export type ParsedCitation = {
+  authors: string;
+  title: string;
+  meta: string;
+};
+
+function tidy(value: string): string {
+  return value.trim().replace(/^[,;.\s]+/, "").replace(/[,;\s]+$/, "");
+}
+
+// Breaks a citation into the three parts the publications page sets
+// differently: the author line, the work's own title, and the journal or
+// publisher tail. Most records quote the title, which makes the curly quotes
+// the reliable cut point; the handful of monographs that carry no quotes are
+// cut at the publisher parenthetical instead.
+export function parseCitation(citation: string): ParsedCitation {
+  const open = citation.indexOf("“");
+  if (open !== -1) {
+    const close = citation.indexOf("”", open + 1);
+    const title = close === -1 ? citation.slice(open + 1) : citation.slice(open + 1, close);
+    const meta = close === -1 ? "" : citation.slice(close + 1);
+    return {
+      authors: tidy(citation.slice(0, open)),
+      title: tidy(title),
+      meta: tidy(meta),
+    };
+  }
+
+  const withoutAuthors = citation.replace(/^Adangor,\s*Z\.,\s*/, "");
+  const authors = withoutAuthors === citation ? "" : "Adangor, Z.";
+  const paren = withoutAuthors.indexOf(" (");
+  if (paren === -1) {
+    return { authors, title: tidy(withoutAuthors), meta: "" };
+  }
+  return {
+    authors,
+    title: tidy(withoutAuthors.slice(0, paren)),
+    meta: tidy(withoutAuthors.slice(paren)),
+  };
+}
+
 // Splits a citation into the main body and a trailing "(pp. ...)" chunk
 // so the page-range can be styled separately, per design spec.
 export function splitCitation(citation: string): { main: string; pp: string } {

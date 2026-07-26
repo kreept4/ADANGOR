@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
+
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Practice", href: "/practice" },
+  { label: "Our Expertise", href: "/expertise" },
   { label: "Publications", href: "/publications" },
   { label: "Contact", href: "/contact" },
 ];
@@ -31,9 +33,9 @@ export default function Footer() {
 
           <nav className="ft-nav">
             {navLinks.map((link) => (
-              <a key={link.label} href={link.href}>
+              <Link key={link.label} href={link.href}>
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
@@ -66,7 +68,7 @@ export default function Footer() {
         .ft-inner {
           width: 100%;
           /* No width cap: the footer fills the viewport in step with the
-             sections above it. */
+             sections above it. */
         }
         .ft-top {
           display: flex;
@@ -87,7 +89,9 @@ export default function Footer() {
           align-items: flex-end;
           gap: 32px;
         }
-        .ft-nav a {
+        /* next/link renders its own anchor, which styled-jsx cannot scope, so
+           the anchor is matched globally from inside the scoped .ft-nav. */
+        .ft-nav :global(a) {
           color: #2f2100;
           font-size: clamp(15px, 1.4vw, 20px);
           font-weight: 400;
@@ -95,7 +99,7 @@ export default function Footer() {
           text-decoration: none;
           transition: opacity 0.2s ease;
         }
-        .ft-nav a:hover {
+        .ft-nav :global(a:hover) {
           opacity: 0.7;
         }
         .ft-headline {
