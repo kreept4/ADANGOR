@@ -3,6 +3,90 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* ---------------------------------------------------------------------
+     Shared layout + type scale.
+
+     Every homepage section reads from these tokens, so the whole page grows
+     and shrinks as one system instead of each section inventing its own
+     clamps. The proportions come from the 1440px Figma comp, held at roughly
+     80% of the comp's raw pixel sizes so the page reads at a comfortable
+     distance rather than feeling zoomed in.
+
+     The ladder below covers smartwatch browsers (~272px) through to a 100"
+     4K boardroom display. Past ~2100px the type stops tracking the viewport
+     and steps up at fixed breakpoints instead, because beyond that the
+     screen is being read from across a room, not from a desk.
+
+     Note there is deliberately no max-width on the sections. The gutter is a
+     percentage of the viewport, so wide displays get a wider page rather than
+     a fixed column stranded in the middle with dead margins either side.
+     Readability is protected instead by capping the measure of the running
+     copy in `ch`, which scales with the type rather than against it.
+     --------------------------------------------------------------------- */
+  --page-gutter: clamp(14px, 4.17vw, 300px);
+
+  --fs-hero: clamp(24px, 4.1vw, 62px);
+  --fs-h2: clamp(22px, 3.3vw, 50px);
+  --fs-h3: clamp(16px, 2.05vw, 31px);
+  --fs-lead: clamp(13px, 1.4vw, 20px);
+  --fs-body: clamp(12.5px, 1.15vw, 17px);
+  --fs-small: clamp(10.5px, 0.85vw, 14px);
+  --fs-micro: clamp(9px, 0.72vw, 12px);
+}
+
+/* Smartwatch and ultra-narrow browsers: hold a legible floor and pull the
+   gutters in so content is not squeezed to a couple of words per line. */
+@media (max-width: 360px) {
+  :root {
+    --page-gutter: 12px;
+    --fs-hero: 24px;
+    --fs-h2: 21px;
+    --fs-h3: 16px;
+    --fs-lead: 13px;
+    --fs-body: 12.5px;
+    --fs-small: 11px;
+    --fs-micro: 10px;
+  }
+}
+
+/* Large desktop and 1440p panels. */
+@media (min-width: 2100px) {
+  :root {
+    --fs-hero: 76px;
+    --fs-h2: 60px;
+    --fs-h3: 38px;
+    --fs-lead: 24px;
+    --fs-body: 20px;
+    --fs-small: 16px;
+    --fs-micro: 14px;
+  }
+}
+
+/* 4K and large-format displays: boardroom viewing distance. */
+@media (min-width: 2800px) {
+  :root {
+    --fs-hero: 104px;
+    --fs-h2: 82px;
+    --fs-h3: 52px;
+    --fs-lead: 33px;
+    --fs-body: 27px;
+    --fs-small: 22px;
+    --fs-micro: 19px;
+  }
+}
+
+/* Wall-mounted 85" to 100" panels. */
+@media (min-width: 3600px) {
+  :root {
+    --fs-hero: 132px;
+    --fs-h2: 104px;
+    --fs-h3: 66px;
+    --fs-lead: 42px;
+    --fs-body: 34px;
+    --fs-small: 28px;
+    --fs-micro: 24px;
+  }
 }
 
 @theme inline {

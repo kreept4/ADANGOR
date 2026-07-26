@@ -61,10 +61,12 @@ export default function Footer() {
           display: flex;
           align-items: center;
           font-family: var(--font-roboto-slab), serif;
-          padding: clamp(48px, 5vw, 72px) clamp(20px, 5.5vw, 140px);
+          padding: clamp(48px, 5vw, 72px) var(--page-gutter);
         }
         .ft-inner {
           width: 100%;
+          /* No width cap: the footer fills the viewport in step with the
+             sections above it. */
         }
         .ft-top {
           display: flex;
@@ -74,6 +76,10 @@ export default function Footer() {
         }
         .ft-logo {
           flex-shrink: 0;
+          /* Scales with the page instead of sitting at a fixed 112px, which
+             read as oversized against the rest of the footer. */
+          width: clamp(52px, 4.6vw, 84px);
+          height: auto;
         }
         .ft-nav {
           display: flex;
@@ -145,8 +151,7 @@ export default function Footer() {
             gap: 16px 20px;
           }
           .ft-logo {
-            width: 84px;
-            height: 64px;
+            width: 60px;
           }
         }
       `}</style>

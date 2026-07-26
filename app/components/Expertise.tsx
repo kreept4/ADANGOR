@@ -3,26 +3,124 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const practiceAreas = [
-  { title: "Election Petitions", note: "Representing candidates and parties in electoral disputes before tribunals and appellate courts." },
-  { title: "Constitutional Law", note: "Advising on constitutional rights, governmental powers, and matters of public law." },
-  { title: "Oil and Gas Law Practice", note: "Guiding upstream and downstream operators through Nigeria's energy regulatory framework." },
-  { title: "Civil Law Practice", note: "Handling contractual, tortious, and property disputes across the civil courts." },
-  { title: "Chieftaincy Cases", note: "Resolving traditional leadership and chieftaincy title disputes." },
-  { title: "Maritime Law Practice", note: "Advising on shipping, admiralty claims, and port-related commercial matters." },
-  { title: "Aviation Law", note: "Handling regulatory and liability matters within the aviation sector." },
-  { title: "Land Law", note: "Advising on land ownership, tenure, and title disputes." },
-  { title: "Commercial Law Practice", note: "Structuring and defending commercial transactions and business disputes." },
-  { title: "Criminal Litigation", note: "Defending and prosecuting matters across Nigeria's criminal justice system." },
-  { title: "General Civil Law Practice", note: "Providing broad-based counsel across everyday civil legal matters." },
-  { title: "Public Sector & Government Advisory", note: "Advising government bodies and agencies on regulatory and policy matters." },
-  { title: "Infrastructure & Project Finance", note: "Structuring legal frameworks for large-scale infrastructure and financing deals." },
-  { title: "Real Estate & Property Law", note: "Guiding property transactions, leases, and title perfection." },
-  { title: "Employment & Labour Law", note: "Advising employers and employees on workplace rights and disputes." },
+type PracticeArea = {
+  title: string;
+  blurb: string;
+  detail: string;
+};
+
+const practiceAreas: PracticeArea[] = [
+  {
+    title: "Election Petitions",
+    blurb: "The clock starts the moment a result is declared.",
+    detail:
+      "Petitions are won on filing dates, pleadings and polling unit evidence, not on volume. We build the record from the ward upward and carry it through tribunal and appeal. Few chambers in Nigeria have run this course as often.",
+  },
+  {
+    title: "Constitutional Law",
+    blurb: "Where the powers of the state meet the rights of one citizen.",
+    detail:
+      "We argue the questions that outlast the parties: separation of powers, fundamental rights, and the reach of federal against state authority. Prof. Adangor writes on this ground as well as litigating it. That scholarship shows up in the briefs.",
+  },
+  {
+    title: "Oil and Gas Law Practice",
+    blurb: "Nigeria's energy rules move faster than the contracts do.",
+    detail:
+      "Upstream licensing, host community obligations, Petroleum Industry Act compliance and joint venture disputes. We advise operators and communities on what the framework actually demands this year. When the regulator shifts, you hear it from us early.",
+  },
+  {
+    title: "Civil Law Practice",
+    blurb: "Most disputes are ordinary. Nothing about losing one is.",
+    detail:
+      "Contract, tort, debt recovery and the long tail of claims that fill the civil lists. We assess honestly whether a matter is worth running or worth settling. Then we run it properly.",
+  },
+  {
+    title: "Chieftaincy Cases",
+    blurb: "Titles that turn on custom, lineage and long memory.",
+    detail:
+      "Chieftaincy matters need counsel who can read a declaration and a family tree with equal care. We take evidence from the community, not only from the file. Judgments here reshape a stool for a generation.",
+  },
+  {
+    title: "Maritime Law Practice",
+    blurb: "Cargo does not wait for a hearing date.",
+    detail:
+      "Admiralty claims, ship arrest, charterparty disputes and port commercial matters before the Federal High Court. We move quickly because vessels do. Delay is usually the most expensive part of a maritime claim.",
+  },
+  {
+    title: "Aviation Law",
+    blurb: "A regulated industry where liability arrives with the incident.",
+    detail:
+      "Carrier liability, NCAA compliance, aircraft leases and passenger claims under the Montreal Convention and Nigerian law. We take the regulatory side and the courtroom side together. Each one informs the other.",
+  },
+  {
+    title: "Land Law",
+    blurb: "Under the Land Use Act, possession is only half the story.",
+    detail:
+      "Statutory and customary rights of occupancy, governor's consent, compensation and title perfection. We trace a root of title back until it either holds or it does not. That answer is worth having before you build.",
+  },
+  {
+    title: "Commercial Law Practice",
+    blurb: "Deals drafted to survive the day they go wrong.",
+    detail:
+      "Corporate transactions, shareholder disputes, distribution arrangements and company law compliance. We write the clause you will lean on later, not the one that reads well now. And we litigate it if it comes to that.",
+  },
+  {
+    title: "Criminal Litigation",
+    blurb: "Liberty cases get the firm's most careful hands.",
+    detail:
+      "Defence and prosecution across magistrate, high court and appellate levels. Evidence law is this firm's specialist ground and it decides most criminal outcomes. We know what the record must show before a trial opens.",
+  },
+  {
+    title: "General Civil Law Practice",
+    blurb: "The everyday matters that still keep clients awake.",
+    detail:
+      "Family, tenancy, estate and neighbour disputes handled without drama or padding. We tell you early what a case is likely to cost and likely to yield. Plenty of them are better resolved than fought.",
+  },
+  {
+    title: "Public Sector & Government Advisory",
+    blurb: "Advice that has to survive an audit and a courtroom.",
+    detail:
+      "Ministries, agencies and councils on procurement, statutory powers, legislative drafting and governance. A public body acts lawfully or it does not act at all. We help draw that line before the decision is taken.",
+  },
+  {
+    title: "Infrastructure & Project Finance",
+    blurb: "Long projects, longer documents, no room for loose drafting.",
+    detail:
+      "Concessions, public private partnership structures, security packages and lender protections on capital projects. We map legal risk across the whole build, not only at signing. Financiers tend to notice the difference.",
+  },
+  {
+    title: "Real Estate & Property Law",
+    blurb: "From the first search to the governor's consent.",
+    detail:
+      "Acquisitions, leases, mortgages, developer agreements and registration of title. We search properly, because the cheapest fix for a property problem is finding it early. Then we close cleanly.",
+  },
+  {
+    title: "Employment & Labour Law",
+    blurb: "Workplaces run on rules that both sides tend to forget.",
+    detail:
+      "Contracts, terminations, redundancy, union questions and claims before the National Industrial Court. We show employers how to do it lawfully and employees what they are actually owed. Clear either way.",
+  },
 ];
+
+// Flat falloff: the row under the pointer (or the open row) stays sharp and the
+// rest recede with distance. Same read as the wheel, without the rotation.
+function falloff(index: number, focus: number | null) {
+  if (focus === null) return { filter: "none", opacity: 1 };
+  const distance = Math.abs(index - focus);
+  if (distance === 0) return { filter: "none", opacity: 1 };
+  // Softened deliberately: with fifteen rows a steeper curve leaves the far
+  // end of the list unreadable while the eye is still scanning it.
+  return {
+    filter: `blur(${Math.min(0.75 * distance, 2.8).toFixed(2)}px)`,
+    opacity: Math.max(1 - 0.12 * distance, 0.45),
+  };
+}
 
 export default function Expertise() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+
+  const focus = hoverIndex ?? openIndex;
 
   return (
     <section className="xp-section">
@@ -36,38 +134,49 @@ export default function Expertise() {
           </p>
         </div>
 
-        <ul className="xp-list">
+        <ul
+          className="xp-list"
+          onMouseLeave={() => setHoverIndex(null)}
+        >
           {practiceAreas.map((area, i) => {
             const isOpen = openIndex === i;
+            const { filter, opacity } = falloff(i, focus);
+
             return (
-              <li key={area.title} className="xp-item">
+              <li
+                key={area.title}
+                className={`xp-item ${isOpen ? "is-open" : ""}`}
+                style={{ filter, opacity }}
+                onMouseEnter={() => setHoverIndex(i)}
+                onFocus={() => setHoverIndex(i)}
+                onBlur={() => setHoverIndex(null)}
+              >
                 <button
                   type="button"
                   className="xp-row"
                   aria-expanded={isOpen}
                   onClick={() => setOpenIndex(isOpen ? null : i)}
                 >
-                  <span className="xp-num">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="xp-name">{area.title}</span>
-                  <span className={`xp-arrow ${isOpen ? "open" : ""}`} aria-hidden="true">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 2.5V15.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M3.5 10L9 15.5L14.5 10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                  <span className="xp-row-top">
+                    <span className="xp-name">{area.title}</span>
+                    <span className="xp-num">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                   </span>
+                  <span className="xp-blurb">{area.blurb}</span>
                 </button>
 
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
-                      key="note"
+                      key="detail"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                      transition={{ duration: 0.32, ease: [0.4, 0, 0.2, 1] }}
                       style={{ overflow: "hidden" }}
                     >
-                      <p className="xp-note">{area.note}</p>
+                      <p className="xp-detail">{area.detail}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -80,14 +189,14 @@ export default function Expertise() {
       <style jsx>{`
         .xp-section {
           width: 100%;
-          background: #f7faf9;
-          font-family: var(--font-roboto-slab), serif;
+          background: #fff;
+          font-family: var(--font-instrument-sans), sans-serif;
           box-sizing: border-box;
         }
         .xp-inner {
           width: 100%;
-          padding: clamp(56px, 7vw, 112px) clamp(20px, 5.5vw, 140px)
-            clamp(48px, 6vw, 96px);
+          padding: clamp(56px, 6vw, 96px) var(--page-gutter)
+            clamp(48px, 5.4vw, 88px);
           box-sizing: border-box;
         }
         .xp-head {
@@ -95,21 +204,21 @@ export default function Expertise() {
           align-items: flex-start;
           justify-content: space-between;
           gap: clamp(24px, 4vw, 64px);
-          margin-bottom: clamp(40px, 5.5vw, 88px);
+          margin-bottom: clamp(40px, 5vw, 80px);
         }
         .xp-title {
           margin: 0;
-          color: #14231f;
-          font-size: clamp(34px, 5.2vw, 68px);
+          color: #000;
+          font-size: var(--fs-h2);
           font-weight: 400;
-          line-height: 1.05;
-          letter-spacing: -0.015em;
+          line-height: 1.1;
+          letter-spacing: -0.03em;
         }
         .xp-intro {
           margin: 8px 0 0;
-          max-width: 420px;
-          color: #5c6a67;
-          font-size: clamp(12px, 0.95vw, 13.5px);
+          max-width: 64ch;
+          color: #525252;
+          font-size: var(--fs-micro);
           font-weight: 400;
           line-height: 1.65;
           flex-shrink: 0;
@@ -119,18 +228,19 @@ export default function Expertise() {
           list-style: none;
           margin: 0;
           padding: 0;
-          border-top: 1px solid #dfe6e4;
         }
         .xp-item {
-          border-bottom: 1px solid #dfe6e4;
+          border-bottom: 1px solid #d9d9d9;
+          transition: filter 0.38s ease, opacity 0.38s ease;
+          will-change: filter, opacity;
         }
         .xp-row {
           width: 100%;
-          display: grid;
-          grid-template-columns: clamp(64px, 8vw, 110px) 1fr 32px;
-          align-items: center;
-          gap: clamp(12px, 1.6vw, 24px);
-          padding: clamp(18px, 1.9vw, 26px) 0;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 16px;
+          padding: clamp(14px, 1.6vw, 22px) 0 clamp(18px, 1.7vw, 24px);
           background: none;
           border: none;
           text-align: left;
@@ -138,62 +248,91 @@ export default function Expertise() {
           font-family: inherit;
           color: inherit;
         }
-        .xp-num {
-          font-family: var(--font-roboto-mono), monospace;
-          font-size: clamp(12px, 1.05vw, 15px);
-          font-weight: 400;
-          color: #cd9610;
+        .xp-row-top {
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          gap: clamp(24px, 8vw, 190px);
         }
         .xp-name {
-          font-size: clamp(17px, 1.75vw, 26px);
-          font-weight: 400;
-          color: #14231f;
-          transition: color 0.2s ease;
+          font-size: var(--fs-h3);
+          font-weight: 500;
+          line-height: 1.4;
+          letter-spacing: -0.03em;
+          color: #000;
+          transition: color 0.25s ease;
         }
+        .xp-num {
+          font-family: inherit;
+          font-size: var(--fs-h3);
+          font-weight: 400;
+          line-height: 1.38;
+          letter-spacing: -0.01em;
+          color: #191919;
+          opacity: 0.4;
+          flex-shrink: 0;
+          transition: opacity 0.25s ease, color 0.25s ease;
+        }
+        .xp-blurb {
+          display: block;
+          max-width: 68ch;
+          color: #525252;
+          font-size: var(--fs-lead);
+          font-weight: 400;
+          line-height: 1.69;
+          letter-spacing: -0.04em;
+        }
+
+        .xp-item.is-open .xp-name,
         .xp-row:hover .xp-name {
           color: #cd9610;
         }
-        .xp-arrow {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          color: #14231f;
-          transition: transform 0.3s ease, color 0.2s ease;
-        }
-        .xp-arrow.open {
-          transform: rotate(180deg);
+        .xp-item.is-open .xp-num {
+          opacity: 1;
           color: #cd9610;
         }
-        .xp-note {
+
+        .xp-detail {
           margin: 0;
-          padding: 0 40px clamp(18px, 1.9vw, 26px)
-            calc(clamp(64px, 8vw, 110px) + clamp(12px, 1.6vw, 24px));
-          color: #5c6a67;
-          font-size: clamp(13px, 1.1vw, 16px);
+          padding: 0 0 clamp(20px, 2.2vw, 30px);
+          /* Wide enough that each write-up settles at three lines. */
+          max-width: 88ch;
+          color: #191919;
+          font-size: var(--fs-body);
           font-weight: 400;
-          line-height: 1.7;
-          max-width: 820px;
+          line-height: 1.75;
+          letter-spacing: -0.01em;
+          border-left: 1px solid #cd9610;
+          padding-left: clamp(14px, 1.4vw, 20px);
         }
 
-        /* Tablets — intro drops below the heading; sizing stays fluid. */
+        /* Tablets — intro drops below the heading. */
         @media (max-width: 1024px) {
           .xp-head {
             flex-direction: column;
             gap: 20px;
           }
           .xp-intro {
-            max-width: 560px;
+            max-width: 72ch;
           }
         }
 
-        /* Phones — tighten the number gutter so titles keep their line. */
         @media (max-width: 640px) {
-          .xp-row {
-            grid-template-columns: 40px 1fr 22px;
+          .xp-row-top {
+            gap: 16px;
           }
-          .xp-note {
-            padding-left: 52px;
-            padding-right: 0;
+          .xp-blurb {
+            font-size: var(--fs-lead);
+            line-height: 1.6;
+          }
+        }
+
+        /* Blur is a decorative depth cue; drop it when motion is unwelcome. */
+        @media (prefers-reduced-motion: reduce) {
+          .xp-item {
+            filter: none !important;
+            opacity: 1 !important;
+            transition: none;
           }
         }
       `}</style>

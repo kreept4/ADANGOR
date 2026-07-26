@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto_Slab, Roboto_Mono, Inter, Roboto, Merriweather, Nunito } from "next/font/google";
+import { Roboto_Slab, Roboto_Mono, Inter, Roboto, Merriweather, Nunito, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import CardNav from "./components/CardNav/CardNav";
 import Footer from "./components/Footer";
@@ -32,6 +32,11 @@ const merriweather = Merriweather({
 const nunito = Nunito({
   subsets: ["latin"],
   variable: "--font-nunito",
+});
+// The homepage design is set in Instrument Sans throughout.
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-instrument-sans",
 });
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -73,7 +78,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoSlab.variable} ${robotoMono.variable} ${inter.variable} ${roboto.variable} ${merriweather.variable} ${nunito.variable}`}>
+      <body className={`${robotoSlab.variable} ${robotoMono.variable} ${inter.variable} ${roboto.variable} ${merriweather.variable} ${nunito.variable} ${instrumentSans.variable}`}>
         <CardNav
           logo="/logo-icon.svg"
           logoAlt="Firm logo"

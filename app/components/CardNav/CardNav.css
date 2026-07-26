@@ -88,16 +88,20 @@
 }
 
 .logo-text {
-  font-family: "Roboto Slab", serif;
+  font-family: var(--font-instrument-sans), sans-serif;
   font-size: 18px;
   font-weight: 500;
+  letter-spacing: -0.01em;
   white-space: nowrap;
-  color: #0a1656;
+  /* Deep espresso rather than navy: reads as near-black but stays inside the
+     cream-and-gold palette the rest of the page is built on. */
+  color: #2f2100;
 }
 
 .card-nav-contact-button {
-  background-color: #111;
-  color: white;
+  /* Gold on cream instead of a black chip, which sat outside the palette. */
+  background-color: #cd9610;
+  color: #fff8e5;
   border: none;
   border-radius: calc(0.75rem - 0.35rem);
   width: 40px;
@@ -112,7 +116,7 @@
 }
 
 .card-nav-contact-button:hover {
-  background-color: #333;
+  background-color: #a87a08;
 }
 
 .card-nav-content {
@@ -173,6 +177,31 @@
 
 .nav-card-link:hover {
   opacity: 0.75;
+}
+
+/* Smartwatch and ultra-narrow browsers: there is no room for the full firm
+   name beside the menu and mail controls, so the mark carries the brand. */
+@media (max-width: 380px) {
+  .logo-container {
+    min-width: 0;
+  }
+
+  .logo-text {
+    display: none;
+  }
+
+  .card-nav-top {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .hamburger-line {
+    width: 22px;
+  }
+
+  .card-nav-contact-button {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 @media (max-width: 768px) {
