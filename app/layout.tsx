@@ -3,6 +3,7 @@ import { Roboto_Slab, Roboto_Mono, Inter, Roboto, Merriweather, Nunito, Instrume
 import "./globals.css";
 import CardNav from "./components/CardNav/CardNav";
 import Footer from "./components/Footer";
+import CookieNotice from "./components/CookieNotice";
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
@@ -93,6 +94,7 @@ export default function RootLayout({
         />
         {children}
         <Footer />
+        <CookieNotice />
       </body>
     </html>
   );
