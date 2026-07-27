@@ -161,6 +161,10 @@ export default function MapContact() {
           </div>
         </div>
 
+        {/* The address the mailto links already point at, given its own heading
+            in the strip so a visitor can find it without opening a mail client
+            to see what it is. Same mark, label and value treatment as the
+            offices and the phone line — only the value is also a link. */}
         <div className="mc-info-strip">
           {offices.map((office) => (
             <div key={office.label} className="mc-info">
@@ -169,6 +173,15 @@ export default function MapContact() {
               <p className="mc-info-value">{office.value}</p>
             </div>
           ))}
+          <div className="mc-info">
+            <span className="mc-info-mark" />
+            <p className="mc-info-label">Email</p>
+            <p className="mc-info-value">
+              <a className="mc-info-mail" href={`mailto:${contactEmail}`}>
+                {contactEmail}
+              </a>
+            </p>
+          </div>
         </div>
       </div>
 
@@ -370,7 +383,7 @@ export default function MapContact() {
 
         .mc-info-strip {
           display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: clamp(24px, 3vw, 48px);
           width: 100%;
           margin-top: clamp(40px, 4.8vw, 68px);
@@ -398,6 +411,28 @@ export default function MapContact() {
           font-size: var(--fs-body);
           font-weight: 400;
           line-height: 1.6;
+          /* The address is one long unbreakable token; without this it forces
+             its column wider than the three beside it. */
+          overflow-wrap: anywhere;
+        }
+        /* Reads as the value it is — the underline only appears on interaction. */
+        .mc-info-mail {
+          color: inherit;
+          font: inherit;
+          text-decoration: none;
+        }
+        .mc-info-mail:hover,
+        .mc-info-mail:focus-visible {
+          text-decoration: underline;
+          text-underline-offset: 3px;
+        }
+
+        /* Four columns need more room than three did, so the strip drops to two
+           before it drops to one. */
+        @media (max-width: 1200px) {
+          .mc-info-strip {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
         }
 
         @media (max-width: 900px) {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import AboutHero from "../components/AboutHero";
-import ManagingPartner from "../components/ManagingPartner";
-import LegacyHero from "../components/LegacyHero";
+import ProfessionalJourney from "../components/ProfessionalJourney";
+import AwardsRecognition from "../components/AwardsRecognition";
 
 export const metadata: Metadata = {
   title: "About",
@@ -13,8 +13,8 @@ export default function AboutPage() {
   return (
     <main className="flex flex-col flex-1">
       <AboutHero />
-      <ManagingPartner />
-      <LegacyHero />
+      <ProfessionalJourney />
+      <AwardsRecognition />
     </main>
   );
 }

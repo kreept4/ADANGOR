@@ -30,7 +30,7 @@ export default function Expertise() {
         <div className="xp-head">
           <h2 className="xp-title">Our Expertise</h2>
           <p className="xp-intro">
-            Four decades of principled practice across Nigeria&apos;s courts and
+            Almost four decades of principled practice across Nigeria&apos;s courts and
             regulators. From election petitions to energy and maritime matters,
             every brief is met with the same diligence and discretion.
           </p>

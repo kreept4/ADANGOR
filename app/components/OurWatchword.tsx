@@ -1,7 +1,7 @@
 "use client";
 
 const stats = [
-  { figure: "40+", label: "YEARS OF PRACTICE" },
+  { figure: "37+", label: "YEARS OF PRACTICE" },
   { figure: "15+", label: "PRACTICE AREAS" },
 ];
 
@@ -53,7 +53,7 @@ export default function OurWatchword() {
                 desk.
               </p>
               <p>
-                Four decades in Nigeria&apos;s courts taught us that the quiet
+                Almost four decades in Nigeria&apos;s courts taught us that the quiet
                 work is what wins. We read the whole record, we tell you plainly
                 where you stand even when it costs us the instruction, and we
                 say the same thing in chambers that we say in open court.
