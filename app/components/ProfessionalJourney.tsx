@@ -145,12 +145,6 @@ export default function ProfessionalJourney() {
           background: #b48602;
           box-sizing: border-box;
           font-family: var(--font-instrument-sans), sans-serif;
-          /* Corner radius of the panel, the notch fillet and the portrait card —
-             one value, because in the comp they are one shape. */
-          --pj-radius: clamp(14px, 1.95vw, 28px);
-          --pj-pad-x: clamp(14px, 2.4vw, 36px);
-          --pj-pad-b: clamp(20px, 2.6vw, 40px);
-          --pj-marker-w: clamp(22px, 2.8vw, 40px);
         }
         .pj-inner {
           display: flex;
@@ -185,8 +179,24 @@ export default function ProfessionalJourney() {
           max-width: 68ch;
         }
 
+        /* The panel keeps its layout at every width — three columns across the
+           top, the notch bottom-right, the portrait in it — and simply gets
+           smaller. Every measurement inside is a percentage of the panel's own
+           width (cqw against this container) rather than of the viewport, so a
+           phone gets the same drawing as a desktop at a smaller scale instead
+           of a rearranged one. Percentages are taken from the comp's 1334px
+           panel, which is what the desktop rendering is measured against.
+
+           Type is the one exception: below roughly a tablet a true proportional
+           size would drop under 8px, so the three text sizes hold a floor and
+           the block trades a little exactness for remaining readable. */
         .pj-frame {
           width: 100%;
+          container-type: inline-size;
+          --pj-radius: 2.1cqw;
+          --pj-pad-x: 3.15cqw;
+          --pj-pad-b: 2.8cqw;
+          --pj-marker-w: 3cqw;
         }
 
         /* Upper block of the L: full width, square only where the lower block
@@ -201,10 +211,10 @@ export default function ProfessionalJourney() {
           z-index: 1;
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: clamp(12px, 3vw, 44px);
+          gap: 3.3cqw;
           align-items: end;
           margin: 0;
-          padding: clamp(24px, 3.4vw, 52px) var(--pj-pad-x) var(--pj-pad-b);
+          padding: 3.7cqw var(--pj-pad-x) var(--pj-pad-b);
           list-style: none;
         }
         .pj-item {
@@ -212,14 +222,14 @@ export default function ProfessionalJourney() {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          gap: clamp(6px, 0.9vw, 13px);
+          gap: 1cqw;
           height: 100%;
           min-width: 0;
         }
         .pj-date {
           color: #2f2f2f;
           font-weight: 600;
-          font-size: max(13px, calc(var(--fs-hero) * 0.32));
+          font-size: max(10px, 1.43cqw);
           line-height: 1.16;
           letter-spacing: 0.04em;
           text-transform: uppercase;
@@ -228,7 +238,7 @@ export default function ProfessionalJourney() {
           margin: 0;
           color: #f57e16;
           font-weight: 500;
-          font-size: max(14px, calc(var(--fs-hero) * 0.32));
+          font-size: max(10px, 1.43cqw);
           line-height: 1.25;
           letter-spacing: -0.02em;
           text-wrap: balance;
@@ -239,14 +249,14 @@ export default function ProfessionalJourney() {
           margin: 0;
           color: #6b5d50;
           font-weight: 400;
-          font-size: max(12px, calc(var(--fs-hero) * 0.25));
+          font-size: max(9px, 1.12cqw);
           line-height: 1.55;
           max-width: 34ch;
         }
         .pj-marker {
           display: block;
           margin-top: auto;
-          padding-top: clamp(16px, 2.8vw, 46px);
+          padding-top: 3cqw;
         }
         .pj-marker :global(svg) {
           display: block;
@@ -262,12 +272,12 @@ export default function ProfessionalJourney() {
           left: 0;
           right: 0;
           bottom: calc(var(--pj-pad-b) + var(--pj-marker-w) * 0.2625);
-          height: 4px;
+          height: max(2px, 0.3cqw);
           z-index: 0;
           background: repeating-linear-gradient(
             to right,
-            #e0e0e0 0 10px,
-            transparent 10px 20px
+            #e0e0e0 0 0.75cqw,
+            transparent 0.75cqw 1.5cqw
           );
         }
 
@@ -289,8 +299,7 @@ export default function ProfessionalJourney() {
              the notch beside it, and in the comp the quote card very nearly
              fills that height rather than floating in the middle of it. */
           align-items: stretch;
-          padding: clamp(16px, 2.2vw, 34px) var(--pj-pad-x)
-            clamp(20px, 2.6vw, 40px);
+          padding: 2.4cqw var(--pj-pad-x) var(--pj-pad-b);
           box-sizing: border-box;
         }
         /* The concave corner where the two blocks meet: a radius-square of white
@@ -320,14 +329,14 @@ export default function ProfessionalJourney() {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          gap: clamp(8px, 1.1vw, 18px);
-          padding: clamp(8px, 1.4vw, 22px) clamp(8px, 1.4vw, 22px);
+          gap: 1.2cqw;
+          padding: 1.5cqw;
         }
         .pj-quote-mark {
           display: block;
           flex-shrink: 0;
           align-self: flex-start;
-          width: clamp(18px, 2.2vw, 32px);
+          width: max(12px, 2.4cqw);
           /* currentColor on the glyph, so the tone is set once here. */
           color: rgba(45, 35, 25, 0.34);
         }
@@ -348,14 +357,14 @@ export default function ProfessionalJourney() {
           color: #2d2319;
           font-family: var(--font-roboto-slab), serif;
           font-weight: 400;
-          font-size: max(16px, calc(var(--fs-hero) * 0.5));
+          font-size: max(11px, 2.23cqw);
           line-height: 1.3;
         }
 
         /* Inset from the notch's top and left edges only — flush with its right
            and bottom, as in the comp. */
         .pj-portrait-cell {
-          padding: clamp(10px, 1.6vw, 23px) 0 0 clamp(12px, 2.1vw, 30px);
+          padding: 1.74cqw 0 0 2.27cqw;
           box-sizing: border-box;
         }
         .pj-portrait {
@@ -381,63 +390,13 @@ export default function ProfessionalJourney() {
           border-radius: var(--pj-radius);
         }
 
-        /* Tablets and phones: the L unfolds into a stack, so the notch, its
-           fillet and the single dashed line across the row all go away and each
-           milestone carries its own line instead. */
-        @media (max-width: 860px) {
-          .pj-track {
-            grid-template-columns: minmax(0, 1fr);
-            gap: clamp(26px, 6vw, 44px);
-          }
-          .pj-item {
-            position: relative;
-          }
-          .pj-item::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: calc(var(--pj-marker-w) * 0.2625);
-            height: 4px;
-            z-index: 0;
-            background: repeating-linear-gradient(
-              to right,
-              #e0e0e0 0 10px,
-              transparent 10px 20px
-            );
-          }
-          .pj-marker {
-            position: relative;
-            z-index: 1;
-            padding-top: clamp(14px, 3.5vw, 26px);
-          }
-          .pj-line {
-            display: none;
-          }
-          .pj-top {
-            border-radius: var(--pj-radius) var(--pj-radius) 0 0;
-          }
-          .pj-lower {
-            grid-template-columns: minmax(0, 1fr);
-          }
-          .pj-quote-cell::after {
-            display: none;
-          }
-          .pj-portrait-cell {
-            padding: clamp(14px, 3vw, 24px) 0 0 0;
-          }
-          .pj-portrait {
-            aspect-ratio: 4 / 3;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .pj-quote {
-            gap: 8px;
-            padding: 8px 4px;
-          }
-          .pj-portrait {
-            aspect-ratio: 5 / 4;
+        /* Narrow viewports pull the page gutter in so the panel — and with it
+           everything measured against the panel — keeps as much width as the
+           screen can give it. */
+        @media (max-width: 700px) {
+          .pj-inner {
+            padding-left: max(8px, calc(var(--page-gutter) / 2));
+            padding-right: max(8px, calc(var(--page-gutter) / 2));
           }
         }
       `}</style>

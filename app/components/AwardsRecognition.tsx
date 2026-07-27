@@ -9,9 +9,9 @@
 // so the bottom edge steps down left to right — tall, taller, tallest — and the
 // row reads as a diagonal. bottomPad is the full bottom padding, not an offset.
 const valueTabs = [
-  { word: "JUSTICE", bottomPad: "clamp(8px, 2.5vw, 12px)" },
-  { word: "HONESTY", bottomPad: "clamp(18px, 5.75vw, 34px)" },
-  { word: "INTEGRITY", bottomPad: "clamp(28px, 9vw, 56px)" },
+  { word: "JUSTICE", bottomPad: "0.91cqw" },
+  { word: "HONESTY", bottomPad: "2.58cqw" },
+  { word: "INTEGRITY", bottomPad: "4.24cqw" },
 ];
 
 // Each honour split into the award itself and the body that conferred it, so
@@ -108,73 +108,29 @@ export default function AwardsRecognition() {
           "clamp(28px, 5vw, 72px) var(--page-gutter) clamp(48px, 10vw, 128px)",
       }}
     >
-      <div className="w-full flex flex-col gap-16">
-        <div
-          className="flex flex-col lg:flex-row gap-10 items-start"
-          style={{ marginTop: "clamp(16px, 3vw, 48px)" }}
-        >
-          <div className="relative flex shrink-0" style={{ gap: "clamp(12px, 1.5vw, 21px)" }}>
-            <div className="relative flex items-start" style={{ zIndex: 1, gap: "clamp(12px, 1.5vw, 21px)" }}>
-              {valueTabs.map(({ word, bottomPad }, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="flex flex-col items-center"
-                    style={{
-                      background: "rgba(255,242,178,0.66)",
-                      padding: `clamp(8px, 2.5vw, 12px) clamp(12px, 4vw, 24px) ${bottomPad} clamp(12px, 4vw, 24px)`,
-                      borderRadius: "6px",
-                    }}
-                  >
-                    {word.split("").map((letter, j) => (
-                      <span
-                        key={j}
-                        style={{
-                          fontFamily: "var(--font-roboto-slab), serif",
-                          color: "#533700",
-                          fontSize: "clamp(13px, 4vw, 28px)",
-                          fontWeight: 400,
-                          lineHeight: "120%",
-                          textAlign: "center",
-                        }}
-                      >
-                        {letter}
-                      </span>
-                    ))}
-                  </div>
-                );
-              })}
-            </div>
+      <div className="aw-body">
+        <div className="aw-head-row">
+          <div className="aw-tabs">
+            {valueTabs.map(({ word, bottomPad }, i) => {
+              return (
+                <div
+                  key={i}
+                  className="aw-tab"
+                  style={{ paddingBottom: bottomPad }}
+                >
+                  {word.split("").map((letter, j) => (
+                    <span key={j} className="aw-tab-letter">
+                      {letter}
+                    </span>
+                  ))}
+                </div>
+              );
+            })}
           </div>
 
-          <div className="flex flex-col gap-4" style={{ width: "100%", alignSelf: "stretch" }}>
-            <h3
-              style={{
-                fontFamily: "var(--font-roboto-slab), serif",
-                color: "#000",
-                fontWeight: 400,
-                fontSize: "clamp(28px, 4vw, 48px)",
-                lineHeight: "180%",
-                textAlign: "right",
-                textTransform: "uppercase",
-                width: "100%",
-                margin: 0,
-              }}
-            >
-              Awards and Recognition
-            </h3>
-            <p
-              style={{
-                fontFamily: "var(--font-roboto-slab), serif",
-                color: "#3F3F3F",
-                fontWeight: 400,
-                fontSize: "clamp(15px, 1.8vw, 24px)",
-                lineHeight: "170.66%",
-                textAlign: "right",
-                width: "100%",
-                margin: 0,
-              }}
-            >
+          <div className="aw-head-copy">
+            <h3 className="aw-heading">Awards and Recognition</h3>
+            <p className="aw-intro">
               A showcase of distinguished honours recognizing exceptional legal advocacy, constitutional leadership, public service, and enduring contributions to the administration of justice and national development.
             </p>
           </div>
@@ -210,12 +166,94 @@ export default function AwardsRecognition() {
       </div>
 
       <style jsx>{`
+        /* Same approach as the journey panel: the block keeps its layout at
+           every width — tabs left, heading right, cards the same shape and the
+           same number across — and simply gets smaller. Sizes are percentages
+           of this block's own width (cqw) rather than of the viewport, taken
+           from what the block measures at a 1440px desktop, so a phone gets the
+           same drawing at a smaller scale rather than a rearranged one.
+
+           Text holds floors, because a true proportional size would drop under
+           8px on a phone. */
+        .aw-body {
+          width: 100%;
+          container-type: inline-size;
+          display: flex;
+          flex-direction: column;
+          gap: 4.85cqw;
+        }
+
+        .aw-head-row {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          gap: 3.03cqw;
+          margin-top: 3.03cqw;
+        }
+        /* Held as a row at every width — stacking it was what made the tabs run
+           up the page on a phone. */
+        .aw-tabs {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          flex-shrink: 0;
+          gap: 1.59cqw;
+        }
+        .aw-tab {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background: rgba(255, 242, 178, 0.66);
+          border-radius: 0.45cqw;
+          padding: 0.91cqw 1.82cqw 0 1.82cqw;
+        }
+        .aw-tab-letter {
+          font-family: var(--font-roboto-slab), serif;
+          color: #533700;
+          font-size: max(9px, 2.12cqw);
+          font-weight: 400;
+          line-height: 1.2;
+          text-align: center;
+        }
+
+        /* Takes what the tabs leave rather than a flat 100% of the row, which
+           overflowed it by exactly the width of the tabs plus their gap. */
+        .aw-head-copy {
+          display: flex;
+          flex-direction: column;
+          gap: 1.21cqw;
+          flex: 1 1 auto;
+          min-width: 0;
+          align-self: stretch;
+        }
+        .aw-heading {
+          margin: 0;
+          width: 100%;
+          font-family: var(--font-roboto-slab), serif;
+          color: #000;
+          font-weight: 400;
+          font-size: max(15px, 3.64cqw);
+          line-height: 1.8;
+          text-align: right;
+          text-transform: uppercase;
+        }
+        .aw-intro {
+          margin: 0;
+          width: 100%;
+          font-family: var(--font-roboto-slab), serif;
+          color: #3f3f3f;
+          font-weight: 400;
+          font-size: max(10px, 1.82cqw);
+          line-height: 1.7066;
+          text-align: right;
+        }
+
         .aw-ticker {
           width: 100%;
           overflow: hidden;
           background: #e0b117;
-          border-radius: 8px;
-          padding: clamp(16px, 2.2vw, 32px) 0;
+          border-radius: 0.61cqw;
+          padding: 2.42cqw 0;
           box-sizing: border-box;
         }
         .aw-track {
@@ -244,33 +282,42 @@ export default function AwardsRecognition() {
         .aw-card {
           flex: 0 0 auto;
           box-sizing: border-box;
-          width: clamp(240px, 24vw, 330px);
-          margin-right: clamp(16px, 2.2vw, 32px);
+          width: 25cqw;
+          margin-right: 2.42cqw;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: clamp(14px, 1.6vw, 24px);
+          gap: 1.1cqw;
           background: #fff;
-          border-radius: 24px;
-          padding: clamp(20px, 2.2vw, 32px) 0;
+          border-radius: 1.82cqw;
+          padding: 1.6cqw 0;
+        }
+        /* TrophyIcon renders its own svg, so scope past styled-jsx to keep the
+           trophy the same fraction of the card at every width. The trophy is
+           tall for its width — at the size it was set, it alone accounted for
+           about a quarter of the card's height. */
+        .aw-card :global(svg) {
+          width: 2.4cqw;
+          min-width: 18px;
+          height: auto;
         }
         .aw-title {
           margin: 0;
           flex: 1 1 auto;
-          padding: 0 clamp(14px, 1.8vw, 24px);
+          padding: 0 1.82cqw;
           font-family: var(--font-roboto-slab), serif;
           color: #000;
           font-weight: 600;
-          font-size: clamp(15px, 1.35vw, 19px);
-          line-height: 1.55;
+          font-size: max(9px, 1.44cqw);
+          line-height: 1.35;
           text-align: center;
         }
         .aw-foot {
           display: flex;
           flex-direction: column;
-          gap: clamp(12px, 1.4vw, 20px);
+          gap: 0.9cqw;
           width: 100%;
-          padding: 0 clamp(14px, 1.8vw, 24px);
+          padding: 0 1.82cqw;
           box-sizing: border-box;
         }
         .aw-rule {
@@ -280,7 +327,7 @@ export default function AwardsRecognition() {
         .aw-org-row {
           display: flex;
           align-items: flex-start;
-          gap: clamp(8px, 1vw, 14px);
+          gap: 1.06cqw;
           width: 100%;
         }
         .aw-org-label {
@@ -288,7 +335,7 @@ export default function AwardsRecognition() {
           font-family: var(--font-roboto-slab), serif;
           color: #000;
           font-weight: 500;
-          font-size: clamp(12px, 1vw, 15px);
+          font-size: max(8px, 1.14cqw);
           line-height: 1.35;
           white-space: nowrap;
         }
@@ -297,7 +344,7 @@ export default function AwardsRecognition() {
           font-family: var(--font-roboto-slab), serif;
           color: #5e5e5e;
           font-weight: 500;
-          font-size: clamp(12px, 1vw, 15px);
+          font-size: max(8px, 1.14cqw);
           line-height: 1.35;
           text-align: right;
           text-transform: uppercase;
@@ -314,6 +361,16 @@ export default function AwardsRecognition() {
           }
           .aw-set:last-child {
             display: none;
+          }
+        }
+
+        /* Narrow viewports pull the page gutter in, so the block — and with it
+           everything measured against the block — keeps as much width as the
+           screen can give it. */
+        @media (max-width: 700px) {
+          .aw-body {
+            margin: 0 calc(-1 * max(0px, var(--page-gutter) - 8px));
+            width: auto;
           }
         }
       `}</style>
