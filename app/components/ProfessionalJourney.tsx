@@ -19,7 +19,7 @@ const milestones = [
     date: "1989",
     achievement: "Called to the Nigerian Bar",
     summary:
-      "Enrolled as a solicitor and advocate of the Supreme Court of Nigeria, and began practice at E.C. Ukala, SAN & Co., Efe Chambers.",
+      "Enrolled as a barrister and solicitor of the Supreme Court of Nigeria, and began practice at E.C. Ukala, SAN & Co., Efe Chambers.",
   },
   {
     date: "2018",
@@ -397,6 +397,23 @@ export default function ProfessionalJourney() {
           .pj-inner {
             padding-left: max(8px, calc(var(--page-gutter) / 2));
             padding-right: max(8px, calc(var(--page-gutter) / 2));
+          }
+          /* The letterboxed notch is a desktop luxury. Everything in this panel
+             is a percentage of the panel's own width, so on a phone the frame
+             shrinks to about 173px and the portrait inside it — held to 55% of
+             that by its own near-square ratio — lands at roughly 95px, which
+             puts the subject's face at about 40px between two black bars. Here
+             the frame takes the portrait's shape and the image fills it, so the
+             same column carries a portrait nearly twice the size with no bars.
+             The 6% focal point still does its job: the crop comes off the gown
+             and leaves headroom above the wig. */
+          .pj-portrait {
+            aspect-ratio: 1 / 1;
+          }
+          .pj-portrait-img {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: auto;
           }
         }
       `}</style>

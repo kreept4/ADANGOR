@@ -262,12 +262,25 @@ export default function Footer() {
           font-size: 13px;
           font-weight: 300;
         }
+        /* The reference's wave is a fixed 200px of 1px-to-23px rules, which is
+           a desk-sized assumption: on a phone it crowds, and on a boardroom
+           panel it thins to a hairline while the type beside it has trebled.
+           The band is scaled instead of re-tuned — one factor drives both the
+           height and, through the inner element, the rules and the distances
+           the animation moves them, so the wave keeps its exact proportions at
+           every size and the JS stays in plain CSS pixels. The factors track
+           the type ladder's breakpoints in globals.css. */
         .ft-wave {
+          --ft-wave-scale: 1;
           overflow: hidden;
-          height: 200px;
+          height: calc(200px * var(--ft-wave-scale));
           /* Scoped to the wave rather than the whole footer: the rules should
              not be selectable, but the firm's name and copyright should. */
           user-select: none;
+        }
+        .ft-wave-inner {
+          transform: scaleY(var(--ft-wave-scale));
+          transform-origin: top center;
         }
         .ft-bar {
           background: #fff;
@@ -304,8 +317,28 @@ export default function Footer() {
           .ft-logo {
             width: 60px;
           }
+          /* 140px, as before — but by scaling rather than by cropping, so the
+             stack no longer overruns the band it sits in. */
           .ft-wave {
-            height: 140px;
+            --ft-wave-scale: 0.7;
+          }
+        }
+
+        /* Large desktop and 1440p panels upward: the wave grows with the type
+           ladder so it stays a band rather than dwindling to a pinstripe. */
+        @media (min-width: 2100px) {
+          .ft-wave {
+            --ft-wave-scale: 1.4;
+          }
+        }
+        @media (min-width: 2800px) {
+          .ft-wave {
+            --ft-wave-scale: 2;
+          }
+        }
+        @media (min-width: 3600px) {
+          .ft-wave {
+            --ft-wave-scale: 2.6;
           }
         }
       `}</style>

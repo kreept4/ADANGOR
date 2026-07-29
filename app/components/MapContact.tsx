@@ -265,7 +265,13 @@ export default function MapContact() {
           display: block;
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          /* contain, not cover. The two pins sit about 2% and 90% down the
+             source image, so they are the first things a cover crop throws
+             away — the Abuja pin is close enough to the top edge that any
+             vertical crop at all removes it. Letterboxing against the panel's
+             own background is the lesser cost: a map that is missing both of
+             the offices it exists to show is not a map. */
+          object-fit: contain;
         }
 
         .mc-contact {
@@ -446,7 +452,10 @@ export default function MapContact() {
             grid-template-columns: 1fr;
           }
           .mc-map {
-            aspect-ratio: 3 / 2;
+            /* The source is 712 x 759, so a 3/2 box left the image no room:
+               contain would letterbox it heavily, cover would crop a third of
+               its height. Matching the natural ratio means neither happens. */
+            aspect-ratio: 712 / 759;
             flex: none;
           }
           .mc-info-strip {
