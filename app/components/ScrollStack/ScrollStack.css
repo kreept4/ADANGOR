@@ -40,13 +40,13 @@
 .scroll-stack-card-num {
   font-family: var(--font-roboto-mono), monospace;
   color: #CD9610;
-  font-size: 22px;
+  font-size: 26px;
   flex: 0 0 56px;
 }
 .scroll-stack-card-title {
   color: #fff;
   font-family: var(--font-roboto-slab), serif;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 500;
   text-transform: uppercase;
   flex: 0 0 280px;
@@ -54,11 +54,16 @@
 .scroll-stack-card-note {
   color: #A6A6A6;
   font-family: var(--font-roboto-slab), serif;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 300;
   line-height: 150%;
   text-transform: none;
   flex: 1;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
 }
 .scroll-stack-end {
   width: 100%;

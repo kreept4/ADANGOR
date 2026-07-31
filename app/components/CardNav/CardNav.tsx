@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -72,7 +72,7 @@ const CardNav = ({
 
         contentEl.offsetHeight;
 
-        const topBar = 60;
+        const topBar = 64;
         const padding = 16;
         const contentHeight = contentEl.scrollHeight;
 
@@ -91,7 +91,7 @@ const CardNav = ({
     const navEl = navRef.current;
     if (!navEl) return null;
 
-    gsap.set(navEl, { height: 60, overflow: "hidden" });
+    gsap.set(navEl, { height: 64, overflow: "hidden" });
     gsap.set(cardsRef.current, { y: 50, opacity: 0 });
 
     const tl = gsap.timeline({ paused: true });

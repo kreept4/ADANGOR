@@ -103,6 +103,11 @@ export default function ExpertiseFull() {
           font-size: var(--fs-lead);
           font-weight: 400;
           line-height: 1.65;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
         .xf-rule {
           width: 100%;
@@ -174,6 +179,11 @@ export default function ExpertiseFull() {
           font-weight: 400;
           line-height: 1.6;
           letter-spacing: -0.03em;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
 
         /* Two paragraphs, capped in measure so each settles at four or five
@@ -194,6 +204,11 @@ export default function ExpertiseFull() {
           font-weight: 400;
           line-height: 1.8;
           letter-spacing: -0.01em;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
 
         @media (max-width: 640px) {

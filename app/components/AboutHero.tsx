@@ -170,6 +170,11 @@ export default function AboutHero() {
           font-size: max(13px, calc(var(--fs-hero) * 0.49));
           line-height: 1.5;
           letter-spacing: -0.04em;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
         .ah-lede-rule {
           width: 100%;

@@ -246,6 +246,11 @@ export default function MapContact() {
           font-size: var(--fs-body);
           font-weight: 400;
           line-height: 1.6;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
 
         .mc-map-col {

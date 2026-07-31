@@ -245,7 +245,11 @@ export default function AwardsRecognition() {
           font-weight: 400;
           font-size: max(10px, 1.82cqw);
           line-height: 1.7066;
-          text-align: right;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
 
         .aw-ticker {

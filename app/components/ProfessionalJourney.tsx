@@ -177,6 +177,11 @@ export default function ProfessionalJourney() {
           line-height: 1.5;
           letter-spacing: -0.035em;
           max-width: 68ch;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
 
         /* The panel keeps its layout at every width — three columns across the
@@ -359,6 +364,11 @@ export default function ProfessionalJourney() {
           font-weight: 400;
           font-size: max(11px, 2.23cqw);
           line-height: 1.3;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
 
         /* Inset from the notch's top and left edges only — flush with its right

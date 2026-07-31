@@ -66,91 +66,91 @@ export default function OurWatchword() {
       <style jsx>{`
         .ww-section {
           width: 100%;
-          background: #f7f8d9;
-          font-family: var(--font-instrument-sans), sans-serif;
+          background: var(--cream);
+          font-family: var(--font-ui);
           box-sizing: border-box;
         }
         .ww-inner {
           width: 100%;
-          padding: clamp(36px, 3.4vw, 49px) var(--page-gutter)
-            clamp(48px, 5.1vw, 74px);
+          padding: clamp(48px, 5vw, 88px) var(--page-gutter)
+            clamp(64px, 7vw, 110px);
           box-sizing: border-box;
         }
         .ww-heading {
           margin: 0;
-          color: #000;
+          color: var(--brown-ink);
           font-size: var(--fs-h2);
           font-weight: 400;
-          line-height: 1.5;
+          line-height: 1.2;
           letter-spacing: -0.03em;
           text-align: right;
         }
         .ww-rule {
           width: 100%;
           height: 1px;
-          background: #cd9610;
+          background: var(--gold-mute);
           margin-top: clamp(20px, 2.9vw, 42px);
         }
 
-        /* Two columns pinned to the outer edges; the gap between them carries
-           the vertical gold rule at 24.5% of the content width, per Figma. */
         .ww-grid {
           position: relative;
           display: grid;
-          grid-template-columns: 16.52% 55.07%;
+          grid-template-columns: 18% minmax(0, 58%);
           justify-content: space-between;
-          padding-top: clamp(40px, 5.9vw, 85px);
+          padding-top: clamp(48px, 6vw, 96px);
+          gap: clamp(24px, 4vw, 48px);
         }
         .ww-vrule {
           position: absolute;
-          left: 24.47%;
+          left: 26%;
           top: 0;
           bottom: 0;
           width: 1px;
-          background: #cd9610;
+          background: var(--gold-mute);
         }
 
         .ww-stats {
           display: flex;
           flex-direction: column;
-          gap: clamp(40px, 5.6vw, 80px);
-          padding-top: clamp(24px, 3.9vw, 57px);
+          gap: clamp(48px, 6vw, 96px);
+          padding-top: clamp(12px, 2vw, 24px);
         }
         .ww-stat {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          gap: 24px;
+          gap: 18px;
         }
         .ww-stat-figure {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          gap: 8px;
+          gap: 10px;
         }
         .ww-stat-num {
-          font-family: inherit;
-          color: #000;
-          font-size: var(--fs-h3);
+          color: var(--brown-ink);
+          font-size: clamp(32px, calc(3.4vw + 4px), 52px);
           font-weight: 400;
           line-height: 1;
+          letter-spacing: -0.04em;
         }
         .ww-stat-mark {
           width: 46px;
           height: 1px;
-          background: #cd9610;
+          background: var(--gold-mute);
         }
         .ww-stat-label {
-          color: #383131;
-          font-size: var(--fs-small);
-          font-weight: 400;
+          color: var(--taupe-text);
+          font-size: var(--fs-micro);
+          font-weight: 500;
+          letter-spacing: 0.08em;
           text-align: right;
         }
 
         .ww-content {
           display: flex;
           flex-direction: column;
-          gap: clamp(32px, 4.2vw, 60px);
+          gap: clamp(36px, 4.5vw, 64px);
           min-width: 0;
         }
         .ww-words {
@@ -165,44 +165,44 @@ export default function OurWatchword() {
           gap: 10px;
         }
         .ww-word-num {
-          font-family: inherit;
-          color: #383131;
+          color: var(--taupe-text);
           font-size: var(--fs-small);
           font-weight: 400;
         }
         .ww-word-mark {
           width: 46px;
           height: 1px;
-          background: #cd9610;
-          margin-bottom: 9px;
+          background: var(--gold-mute);
+          margin-bottom: 6px;
         }
         .ww-word-label {
-          color: #cd9610;
+          color: var(--brown-accent);
           font-size: var(--fs-lead);
           font-weight: 500;
+          letter-spacing: 0.02em;
           white-space: nowrap;
         }
 
         .ww-copy {
           display: flex;
           flex-direction: column;
-          gap: 1.69em;
+          gap: 1.6em;
         }
         .ww-copy p {
           margin: 0;
-          /* Measured in ch so it scales with the type: matches the comp's
-             727px column at 1440 and only bites on much wider screens, where
-             the section itself still runs the full width. */
           max-width: 68ch;
-          color: #000;
+          color: var(--brown-ink);
           font-size: var(--fs-lead);
           font-weight: 400;
-          line-height: 1.69;
-          letter-spacing: -0.05em;
+          line-height: 1.7;
+          letter-spacing: -0.02em;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
 
-        /* Tablets — the rule and the stats column fold away; the stats become a
-           row above the copy so nothing is stranded in a narrow gutter. */
         @media (max-width: 900px) {
           .ww-heading {
             text-align: left;
@@ -236,10 +236,6 @@ export default function OurWatchword() {
           .ww-word {
             align-items: flex-start;
           }
-          .ww-copy p {
-            font-size: var(--fs-lead);
-            letter-spacing: -0.02em;
-          }
         }
 
         @media (max-width: 560px) {
@@ -248,9 +244,6 @@ export default function OurWatchword() {
           }
           .ww-words {
             gap: 28px;
-          }
-          .ww-copy p {
-            font-size: var(--fs-lead);
           }
         }
       `}</style>

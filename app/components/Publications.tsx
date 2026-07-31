@@ -93,7 +93,7 @@ export default function Publications() {
         .pub-heading {
           color: #181100;
           font-family: var(--font-roboto-slab), serif;
-          font-size: 48px;
+          font-size: 52px;
           font-weight: 400;
           line-height: 138%;
           letter-spacing: -0.48px;
@@ -129,8 +129,6 @@ export default function Publications() {
           font-family: var(--font-nunito), sans-serif;
           color: #080808;
           font-size: 24px;
-          font-weight: 500;
-          line-height: 160.368%;
           letter-spacing: -2px;
           margin: 0;
         }
@@ -144,9 +142,12 @@ export default function Publications() {
           font-family: var(--font-roboto-slab), serif;
           font-weight: 300;
           font-size: 16px;
-          line-height: 160%;
-          color: #444;
           margin: 0;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
         .featured-pp {
           color: #797979;
@@ -172,9 +173,7 @@ export default function Publications() {
         .pub-subheading {
           font-family: var(--font-roboto-slab), serif;
           font-weight: 700;
-          font-size: 20px;
-          text-transform: uppercase;
-          letter-spacing: 0.2px;
+          font-size: 24px;
           color: #181100;
           margin: 0;
         }
@@ -204,7 +203,7 @@ export default function Publications() {
           flex-shrink: 0;
           color: #7e7e7e;
           font-family: var(--font-roboto), sans-serif;
-          font-size: 24px;
+          font-size: 28px;
           font-weight: 400;
           line-height: 120%;
         }
@@ -217,6 +216,11 @@ export default function Publications() {
           line-height: 178%;
           margin: 0;
           flex: 1;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
         .entry-pp {
           color: #797979;
@@ -239,7 +243,7 @@ export default function Publications() {
             padding: 56px 48px;
           }
           .pub-heading {
-            font-size: 36px;
+            font-size: 40px;
           }
           .pub-featured {
             flex-direction: column;
@@ -251,7 +255,7 @@ export default function Publications() {
             padding: 40px 24px;
           }
           .pub-heading {
-            font-size: 28px;
+            font-size: 32px;
           }
           .entry-row {
             gap: 12px;

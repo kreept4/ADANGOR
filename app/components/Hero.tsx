@@ -2,12 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import BlurText from "./BlurText";
-import { heroCitations } from "../data/publications";
+import SiteNav from "./SiteNav";
+import { heroCitations } from "../data/hero-citations";
 
-// How long each citation holds before the next one takes over. Long, because
-// these are full citations rather than headlines — a reader has to get to the
-// end of one before it is worth moving on.
 const SLIDE_MS = 7000;
 
 export default function Hero() {
@@ -15,14 +12,6 @@ export default function Hero() {
   const [paused, setPaused] = useState(false);
   const current = heroCitations[index];
 
-  const go = (step: number) =>
-    setIndex((i) => (i + step + heroCitations.length) % heroCitations.length);
-
-  // `index` is a dependency so that clicking an arrow restarts the dwell rather
-  // than leaving the reader with whatever was left of the previous tick. The
-  // timer never starts for a reader who has asked for reduced motion, and it
-  // stops while the card is hovered or focused so a citation can be read or
-  // the arrows used without it moving underneath.
   useEffect(() => {
     if (paused) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -35,283 +24,303 @@ export default function Hero() {
   }, [paused, index]);
 
   return (
-    <section className="hero-section">
-      <div className="hero-inner">
-        <div className="hero-top">
-          <div className="hero-headline">
-            <BlurText
-              as="h1"
-              text="Built on Justice,"
-              delay={120}
-              animateBy="words"
-              direction="top"
-              className="hero-line hero-line-muted"
-              style={{ color: "#7A7A7A", margin: 0 }}
-            />
-            <BlurText
-              as="h1"
-              text="Guided by Ethics."
-              delay={120}
-              animateBy="words"
-              direction="top"
-              className="hero-line hero-line-strong"
-              style={{ color: "#000", margin: 0 }}
-            />
-          </div>
-
-          <a href="/contact" className="hero-cta">
-            <span className="hero-cta-label">Speak to a Lawyer</span>
-            <span className="hero-cta-arrow" aria-hidden="true">
-              <svg width="17" height="17" viewBox="0 0 17.2416 16.7702" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1.0776 8.38509H16.164" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M8.62082 1.0776L16.164 8.38509L8.62082 15.6926" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </a>
-        </div>
-
-        <div className="hero-card">
+    <section className="hero-shell">
+      <div className="hero-frame">
+        <div className="hero-media" aria-hidden="true">
           <Image
             src="/images/hero-holographic.jpg"
             alt=""
             fill
-            loading="eager"
-            fetchPriority="high"
-            sizes="100vw"
-            className="hero-card-bg"
+            priority
+            sizes="(max-width: 900px) 100vw, calc(100vw - 120px)"
+            className="hero-img"
           />
+          <div className="hero-veil" />
+          <div className="hero-grain" />
+        </div>
 
-          <div
-            className="hero-quote"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onFocusCapture={() => setPaused(true)}
-            onBlurCapture={() => setPaused(false)}
-          >
-            <div className="hero-quote-box">
-              <div className="hero-quote-head">
-                <p className="hero-quote-author">PROFESSOR, ADANGOR, SAN</p>
-                <div className="hero-quote-rule" />
+        <SiteNav variant="hero" />
+
+        <div className="hero-inner">
+          <h1 className="hero-title">
+            Legal Representation Guided
+            <br />
+            by Ethics and Justice
+          </h1>
+
+          <div className="hero-bottom">
+            <div className="hero-bottom-left">
+              <a href="/contact" className="hero-cta">
+                <span className="hero-cta-label">Speak to a Lawyer</span>
+                <span className="hero-cta-arrow" aria-hidden="true">
+                  <svg width="28" height="28" viewBox="0 0 17.2416 16.7702" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.0776 8.38509H16.164" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M8.62082 1.0776L16.164 8.38509L8.62082 15.6926" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </a>
+            </div>
+
+            <aside
+              className="hero-insights"
+              onMouseEnter={() => setPaused(true)}
+              onMouseLeave={() => setPaused(false)}
+              onFocusCapture={() => setPaused(true)}
+              onBlurCapture={() => setPaused(false)}
+            >
+              <div className="hero-insights-card">
+                <div className="hero-insights-photo">
+                  <Image
+                    src="/images/hero-judge.jpg"
+                    alt="Prof. Z. Adangor SAN"
+                    fill
+                    sizes="88px"
+                    className="hero-insights-img"
+                  />
+                </div>
+                <div className="hero-insights-copy">
+                  <p className="hero-insights-kicker">
+                    Legal Insights · Managing Partner: Prof. Z. Adangor SAN
+                  </p>
+                  <p className="hero-insights-text" key={index}>
+                    <span>{current.text}</span>
+                    <span className="hero-insights-pages">{current.pages}</span>
+                  </p>
+                </div>
               </div>
-              {/* Keyed on the index so each citation is a fresh element and
-                  replays the fade, rather than the text swapping in place. */}
-              <p className="hero-quote-text" key={index}>
-                <span>{current.text}</span>
-                <span className="hero-quote-pages">{current.pages}</span>
-              </p>
-            </div>
-
-            <div className="hero-quote-nav">
-              <button type="button" onClick={() => go(-1)} aria-label="Previous publication">
-                <svg width="16" height="16" viewBox="0 0 17.2416 16.7702" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M16.164 8.38509H1.0776" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M8.62082 15.6926L1.0776 8.38509L8.62082 1.0776" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-              <button type="button" onClick={() => go(1)} aria-label="Next publication">
-                <svg width="16" height="16" viewBox="0 0 17.2416 16.7702" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1.0776 8.38509H16.164" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M8.62082 1.0776L16.164 8.38509L8.62082 15.6926" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
+            </aside>
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        .hero-section {
+        .hero-shell {
           width: 100%;
-          background: #fff;
-          font-family: var(--font-instrument-sans), sans-serif;
+          padding: 60px 60px 80px;
+          background: var(--cream);
           box-sizing: border-box;
         }
+
+        .hero-frame {
+          position: relative;
+          width: 100%;
+          min-height: min(86vh, 860px);
+          border-radius: 16px;
+          overflow: clip;
+          background: var(--black-rich);
+          isolation: isolate;
+        }
+
+        .hero-media {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+        }
+
+        .hero-media :global(.hero-img) {
+          object-fit: cover;
+          object-position: center;
+        }
+
+        .hero-veil {
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(105deg, rgba(13, 14, 16, 0.52) 0%, rgba(13, 14, 16, 0.16) 52%, rgba(13, 14, 16, 0.4) 100%),
+            linear-gradient(180deg, rgba(13, 14, 16, 0.28) 0%, transparent 32%, rgba(13, 14, 16, 0.5) 100%);
+          pointer-events: none;
+        }
+
+        .hero-grain {
+          position: absolute;
+          inset: 0;
+          opacity: 0.26;
+          pointer-events: none;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
         .hero-inner {
-          width: 100%;
-          padding: clamp(36px, 4.5vw, 64px) var(--page-gutter)
-            clamp(40px, 5vw, 74px);
+          position: relative;
+          z-index: 1;
+          min-height: min(86vh, 860px);
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: clamp(24px, 4vw, 40px);
+          /* Extra top inset drops the title clear of the nav logo above it. */
+          padding-top: calc(clamp(24px, 4vw, 40px) + 54px);
           box-sizing: border-box;
         }
-        .hero-top {
+
+        .hero-title {
+          margin: 0;
+          max-width: min(100%, 22ch);
+          font-family: var(--font-display);
+          font-size: 72px;
+          font-weight: 400;
+          line-height: 1.06;
+          letter-spacing: -0.02em;
+          color: var(--white);
+          animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .hero-bottom {
           display: flex;
           align-items: flex-end;
           justify-content: space-between;
-          gap: clamp(20px, 3vw, 40px);
-          margin-bottom: clamp(32px, 5.6vw, 74px);
-        }
-        .hero-headline {
-          min-width: 0;
-        }
-        /* BlurText renders a motion component, which styled-jsx cannot scope.
-           Each line is one phrase in the design, so the word spans must not
-           wrap: a fixed px cap would break them apart once the type scales up
-           on large displays. */
-        .hero-headline :global(.hero-line) {
-          font-size: var(--fs-hero);
-          line-height: 1.1;
-          letter-spacing: -0.05em;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-        }
-        .hero-headline :global(.hero-line-muted) {
-          font-weight: 400;
-        }
-        .hero-headline :global(.hero-line-strong) {
-          font-weight: 500;
-          margin-top: 0.12em !important;
+          gap: clamp(24px, 4vw, 48px);
         }
 
-        /* Cream label panel butted against a white arrow panel, hairline black
-           frame around both, per the Figma button spec. */
+        .hero-bottom-left {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 22px;
+          max-width: 42ch;
+          animation: hero-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+        }
+
         .hero-cta {
           display: inline-flex;
           align-items: stretch;
-          height: clamp(52px, 4.6vw, 64px);
-          background: #fff8e5;
-          border: 1px solid #000;
-          border-radius: 2px;
-          color: #000;
+          height: auto;
+          background: var(--white);
+          border: 1px solid var(--black);
+          color: var(--black);
           text-decoration: none;
           flex-shrink: 0;
           overflow: hidden;
-          transition: box-shadow 0.25s ease;
-          animation: hero-fade 0.6s ease 0.35s both;
+          transition: box-shadow 0.25s ease, transform 0.25s ease;
         }
+
         .hero-cta-label {
           display: flex;
           align-items: center;
-          padding: 0 clamp(14px, 1.2vw, 16px) 0 clamp(18px, 1.7vw, 24px);
-          font-size: var(--fs-lead);
+          padding: 30px;
+          font-family: var(--font-ui);
+          font-size: 28px;
+          font-weight: 300;
+          letter-spacing: -0.02em;
+          line-height: 1;
           white-space: nowrap;
+          background: transparent;
         }
+
         .hero-cta-arrow {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: clamp(46px, 4.3vw, 61px);
-          background: #fff;
-          border-left: 1px solid #000;
+          padding: 30px;
+          box-sizing: border-box;
+          background: transparent;
+          border-left: 1px solid var(--black);
           transition: background-color 0.25s ease, color 0.25s ease;
         }
-        .hero-cta:hover {
-          box-shadow: 0 4px 16px rgba(41, 29, 0, 0.18);
-        }
-        .hero-cta:hover .hero-cta-arrow {
-          background: #cd9610;
-          color: #fff8e5;
+
+        .hero-cta-arrow :global(svg) {
+          display: block;
+          width: 28px;
+          height: 28px;
+          flex-shrink: 0;
         }
 
-        .hero-card {
-          position: relative;
-          width: 100%;
-          /* 1320 x 429 in the Figma frame. */
-          aspect-ratio: 1320 / 429;
-          min-height: 300px;
-          overflow: hidden;
-          animation: hero-fade 0.8s ease 0.15s both;
+        .hero-cta:hover {
+          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+          transform: translateY(-1px);
         }
-        /* next/image renders its own element, so scope it globally. */
-        .hero-card :global(.hero-card-bg) {
-          object-fit: cover;
-          object-position: center;
-          z-index: 0;
+
+        .hero-cta:hover .hero-cta-arrow {
+          background: var(--accent);
+          color: var(--white);
         }
-        /* The tooltip + arrows group is centred on the card's vertical axis and
-           held 48px off its right edge, matching the ARTICLE frame. */
-        .hero-quote {
-          position: absolute;
-          top: 50%;
-          right: 3.64%;
-          transform: translateY(-50%);
-          z-index: 1;
+
+        .hero-insights {
+          width: min(48%, 540px);
+          min-width: min(100%, 280px);
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          gap: 19px;
-          /* 556 of the card's 1320 in the comp. Kept as a ratio rather than a
-             px cap so the box grows with the type on large displays instead of
-             squeezing the citation into a narrow column. */
-          width: 42.12%;
-          min-width: 300px;
-        }
-        .hero-quote-box {
-          width: 100%;
-          box-sizing: border-box;
-          background: #fffbee;
-          border-radius: 4px 32px 4px 32px;
-          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
-          padding: 16px 16px 12px;
-          display: flex;
-          flex-direction: column;
           gap: 12px;
-        }
-        .hero-quote-head {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-        .hero-quote-author {
-          margin: 0;
-          color: #2c2c2c;
-          font-size: var(--fs-body);
-          font-weight: 400;
-          /* 38.5px on an 18px face in the Figma header block. */
-          line-height: 2.14;
-        }
-        .hero-quote-rule {
-          width: 100%;
-          height: 1px;
-          background: rgba(201, 189, 150, 0.83);
-        }
-        .hero-quote-text {
-          margin: 0;
-          font-size: var(--fs-body);
-          font-weight: 500;
-          line-height: 1.78;
-          letter-spacing: 0.04em;
-          color: #000;
-          animation: hero-quote-in 0.6s ease both;
-        }
-        @keyframes hero-quote-in {
-          from {
-            opacity: 0;
-            transform: translateY(6px);
-          }
-          to {
-            opacity: 1;
-            transform: none;
-          }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .hero-quote-text {
-            animation: none;
-          }
-        }
-        .hero-quote-pages {
-          color: #797979;
-        }
-        .hero-quote-nav {
-          display: flex;
-          gap: 13px;
-        }
-        .hero-quote-nav button {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 52px;
-          height: 48px;
-          padding: 0;
-          border: none;
-          background: transparent;
-          color: #fff;
-          cursor: pointer;
-          transition: opacity 0.2s ease;
-        }
-        .hero-quote-nav button:hover {
-          opacity: 0.65;
+          animation: hero-rise 1s cubic-bezier(0.22, 1, 0.36, 1) 0.16s both;
         }
 
-        @keyframes hero-fade {
+        .hero-insights-card {
+          width: 100%;
+          display: grid;
+          grid-template-columns: 88px minmax(0, 1fr);
+          gap: 14px;
+          align-items: stretch;
+          padding: 12px;
+          border-radius: 18px;
+          background: rgba(13, 14, 16, 0.55);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+          border: 1px solid rgba(254, 247, 238, 0.14);
+          box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+        }
+
+        .hero-insights-photo {
+          position: relative;
+          width: 88px;
+          min-height: 88px;
+          border-radius: 12px;
+          overflow: hidden;
+          background: #2a2a2a;
+        }
+
+        .hero-insights-photo :global(.hero-insights-img) {
+          object-fit: cover;
+          object-position: center top;
+        }
+
+        .hero-insights-copy {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          min-width: 0;
+          padding: 4px 4px 4px 0;
+        }
+
+        .hero-insights-kicker {
+          margin: 0;
+          font-family: var(--font-ui);
+          font-size: var(--fs-micro);
+          font-weight: 500;
+          letter-spacing: 0.02em;
+          text-transform: uppercase;
+          color: rgba(254, 247, 238, 0.78);
+          line-height: 1.3;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .hero-insights-text {
+          margin: 0;
+          font-family: var(--font-display);
+          font-size: var(--fs-body);
+          font-style: italic;
+          font-weight: 500;
+          line-height: 1.45;
+          color: var(--white);
+          animation: quote-in 0.55s ease both;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+          overflow: hidden;
+        }
+
+        .hero-insights-pages {
+          color: rgba(254, 247, 238, 0.62);
+        }
+
+        @keyframes hero-rise {
           from {
             opacity: 0;
             transform: translateY(24px);
@@ -322,72 +331,73 @@ export default function Hero() {
           }
         }
 
-        /* Tablets — headline stacks above the button, card grows taller so the
-           tooltip keeps a sane measure. */
-        @media (max-width: 900px) {
-          .hero-top {
-            flex-direction: column;
-            align-items: flex-start;
+        @keyframes quote-in {
+          from {
+            opacity: 0;
+            transform: translateY(6px);
           }
-          .hero-headline {
-            max-width: 100%;
-          }
-          .hero-headline :global(.hero-line) {
-            font-size: var(--fs-hero);
-          }
-          .hero-card {
-            aspect-ratio: 3 / 2;
-          }
-          .hero-quote {
-            width: 64%;
-            max-width: none;
-          }
-          .hero-quote-author,
-          .hero-quote-text {
-            font-size: var(--fs-body);
+          to {
+            opacity: 1;
+            transform: none;
           }
         }
 
-        /* Phones — the card stops trying to hold the tooltip inside a fixed
-           ratio and simply wraps around it. */
-        @media (max-width: 640px) {
-          .hero-card {
-            aspect-ratio: auto;
-            min-height: 0;
-            display: flex;
-            align-items: flex-end;
-            padding: 20px;
-            box-sizing: border-box;
+        @media (max-width: 900px) {
+          .hero-shell {
+            padding: 20px 20px 48px;
           }
-          .hero-quote {
-            position: static;
-            transform: none;
+
+          .hero-frame,
+          .hero-inner {
+            min-height: min(88vh, 780px);
+          }
+
+          .hero-inner {
+            padding: 24px;
+            padding-top: 56px;
+          }
+
+          .hero-title {
+            max-width: 100%;
+          }
+
+          .hero-bottom {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .hero-insights {
             width: 100%;
-            min-width: 0;
-            gap: 12px;
-            padding: 120px 0 0;
+            align-items: stretch;
           }
-          .hero-quote-box {
-            border-radius: 4px 24px 4px 24px;
-            padding: 14px 14px 10px;
+        }
+
+        @media (max-width: 560px) {
+          .hero-insights-card {
+            grid-template-columns: 72px minmax(0, 1fr);
+            gap: 10px;
           }
-          .hero-quote-author,
-          .hero-quote-text {
-            font-size: var(--fs-body);
+
+          .hero-insights-photo {
+            width: 72px;
+            min-height: 72px;
           }
-          .hero-quote-text {
-            line-height: 1.6;
-          }
-          .hero-quote-nav button {
-            width: 40px;
-            height: 38px;
+
+          .hero-title {
+            font-size: clamp(28px, 8.2vw, 40px);
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .hero-cta,
-          .hero-card {
+          .hero-title,
+          .hero-bottom-left,
+          .hero-insights,
+          .hero-insights-text {
             animation: none;
+          }
+
+          .hero-cta:hover {
+            transform: none;
           }
         }
       `}</style>

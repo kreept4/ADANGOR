@@ -1,48 +1,74 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Master palette — confirmed for this redesign pass */
+  --white: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-75: #f8fafa;
+  --cream: #fef7ee;
+  --cream-deep: #f5efe8;
+  --grey-soft: #f4f4f4;
+  --sand: #eeddc4;
+  --stone: #e6e1d8;
+  --grey-line: #dddddd;
+  --taupe-pale: #ddd6cd;
+  --taupe: #ddd5ca;
+  --taupe-mid: #d5d1c8;
+  --silver: #c5c6c8;
+
+  --brown-ink: #332524;
+  --brown-soft: #4d4a44;
+  --brown-warm: #675845;
+  --taupe-text: #6c6459;
+  --brown-accent: #754c29;
+  --grey-mid: #787776;
+  --gold-mute: #8d7961;
+
+  --grey-ui: #818283;
+  --grey-strong: #4f5052;
+  --grey-deep: #2f2f2f;
+  --grey-near: #2a2a2a;
+
+  --black-soft: #282728;
+  --black-rich: #0d0e10;
+  --black: #000000;
+
+  --accent: #fa5c01;
+  --accent-soft: #ff9a60;
+  --accent-wash: #ffeeb0;
+
+  --background: var(--cream);
+  --foreground: var(--brown-ink);
+  --page-inset: 60px;
+  --hairline: var(--gold-mute);
+  --surface-panel: var(--white);
+  --surface-band: var(--grey-soft);
 
   /* ---------------------------------------------------------------------
-     Shared layout + type scale.
-
-     Every homepage section reads from these tokens, so the whole page grows
-     and shrinks as one system instead of each section inventing its own
-     clamps. The proportions come from the 1440px Figma comp, held at roughly
-     80% of the comp's raw pixel sizes so the page reads at a comfortable
-     distance rather than feeling zoomed in.
-
-     The ladder below covers smartwatch browsers (~272px) through to a 100"
-     4K boardroom display. Past ~2100px the type stops tracking the viewport
-     and steps up at fixed breakpoints instead, because beyond that the
-     screen is being read from across a room, not from a desk.
-
-     Note there is deliberately no max-width on the sections. The gutter is a
-     percentage of the viewport, so wide displays get a wider page rather than
-     a fixed column stranded in the middle with dead margins either side.
-     Readability is protected instead by capping the measure of the running
-     copy in `ch`, which scales with the type rather than against it.
+     Shared layout + type scale (retained from the existing system).
+     Hierarchy sizes stay; faces change for editorial contrast.
      --------------------------------------------------------------------- */
   --page-gutter: clamp(14px, 4.17vw, 300px);
 
-  --fs-hero: clamp(24px, 4.1vw, 62px);
-  --fs-h2: clamp(22px, 3.3vw, 50px);
-  --fs-h3: clamp(16px, 2.05vw, 31px);
+  /* Headings: +4px from original scale. Body tokens stay at original. */
+  --fs-hero: clamp(28px, calc(4.1vw + 4px), 66px);
+  --fs-h2: clamp(26px, calc(3.3vw + 4px), 54px);
+  --fs-h3: clamp(20px, calc(2.05vw + 4px), 35px);
   --fs-lead: clamp(13px, 1.4vw, 20px);
   --fs-body: clamp(12.5px, 1.15vw, 17px);
   --fs-small: clamp(10.5px, 0.85vw, 14px);
   --fs-micro: clamp(9px, 0.72vw, 12px);
+
+  --font-display: var(--font-cormorant), "Times New Roman", serif;
+  --font-ui: var(--font-instrument-sans), system-ui, sans-serif;
 }
 
-/* Smartwatch and ultra-narrow browsers: hold a legible floor and pull the
-   gutters in so content is not squeezed to a couple of words per line. */
 @media (max-width: 360px) {
   :root {
     --page-gutter: 12px;
-    --fs-hero: 24px;
-    --fs-h2: 21px;
-    --fs-h3: 16px;
+    --fs-hero: 28px;
+    --fs-h2: 25px;
+    --fs-h3: 20px;
     --fs-lead: 13px;
     --fs-body: 12.5px;
     --fs-small: 11px;
@@ -50,12 +76,11 @@
   }
 }
 
-/* Large desktop and 1440p panels. */
 @media (min-width: 2100px) {
   :root {
-    --fs-hero: 76px;
-    --fs-h2: 60px;
-    --fs-h3: 38px;
+    --fs-hero: 80px;
+    --fs-h2: 64px;
+    --fs-h3: 42px;
     --fs-lead: 24px;
     --fs-body: 20px;
     --fs-small: 16px;
@@ -63,12 +88,11 @@
   }
 }
 
-/* 4K and large-format displays: boardroom viewing distance. */
 @media (min-width: 2800px) {
   :root {
-    --fs-hero: 104px;
-    --fs-h2: 82px;
-    --fs-h3: 52px;
+    --fs-hero: 108px;
+    --fs-h2: 86px;
+    --fs-h3: 56px;
     --fs-lead: 33px;
     --fs-body: 27px;
     --fs-small: 22px;
@@ -76,12 +100,11 @@
   }
 }
 
-/* Wall-mounted 85" to 100" panels. */
 @media (min-width: 3600px) {
   :root {
-    --fs-hero: 132px;
-    --fs-h2: 104px;
-    --fs-h3: 66px;
+    --fs-hero: 136px;
+    --fs-h2: 108px;
+    --fs-h3: 70px;
     --fs-lead: 42px;
     --fs-body: 34px;
     --fs-small: 28px;
@@ -92,12 +115,37 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-ui);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-ui);
+  margin: 0;
+}
+
+/* Flush left–right edges on reading copy. Headings, nav, CTAs, and
+   intentionally centred/right chrome keep their own alignment. */
+.prose {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--accent-wash);
+  color: var(--brown-ink);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }

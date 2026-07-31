@@ -246,6 +246,11 @@ export default function PublicationsList() {
           font-size: var(--fs-lead);
           font-weight: 400;
           line-height: 1.65;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
 
         .pb-group {
@@ -307,6 +312,11 @@ export default function PublicationsList() {
           font-weight: 600;
           line-height: 1.5;
           letter-spacing: -0.01em;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
         .pb-entry-meta {
           margin: 0;
@@ -316,6 +326,10 @@ export default function PublicationsList() {
           line-height: 1.6;
           /* Some of the addresses are long enough to overrun a narrow column. */
           overflow-wrap: anywhere;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
         /* linkify() builds its anchors outside this component's own JSX, so
            styled-jsx never stamps them with its scoping class; they are reached
@@ -373,6 +387,10 @@ export default function PublicationsList() {
           font-weight: 400;
           line-height: 1.6;
           overflow-wrap: anywhere;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
         .pb-leave-host {
           color: var(--ink);

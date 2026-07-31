@@ -138,6 +138,11 @@ export default function CookieNotice() {
           font-size: var(--fs-small);
           font-weight: 400;
           line-height: 1.55;
+          text-align: justify;
+          text-justify: inter-word;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          overflow-wrap: break-word;
         }
         .ck-actions {
           display: flex;

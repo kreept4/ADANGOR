@@ -341,28 +341,5 @@ export function splitCitation(citation: string): { main: string; pp: string } {
   return { main: match[1].trim(), pp: match[2].trim() };
 }
 
-// The hero tooltip leads with the work itself, not the author line, since the
-// card already names him in the header. Titles are quoted in most records, so
-// the opening quote mark is the reliable cut point; the handful of monographs
-// that carry no quotes only need the "Adangor, Z., " prefix stripped.
-function stripAuthors(citation: string): string {
-  const quoteAt = citation.indexOf("“");
-  if (quoteAt !== -1) return citation.slice(quoteAt);
-  return citation.replace(/^Adangor, Z\.,\s*/, "");
-}
-
-export type HeroCitation = {
-  text: string;
-  pages: string;
-};
-
-// Every publication on record, featured monograph first, then journal articles,
-// then books and chapters.
-export const heroCitations: HeroCitation[] = [
-  featured,
-  ...articles,
-  ...books,
-].map(({ citation }) => {
-  const { main, pp } = splitCitation(stripAuthors(citation));
-  return { text: main, pages: pp ? ` ${pp}` : "" };
-});
+// Hero carousel citations live in ./hero-citations.ts so the homepage client
+// bundle does not import this full bibliography module.

@@ -1,3 +1,4 @@
+import path from "path";
 import type { NextConfig } from "next";
 
 // Everything the site loads is served from its own origin: next/font downloads
@@ -27,7 +28,6 @@ const csp = [
 
 const securityHeaders = [
   { key: "Content-Security-Policy", value: csp },
-  // frame-ancestors above covers current browsers; this covers the rest.
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
@@ -42,11 +42,14 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Pin Turbopack to this project directory so a stray ~/package-lock.json
+  // cannot become the inferred workspace root (that caused wrong resolution
+  // and painful first compiles).
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   async headers() {
-    // Only in production: the dev server needs eval for hot reloading, and a
-    // policy that has to be loosened for dev is not the policy being shipped.
     if (process.env.NODE_ENV !== "production") return [];
-
     return [{ source: "/:path*", headers: securityHeaders }];
   },
 };
