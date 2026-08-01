@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Publications",
   description:
     "Books, book chapters and journal articles by Prof. Zacchaeus Adangor, SAN.",
+  alternates: {
+    canonical: "/publications",
+  },
 };
 
 export default function PublicationsPage() {
