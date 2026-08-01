@@ -4,6 +4,8 @@ import "./globals.css";
 import CardNav from "./components/CardNav/CardNav";
 import Footer from "./components/Footer";
 import CookieNotice from "./components/CookieNotice";
+import { siteName, siteUrl } from "./lib/site";
+import { buildLawFirmJsonLd } from "./lib/structuredData";
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
@@ -39,13 +41,45 @@ const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-instrument-sans",
 });
+const description =
+  "Built on Justice, Guided by Ethics. A Nigerian law practice across election petitions, constitutional law, oil and gas, maritime and commercial matters.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Prof. Z. Adangor (SAN) & Co",
-    template: "%s | Prof. Z. Adangor (SAN) & Co",
+    default: siteName,
+    template: `%s | ${siteName}`,
   },
-  description:
-    "Built on Justice, Guided by Ethics. A Nigerian law practice across election petitions, constitutional law, oil and gas, maritime and commercial matters.",
+  description,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName,
+    title: siteName,
+    description,
+    locale: "en_NG",
+    images: [
+      {
+        url: "/images/hero-bg.jpg",
+        width: 1440,
+        height: 595,
+        alt: siteName,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description,
+    images: ["/images/hero-bg.jpg"],
+  },
 };
 
 // Three cards, grouped by what the visitor is actually looking for: who the
@@ -84,6 +118,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${robotoSlab.variable} ${robotoMono.variable} ${inter.variable} ${roboto.variable} ${merriweather.variable} ${nunito.variable} ${instrumentSans.variable}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildLawFirmJsonLd()),
+          }}
+        />
         <CardNav
           logo="/logo-icon.svg"
           logoAlt="Firm logo"
