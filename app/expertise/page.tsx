@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Our Expertise",
   description:
     "The firm's practice areas, from election petitions and constitutional law to oil and gas, maritime, land and employment matters.",
+  alternates: {
+    canonical: "/expertise",
+  },
 };
 
 export default function ExpertisePage() {

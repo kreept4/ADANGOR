@@ -5,22 +5,20 @@ import GlassNav from "./components/GlassNav";
 import Preloader from "./components/Preloader";
 import Footer from "./components/Footer";
 import CookieNotice from "./components/CookieNotice";
-
+import { siteName, siteUrl } from "./lib/site";
+import { buildLawFirmJsonLd } from "./lib/structuredData";
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
   variable: "--font-roboto-slab",
 });
-
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
   variable: "--font-roboto-mono",
 });
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
 });
-
 const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
@@ -47,15 +45,45 @@ const monaSans = Mona_Sans({
   subsets: ["latin"],
   variable: "--font-mona-sans",
 });
+const description =
+  "Built on Justice, Guided by Ethics. A Nigerian law practice across election petitions, constitutional law, oil and gas, maritime and commercial matters.";
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Prof. Z. Adangor (SAN) & Co",
-    template: "%s | Prof. Z. Adangor (SAN) & Co",
+    default: siteName,
+    template: `%s | ${siteName}`,
   },
-  description:
-    "Built on Justice, Guided by Ethics. A Nigerian law practice across election petitions, constitutional law, oil and gas, maritime and commercial matters.",
+  description,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    siteName,
+    title: siteName,
+    description,
+    locale: "en_NG",
+    images: [
+      {
+        url: "/images/hero-bg.jpg",
+        width: 1440,
+        height: 595,
+        alt: siteName,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description,
+    images: ["/images/hero-bg.jpg"],
+  },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -64,6 +92,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${robotoSlab.variable} ${robotoMono.variable} ${inter.variable} ${roboto.variable} ${merriweather.variable} ${nunito.variable} ${instrumentSans.variable} ${monaSans.variable}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildLawFirmJsonLd()),
+          }}
+        />
         <Preloader />
         <GlassNav
           logo="/logo-icon.svg"

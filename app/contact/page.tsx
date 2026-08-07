@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Our Abuja and Port Harcourt offices, phone numbers and enquiry form.",
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 export default function ContactPage() {

@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Prof. Zacchaeus Adangor, SAN — the chambers, its managing partner, and the honours the practice has been recognised with.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default function AboutPage() {
