@@ -1,36 +1,35 @@
 /* ---------------------------------------------------------------------------
-   Below the fold: Watchword, Practice, Journey, Publications.
+   Below the fold: Practice, Journey, Publications.
 
-   Four sections, four surfaces — ash, black, ink, white — so the page reads as
-   a sequence of rooms rather than as one scroll. The tokens are declared once
-   on `.sbp` and every section draws from them.
+   Three full-viewport sections, all white. The dark hero plate is the only
+   heavy surface on the page, and everything after it is the same sheet of
+   paper — the sections are told apart by their type and their spacing rather
+   than by alternating backgrounds. The tokens are declared once on `.sbp` and
+   every section draws from them.
    --------------------------------------------------------------------------- */
 
 .sbp {
   --sb-gold: #c5a059;
   --sb-gold-soft: #b48d52;
-  --sb-ash: #ffffff;
   --sb-ink: #1d1e24;
   --sb-dot: #fa5c01;
 
   /* The type ladder, 390 → 768 → 1024. Stated as variables rather than as
      clamps because the design fixes each step, and a clamp would put the
      display size somewhere between them at every width in between. */
-  --sb-fs-display: 28px;
   --sb-fs-section: 32px;
-  --sb-fs-stat: 40px;
   --sb-fs-row-title: 16px;
   --sb-fs-row-body: 14px;
 
-  background: #010201;
+  /* Was near-black, under a black practice list. Every section is white now,
+     so this only ever showed as a dark seam between them during an overscroll. */
+  background: #ffffff;
   font-family: var(--font-ui), sans-serif;
 }
 
 @media (min-width: 768px) {
   .sbp {
-    --sb-fs-display: 40px;
     --sb-fs-section: 40px;
-    --sb-fs-stat: 44px;
     --sb-fs-row-title: 18px;
     --sb-fs-row-body: 18px;
   }
@@ -38,9 +37,7 @@
 
 @media (min-width: 1024px) {
   .sbp {
-    --sb-fs-display: 54px;
     --sb-fs-section: 54px;
-    --sb-fs-stat: 48px;
     --sb-fs-row-title: 20px;
     --sb-fs-row-body: 20px;
   }
@@ -50,110 +47,6 @@
    nothing will ever move and holding a layer per node is pure cost. */
 .sbp [data-h] {
   will-change: transform, opacity;
-}
-
-/* --------------------------------------------------------------------------
-   Watchword
-   -------------------------------------------------------------------------- */
-
-/* A dense band, not a second hero. The height is what the hero leaves over,
-   floored so it cannot collapse on a short window — but it is deliberately not
-   `100dvh`, because a full-viewport motto immediately after a full-viewport
-   headline reads as two heroes competing. */
-.sbp-watch {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: max(320px, calc(100dvh - 700px));
-  padding: 48px 24px;
-  background: var(--sb-ash);
-  color: var(--sb-ink);
-  text-align: center;
-}
-
-.sbp-watch-inner {
-  width: 100%;
-  max-width: 790px;
-}
-
-.sbp-eyebrow {
-  margin: 0;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 2.48px;
-  text-transform: uppercase;
-  color: var(--sb-gold-soft);
-}
-
-.sbp-rule {
-  width: 48px;
-  height: 2px;
-  margin: 18px auto 22px;
-  background: var(--sb-gold);
-}
-
-.sbp-watch-title {
-  margin: 0;
-  font-size: var(--sb-fs-display);
-  font-weight: 400;
-  line-height: 1.24;
-  letter-spacing: -0.02em;
-}
-.sbp-watch-title em {
-  font-style: italic;
-  color: var(--sb-gold);
-}
-
-/* The focal motion. `scaleX` is animated rather than `width` so the draw is a
-   compositor transform and never triggers layout on the column below it. */
-.sbp-hair {
-  width: 100%;
-  height: 1px;
-  margin: 30px 0;
-  background: rgba(29, 30, 36, 0.18);
-  transform-origin: center center;
-}
-
-.sbp-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  margin: 0;
-}
-
-.sbp-stat {
-  margin: 0;
-}
-
-.sbp-stat-num {
-  font-size: var(--sb-fs-stat);
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--sb-ink);
-}
-
-.sbp-stat-label {
-  margin: 8px 0 0;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(29, 30, 36, 0.55);
-}
-
-@media (min-width: 768px) {
-  .sbp-watch {
-    padding: 56px 40px;
-  }
-  .sbp-stats {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 24px;
-  }
-  .sbp-stat {
-    flex: 1;
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -334,7 +227,13 @@
    Journey
    -------------------------------------------------------------------------- */
 
+/* Full viewport, like Practice and Publications either side of it — the
+   Watchword band was the one deliberately short section on the page, and with
+   it gone every remaining section is a room of its own. */
 .sbp-journey {
+  display: flex;
+  align-items: center;
+  min-height: 100dvh;
   padding: 72px 24px;
   background: #ffffff;
   color: var(--sb-ink);
@@ -391,7 +290,7 @@
   font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--sb-gold);
+  color: var(--sb-ink);
 }
 
 /* The wheel and the milestone it selects, side by side. The wheel is the
@@ -530,40 +429,66 @@
   gap: 10px;
 }
 
+/* Square, not pills.
+
+   Every other control on the page — the hero's call to action and the contact
+   form's send button — is a hairline-framed slab with a 2px corner. These were
+   the one rounded thing on the page and read as belonging to a different site.
+   Same construction, scaled down to suit a pair of pagination controls sitting
+   beside a heading. */
 .sbp-pill {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 34px;
-  border-radius: 17px;
-  font-size: 15px;
+  width: 44px;
+  height: 30px;
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 1;
   cursor: pointer;
   transition: background-color 0.22s ease, color 0.22s ease,
     border-color 0.22s ease;
 }
 
+.sbp-pill span {
+  display: block;
+  transition: transform 0.32s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
 .sbp-pill-ghost {
   background: transparent;
-  border: 1px solid rgba(13, 13, 13, 0.25);
-  color: #0d0d0d;
-}
-.sbp-pill-ghost:hover {
-  border-color: #0d0d0d;
+  border: 1px solid #563c02;
+  color: #1d1e24;
 }
 
 .sbp-pill-solid {
-  background: #0d0d0d;
-  border: 1px solid #0d0d0d;
-  color: #fff;
+  background: #ffffff;
+  border: 1px solid #563c02;
+  color: #1d1e24;
 }
-.sbp-pill-solid:hover {
-  background: #333;
+
+/* The same grey fill the hero's arrow cell takes, so all three arrows on the
+   page answer a pointer the same way. Pointer-only, for the same reason. */
+@media (hover: hover) and (pointer: fine) {
+  .sbp-pill:hover,
+  .sbp-pill:focus-visible {
+    background: #6b6c73;
+    border-color: #6b6c73;
+    color: #ffffff;
+  }
+  .sbp-pill-ghost:hover span,
+  .sbp-pill-ghost:focus-visible span {
+    transform: translateX(-3px);
+  }
+  .sbp-pill-solid:hover span,
+  .sbp-pill-solid:focus-visible span {
+    transform: translateX(3px);
+  }
 }
 
 .sbp-pill:focus-visible {
-  outline: 2px solid var(--sb-gold);
-  outline-offset: 2px;
+  outline: 2px solid #563c02;
+  outline-offset: 3px;
 }
 
 .sbp-pubs-body {
@@ -608,12 +533,16 @@
   gap: 12px;
 }
 
+/* `object-position` is pulled to the top of the frame: the source is a
+   three-quarter portrait, and a centred square crop of it lands on his robes
+   rather than his face. */
 .sbp-avatar {
   width: 40px;
   height: 40px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.22);
+  object-fit: cover;
+  object-position: 50% 18%;
   border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
@@ -653,7 +582,7 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--sb-gold-soft);
+  color: #0d0d0d;
 }
 
 .sbp-pub-cite {
@@ -665,6 +594,28 @@
 
 .sbp-pub-pages {
   color: #808080;
+}
+
+/* Underlined rather than coloured. The citations already carry a gold label
+   above them, and a second accent colour inside the line would make the
+   address compete with it — the underline says "link" without adding a hue. */
+.sbp-pub-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(13, 13, 13, 0.4);
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+.sbp-pub-link:hover,
+.sbp-pub-link:focus-visible {
+  color: #0d0d0d;
+  text-decoration-color: #0d0d0d;
+}
+.sbp-pub-link:focus-visible {
+  outline: 2px solid #563c02;
+  outline-offset: 2px;
+  border-radius: 1px;
 }
 
 @media (min-width: 768px) {
@@ -699,34 +650,20 @@
    The ends of the ladder
    -------------------------------------------------------------------------- */
 
-/* Smartwatches and ultra-narrow phones. The three-column practice row is the
-   thing that breaks first: an index, a copy column and a square in 272px leaves
-   the copy about ninety pixels wide. The index and the square go, and the row
-   becomes the copy alone — which is the part that carries the meaning. */
+/* Smartwatches and ultra-narrow phones. The practice row is the thing that
+   breaks first: an index column and a copy column in 272px leaves the copy
+   about ninety pixels wide. The index goes and the row becomes the copy alone,
+   which is the part that carries the meaning. */
 @media (max-width: 360px) {
   .sbp {
-    --sb-fs-display: 22px;
     --sb-fs-section: 24px;
-    --sb-fs-stat: 30px;
     --sb-fs-row-title: 14px;
     --sb-fs-row-body: 12.5px;
   }
-  .sbp-watch,
   .sbp-practice,
   .sbp-journey,
   .sbp-pubs {
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-  .sbp-watch {
-    padding-top: 36px;
-    padding-bottom: 36px;
-  }
-  .sbp-practice,
-  .sbp-journey,
-  .sbp-pubs {
-    padding-top: 48px;
-    padding-bottom: 48px;
+    padding: 48px 14px;
   }
   .sbp-rows {
     border-radius: 14px;
@@ -737,16 +674,17 @@
     min-height: 0;
     padding: 16px 14px;
   }
-  .sbp-row-index,
-  .sbp-stats {
+  .sbp-row-index {
+    display: none;
+  }
+  /* The wheel and its milestone stack rather than sitting side by side; at this
+     width a 132px track leaves the copy unreadable. */
+  .sbp-arc {
+    grid-template-columns: 1fr;
     gap: 20px;
   }
-  .sbp-hair {
-    margin: 22px 0;
-  }
-  .sbp-arc-item {
-    grid-template-columns: 44px 8px 1fr;
-    gap: 10px;
+  .sbp-arc-wheel {
+    height: 190px;
   }
   .sbp-feature {
     padding: 20px 18px;
@@ -757,29 +695,24 @@
   }
 }
 
-/* Watch browsers. `100dvh` sections are dropped: a full-viewport practice list
-   on a 200px-tall screen shows one row and a lot of black. */
+/* Watch browsers. The `100dvh` sections are dropped: a full-viewport practice
+   list on a 200px-tall screen shows one row and a lot of white. */
 @media (max-width: 300px) {
   .sbp {
-    --sb-fs-display: 19px;
     --sb-fs-section: 20px;
-    --sb-fs-stat: 25px;
   }
   .sbp-practice,
+  .sbp-journey,
   .sbp-pubs {
     min-height: 0;
   }
-  .sbp-eyebrow,
   .sbp-pub-label,
   .sbp-feature-kicker {
     font-size: 10px;
     letter-spacing: 1.6px;
   }
-  .sbp-arc-item {
-    grid-template-columns: 1fr;
-  }
-  .sbp-arc-dot {
-    display: none;
+  .sbp-arc-wheel {
+    height: 150px;
   }
 }
 
@@ -787,10 +720,8 @@
    layouts, nowhere near the height for a viewport-tall section. */
 @media (max-height: 520px) and (orientation: landscape) {
   .sbp-practice,
+  .sbp-journey,
   .sbp-pubs {
-    min-height: 0;
-  }
-  .sbp-watch {
     min-height: 0;
   }
 }
@@ -800,34 +731,19 @@
    match the viewing distance. */
 @media (min-width: 2100px) {
   .sbp {
-    --sb-fs-display: 76px;
     --sb-fs-section: 76px;
-    --sb-fs-stat: 66px;
     --sb-fs-row-title: 28px;
     --sb-fs-row-body: 26px;
-  }
-  .sbp-watch-inner {
-    max-width: 1120px;
   }
   .sbp-practice-inner,
   .sbp-journey-inner,
   .sbp-pubs-inner {
     max-width: 1900px;
   }
-  .sbp-watch {
-    padding: 96px 96px;
-  }
   .sbp-practice,
   .sbp-journey,
   .sbp-pubs {
     padding: 140px 96px;
-  }
-  .sbp-eyebrow {
-    font-size: 16px;
-    letter-spacing: 3.4px;
-  }
-  .sbp-stat-label {
-    font-size: 17px;
   }
   .sbp-row {
     grid-template-columns: 96px 1fr;
@@ -844,13 +760,6 @@
   .sbp-arc-summary,
   .sbp-pub-cite {
     font-size: 20px;
-  }
-  .sbp-arc-item {
-    grid-template-columns: 84px 16px 1fr;
-  }
-  .sbp-arc-dot {
-    width: 12px;
-    height: 12px;
   }
   .sbp-portrait-name,
   .sbp-feature-name {
@@ -882,14 +791,9 @@
 /* 4K and large-format displays. */
 @media (min-width: 2800px) {
   .sbp {
-    --sb-fs-display: 104px;
     --sb-fs-section: 104px;
-    --sb-fs-stat: 88px;
     --sb-fs-row-title: 38px;
     --sb-fs-row-body: 34px;
-  }
-  .sbp-watch-inner {
-    max-width: 1500px;
   }
   .sbp-practice-inner,
   .sbp-journey-inner,
@@ -916,17 +820,12 @@
   .sbp-feature {
     min-height: 780px;
   }
-  .sbp-eyebrow {
-    font-size: 21px;
-  }
 }
 
 /* Wall-mounted 85" to 100" panels. */
 @media (min-width: 3600px) {
   .sbp {
-    --sb-fs-display: 132px;
     --sb-fs-section: 132px;
-    --sb-fs-stat: 112px;
     --sb-fs-row-title: 48px;
     --sb-fs-row-body: 42px;
   }
@@ -978,9 +877,6 @@
     will-change: auto;
   }
 
-  .sbp-hair {
-    transform: none !important;
-  }
 
   .sbp-pubs-nav a,
   .sbp-pill {

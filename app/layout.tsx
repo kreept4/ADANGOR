@@ -3,6 +3,7 @@ import { Roboto_Slab, Roboto_Mono, Inter, Roboto, Merriweather, Nunito, Instrume
 import "./globals.css";
 import GlassNav from "./components/GlassNav";
 import Preloader from "./components/Preloader";
+import SmoothScroll from "./components/SmoothScroll";
 import Footer from "./components/Footer";
 import CookieNotice from "./components/CookieNotice";
 import { siteName, siteUrl } from "./lib/site";
@@ -106,12 +107,12 @@ export default function RootLayout({
             __html: JSON.stringify(buildLawFirmJsonLd()),
           }}
         />
+        {/* Site-wide, not homepage-only: the scroll should feel the same
+            wherever the reader is. It disables itself entirely under
+            prefers-reduced-motion. */}
+        <SmoothScroll />
         <Preloader />
-        <GlassNav
-          logo="/logo-icon.svg"
-          logoAlt="Prof. Z. Adangor (SAN) & Co"
-          firmName="PROF. Z. ADANGOR (SAN) & CO"
-        />
+        <GlassNav firmName="PROF. Z. ADANGOR (SAN) & CO" />
         {children}
         <Footer />
         <CookieNotice />

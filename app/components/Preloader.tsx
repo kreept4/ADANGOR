@@ -59,7 +59,7 @@ export default function Preloader() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#fff8e5",
+        background: "#ffffff",
         opacity: leaving ? 0 : 1,
         visibility: leaving ? "hidden" : "visible",
         pointerEvents: leaving ? "none" : "auto",
@@ -123,7 +123,7 @@ function Mark() {
       viewBox="0 0 54 41"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ width: "clamp(66px, 6.4vw, 96px)", height: "auto", color: "#6b4d04" }}
+      style={{ width: "clamp(66px, 6.4vw, 96px)", height: "auto", color: "#0d0d0d" }}
       aria-hidden="true"
     >
       <path

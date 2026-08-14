@@ -90,6 +90,139 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   The masthead.
+
+   These rules live here rather than beside the homepage's stylesheet because
+   the bar is rendered from the root layout and appears on every route — kept
+   in a page-scoped file it was unstyled everywhere except the homepage.
+
+   `position: absolute` rather than fixed: the bar belongs to the top of the
+   document and leaves with it, instead of following the reader down the page.
+   --------------------------------------------------------------------------- */
+
+.v2h-bar {
+  --v2h-nav-h: 56px;
+  --v2h-pad-x: 32px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  box-sizing: border-box;
+  height: var(--v2h-nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 var(--v2h-pad-x);
+  background: #ffffff;
+  color: #291c14;
+}
+
+/* Only the homepage's hero pads itself clear of the bar. Every other route
+   needs the height back, or the bar sits on its first line. The height ladder
+   below is repeated here because the spacer must always match the bar exactly. */
+.v2h-bar-spacer {
+  height: 56px;
+}
+
+.v2h-wordmark {
+  font-family: var(--font-ui), sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #291c14;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.v2h-wordmark:focus-visible {
+  outline: 2px solid #291c14;
+  outline-offset: 4px;
+}
+
+@media (max-width: 360px) {
+  .v2h-bar {
+    --v2h-nav-h: 48px;
+    --v2h-pad-x: 16px;
+  }
+  .v2h-bar-spacer {
+    height: 48px;
+  }
+  .v2h-wordmark {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+}
+@media (max-width: 300px) {
+  .v2h-bar {
+    --v2h-pad-x: 12px;
+  }
+  .v2h-wordmark {
+    font-size: 10px;
+  }
+}
+@media (min-width: 768px) {
+  .v2h-bar {
+    --v2h-nav-h: 64px;
+    --v2h-pad-x: 40px;
+  }
+  .v2h-bar-spacer {
+    height: 64px;
+  }
+  .v2h-wordmark {
+    font-size: 16px;
+    letter-spacing: 0.12em;
+  }
+}
+@media (min-width: 1024px) {
+  .v2h-bar {
+    --v2h-pad-x: 48px;
+  }
+}
+@media (min-width: 1440px) {
+  .v2h-bar {
+    --v2h-pad-x: 64px;
+  }
+}
+@media (min-width: 2100px) {
+  .v2h-bar {
+    --v2h-nav-h: 80px;
+    --v2h-pad-x: 96px;
+  }
+  .v2h-bar-spacer {
+    height: 80px;
+  }
+  .v2h-wordmark {
+    font-size: 21px;
+  }
+}
+@media (min-width: 2800px) {
+  .v2h-bar {
+    --v2h-nav-h: 104px;
+    --v2h-pad-x: 128px;
+  }
+  .v2h-bar-spacer {
+    height: 104px;
+  }
+  .v2h-wordmark {
+    font-size: 27px;
+  }
+}
+@media (min-width: 3600px) {
+  .v2h-bar {
+    --v2h-nav-h: 132px;
+    --v2h-pad-x: 168px;
+  }
+  .v2h-bar-spacer {
+    height: 132px;
+  }
+  .v2h-wordmark {
+    font-size: 34px;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

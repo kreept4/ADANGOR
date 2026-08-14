@@ -219,7 +219,7 @@
   width: 44px;
   height: 1px;
   margin: 12px 0 14px;
-  background: rgba(201, 169, 106, 0.5);
+  background: rgba(255, 255, 255, 0.75);
 }
 
 .v2h-article-body {
@@ -248,102 +248,6 @@
     transform: none;
   }
 }
-
-/* --- the cream bar ------------------------------------------------------- */
-
-/* GlassNav renders this when it is given `variant="cream"`. The rules live here
-   rather than in the component because the bar is part of the hero's
-   composition, not a floating pane that happens to be over it. */
-/* The bar is a sibling of `.v2h`, not a descendant — it is rendered from the
-   root layout — so it cannot inherit the hero's `--v2-*` tokens. It carries its
-   own copies, kept in step with the hero's at every breakpoint below. If the
-   two ever disagree, the copy in the plate sits under the bar or floats away
-   from it. */
-.v2h-bar {
-  --v2h-nav-h: 56px;
-  --v2h-pad-x: 32px;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  box-sizing: border-box;
-  height: var(--v2h-nav-h);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 0 var(--v2h-pad-x);
-  background: #ffffff;
-  color: #291c14;
-}
-
-@media (max-width: 360px) {
-  .v2h-bar {
-    --v2h-nav-h: 48px;
-    --v2h-pad-x: 16px;
-  }
-}
-@media (max-width: 300px) {
-  .v2h-bar {
-    --v2h-pad-x: 12px;
-  }
-}
-@media (min-width: 768px) {
-  .v2h-bar {
-    --v2h-nav-h: 64px;
-    --v2h-pad-x: 40px;
-  }
-}
-@media (min-width: 1024px) {
-  .v2h-bar {
-    --v2h-pad-x: 48px;
-  }
-}
-@media (min-width: 1440px) {
-  .v2h-bar {
-    --v2h-pad-x: 64px;
-  }
-}
-@media (min-width: 2100px) {
-  .v2h-bar {
-    --v2h-nav-h: 80px;
-    --v2h-pad-x: 96px;
-  }
-}
-@media (min-width: 2800px) {
-  .v2h-bar {
-    --v2h-nav-h: 104px;
-    --v2h-pad-x: 128px;
-  }
-}
-@media (min-width: 3600px) {
-  .v2h-bar {
-    --v2h-nav-h: 132px;
-    --v2h-pad-x: 168px;
-  }
-}
-
-.v2h-wordmark {
-  font-family: var(--font-inria), Georgia, serif;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  color: #291c14;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.v2h-wordmark:focus-visible {
-  outline: 2px solid #291c14;
-  outline-offset: 4px;
-}
-
-/* The closed state is SiteMenu's own: it parks the panel and its prelayers a
-   full viewport to the right, drops the scrim to zero, sets `pointer-events:
-   none` on its root and marks the whole thing `aria-hidden`. Nothing needs to
-   be added here, and adding `visibility: hidden` on top of it would persist
-   into the open tween and hide the panel it is trying to reveal. */
 
 /* --- 768 and up ---------------------------------------------------------- */
 

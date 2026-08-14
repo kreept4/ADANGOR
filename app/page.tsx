@@ -1,5 +1,6 @@
 import SandboxHero from "./components/SandboxHero";
 import SandboxBelow from "./components/SandboxBelow";
+import MapContact from "./components/MapContact";
 
 /**
  * The homepage.
@@ -17,6 +18,10 @@ export default function Home() {
     <main className="sbx-page">
       <SandboxHero />
       <SandboxBelow />
+      {/* The live site's contact section, carried over unchanged apart from its
+          background, which is white here so it reads as the last of the page's
+          white sections rather than as a block bolted onto the end. */}
+      <MapContact />
     </main>
   );
 }

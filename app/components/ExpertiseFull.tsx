@@ -185,7 +185,7 @@ export default function ExpertiseFull() {
           max-width: 92ch;
           margin-top: clamp(4px, 0.6vw, 8px);
           padding-left: clamp(14px, 1.4vw, 20px);
-          border-left: 1px solid #cd9610;
+          border-left: 1px solid #1d1e24;
         }
         .xf-writeup p {
           margin: 0;

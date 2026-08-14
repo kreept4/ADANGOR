@@ -194,7 +194,7 @@ export default function MapContact() {
           /* Fills the viewport the way the other sections do, but still grows
              if the form and the info strip need more room. */
           min-height: 100svh;
-          background: #f1efd9;
+          background: #ffffff;
           font-family: var(--font-instrument-sans), sans-serif;
           box-sizing: border-box;
         }
@@ -216,7 +216,7 @@ export default function MapContact() {
         .mc-rule {
           width: 100%;
           height: 1px;
-          background: #cd9610;
+          background: #1d1e24;
           margin-top: clamp(16px, 2.2vw, 32px);
         }
 
@@ -234,7 +234,7 @@ export default function MapContact() {
         }
         .mc-subheading {
           margin: 0;
-          color: #cd9610;
+          color: #1d1e24;
           font-size: var(--fs-h3);
           font-weight: 500;
           letter-spacing: -0.01em;
@@ -259,7 +259,7 @@ export default function MapContact() {
           overflow: hidden;
           border: 1px solid rgba(205, 150, 16, 0.4);
           border-radius: 4px 32px 4px 32px;
-          background: #faf9ec;
+          background: #ffffff;
         }
         .mc-map-img {
           display: block;
@@ -326,7 +326,10 @@ export default function MapContact() {
           line-height: 1.6;
         }
 
-        /* Same cream label / white arrow split as the hero call to action. */
+        /* The hero's call to action, exactly: a white slab with a gold hairline
+           and a 2px corner, the arrow cell divided off by a rule rather than
+           sitting in a capsule. The two are the only buttons on the page and
+           they now behave identically — see .v2h-abtn in sandbox-hero.css. */
         .mc-send {
           display: inline-flex;
           align-self: flex-start;
@@ -334,13 +337,13 @@ export default function MapContact() {
           height: clamp(52px, 4.6vw, 64px);
           margin-top: 4px;
           padding: 0;
-          background: #fff8e5;
-          border: 1px solid #000;
+          background: #ffffff;
+          border: 1px solid #563c02;
           border-radius: 2px;
-          color: #000;
+          color: #1d1e24;
           cursor: pointer;
           font-family: inherit;
-          transition: box-shadow 0.25s ease, opacity 0.2s ease;
+          transition: opacity 0.2s ease;
         }
         .mc-send-label {
           display: flex;
@@ -357,15 +360,31 @@ export default function MapContact() {
           justify-content: center;
           width: clamp(46px, 4.3vw, 61px);
           background: #fff;
-          border-left: 1px solid #000;
-          transition: background-color 0.25s ease, color 0.25s ease;
+          border-left: 1px solid #563c02;
+          color: #1d1e24;
+          transition: background-color 0.28s ease, color 0.28s ease;
         }
-        .mc-send:hover:not(:disabled) {
-          box-shadow: 0 4px 16px rgba(41, 29, 0, 0.18);
+        .mc-send-arrow svg {
+          transition: transform 0.32s cubic-bezier(0.65, 0, 0.35, 1);
         }
-        .mc-send:hover:not(:disabled) .mc-send-arrow {
-          background: #cd9610;
-          color: #fff8e5;
+        /* Pointer-only, as in the hero. On a touch screen the hover state
+           sticks after a tap and the cell would stay inverted until something
+           else was touched — on a submit button that reads as the form still
+           working. */
+        @media (hover: hover) and (pointer: fine) {
+          .mc-send:hover:not(:disabled) .mc-send-arrow,
+          .mc-send:focus-visible:not(:disabled) .mc-send-arrow {
+            background: #6b6c73;
+            color: #ffffff;
+          }
+          .mc-send:hover:not(:disabled) .mc-send-arrow svg,
+          .mc-send:focus-visible:not(:disabled) .mc-send-arrow svg {
+            transform: translateX(3px);
+          }
+        }
+        .mc-send:focus-visible {
+          outline: 2px solid #563c02;
+          outline-offset: 3px;
         }
         .mc-send:disabled {
           opacity: 0.6;
@@ -402,7 +421,7 @@ export default function MapContact() {
         .mc-info-mark {
           width: 46px;
           height: 1px;
-          background: #cd9610;
+          background: #1d1e24;
           margin-bottom: 6px;
         }
         .mc-info-label {

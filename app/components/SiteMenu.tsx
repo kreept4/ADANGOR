@@ -85,7 +85,10 @@ interface SiteMenuProps {
 export default function SiteMenu({
   open,
   onClose,
-  tone = "espresso",
+  // White everywhere. The espresso panel is kept because it is a coherent
+  // palette and one prop away, but nothing asks for it now — the menu is the
+  // same white panel on every route.
+  tone = "light",
 }: SiteMenuProps) {
   const palette = TONES[tone];
   const prelayers = PRELAYERS[tone];

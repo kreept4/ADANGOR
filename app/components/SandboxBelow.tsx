@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
@@ -12,18 +12,18 @@ import { heroCitations, featured } from "../data/publications";
 import "./sandbox-page.css";
 
 /**
- * Everything below the hero: Watchword, Practice areas, Journey, Publications.
+ * Everything below the hero: Practice areas, Journey, Publications.
  *
- * The four are kept in one module because they share one motion system — the
+ * The three are kept in one module because they share one motion system — the
  * `[data-h]` ranking read by `useSectionIntros` below — and splitting them into
  * separate files would mean either duplicating that hook or exporting it to be
  * imported three times. Split them when a section grows its own behaviour, not
  * before.
  *
- * The rule the whole file follows: one focal motion per surface. Watchword's is
- * the hairline draw. Practice's is the hover marquee. Publications' is its own
- * entrance — which is why the featured card swaps its title instantly on click
- * rather than crossfading.
+ * The rule the whole file follows: one focal motion per surface. Practice's is
+ * the hover wipe. Journey's is the wheel. Publications' is its own entrance —
+ * which is why the featured card swaps its title instantly on click rather
+ * than crossfading.
  */
 
 gsap.registerPlugin(ScrollTrigger);
@@ -137,91 +137,6 @@ function useSectionIntros(rootRef: React.RefObject<HTMLElement | null>) {
       window.clearTimeout(backstop);
       ctx.revert();
     };
-  }, [rootRef]);
-}
-
-/* --------------------------------------------------------------------------
-   Watchword
-   -------------------------------------------------------------------------- */
-
-/**
- * Counted rather than typed.
- *
- * The design asked for "15+" against both of these. The bibliography and the
- * practice list are both longer than fifteen and both grow, so a hardcoded
- * round number would be wrong in one direction today and further wrong every
- * time a record is added. Counting the source arrays means the figure on the
- * page is the figure in the data, permanently.
- */
-const PRACTICE_COUNT = practiceAreas.length;
-const PUBLICATION_COUNT = heroCitations.length;
-
-function Watchword() {
-  return (
-    <section className="sbp-watch" data-sb-section>
-      <div className="sbp-watch-inner">
-        <p className="sbp-eyebrow" data-h="3">
-          Our Watchword
-        </p>
-        <div className="sbp-rule" aria-hidden="true" />
-
-        {/* `firm.motto` is sentence case, which is right for a data file and
-            wrong for a display line. The <em> both title-cases the word and
-            carries the gold, so the emphasis is one decision rather than two. */}
-        <h2 className="sbp-watch-title" data-h="1">
-          Upholding <em>Justice</em> and the highest ethical standards.
-        </h2>
-
-        <div className="sbp-hair" aria-hidden="true" />
-
-        <dl className="sbp-stats">
-          <div className="sbp-stat" data-h="2">
-            <dt className="sbp-stat-num">Since {firm.established}</dt>
-            <dd className="sbp-stat-label">Year established</dd>
-          </div>
-          <div className="sbp-stat" data-h="2">
-            <dt className="sbp-stat-num">{PRACTICE_COUNT}</dt>
-            <dd className="sbp-stat-label">Practice areas</dd>
-          </div>
-          <div className="sbp-stat" data-h="2">
-            <dt className="sbp-stat-num">{PUBLICATION_COUNT}</dt>
-            <dd className="sbp-stat-label">Publications</dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-  );
-}
-
-/** The hairline draw — the one focal motion on this surface. */
-function useHairline(rootRef: React.RefObject<HTMLElement | null>) {
-  useLayoutEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const hair = root.querySelector<HTMLElement>(".sbp-hair");
-    const section = root.querySelector<HTMLElement>(".sbp-watch");
-    if (!hair || !section) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        hair,
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          duration: 0.75,
-          delay: 0.28,
-          ease: "power2.out",
-          // Centre origin, so it opens outward from the middle of the column
-          // rather than wiping in from one side.
-          transformOrigin: "center center",
-          scrollTrigger: { trigger: section, start: "top 70%", once: true },
-        }
-      );
-    }, root);
-
-    return () => ctx.revert();
   }, [rootRef]);
 }
 
@@ -472,6 +387,51 @@ function Journey() {
    Publications
    -------------------------------------------------------------------------- */
 
+/* Fifteen of the records carry the address they are available at in the
+   citation tail, as plain text. Those become anchors so a reader can go
+   straight to the paper from here rather than copying an address out of a
+   line of grey type.
+
+   Punctuation that happens to sit against the end of an address is handed back
+   to the surrounding text rather than swallowed into the href, and bare `www.`
+   addresses are given a scheme so they resolve.
+
+   This is the same treatment the publications page gives them, minus that
+   page's leaving-the-site dialog: this is a teaser list of three, and a modal
+   raised from the homepage for an outbound link is heavier than the link. */
+const URL_PATTERN = /(https?:\/\/\S+|www\.\S+)/g;
+
+function linkifyCitation(text: string): ReactNode[] {
+  const parts: ReactNode[] = [];
+  let cursor = 0;
+
+  for (const match of text.matchAll(URL_PATTERN)) {
+    const raw = match[0];
+    const start = match.index ?? 0;
+    const address = raw.replace(/[.,;:)]+$/, "");
+    const href = address.startsWith("http") ? address : `https://${address}`;
+
+    if (start > cursor) parts.push(text.slice(cursor, start));
+    parts.push(
+      <a
+        key={start}
+        className="sbp-pub-link"
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {address}
+      </a>
+    );
+    // Whatever punctuation was trimmed off the address belongs to the sentence.
+    parts.push(raw.slice(address.length));
+    cursor = start + raw.length;
+  }
+
+  if (cursor < text.length) parts.push(text.slice(cursor));
+  return parts;
+}
+
 /**
  * Strip the quotation marks around a citation's title.
  *
@@ -558,10 +518,17 @@ function Publications() {
             <h3 className="sbp-feature-title">{title}</h3>
 
             <div className="sbp-feature-author">
-              {/* Deliberately empty. There is no photograph of the author on
-                  record for this surface, and a stock portrait or a generated
-                  one would be a picture of someone who is not him. */}
-              <span className="sbp-avatar" aria-hidden="true" />
+              {/* The firm's own portrait, the same file the Journey uses. It is
+                  decorative here — his name is set beside it in text — so the
+                  alt is empty rather than repeating what the byline says. */}
+              <Image
+                src="/images/prof-zach.jpg"
+                alt=""
+                width={80}
+                height={80}
+                sizes="40px"
+                className="sbp-avatar"
+              />
               <span className="sbp-feature-byline">
                 <span className="sbp-feature-name">{firm.principal.name}</span>
                 <span className="sbp-feature-rank">{firm.principal.role}</span>
@@ -574,7 +541,7 @@ function Publications() {
               <li key={item.label} className="sbp-pub-item" data-h="3">
                 <p className="sbp-pub-label">{item.label}</p>
                 <p className="sbp-pub-cite">
-                  {item.text}
+                  {linkifyCitation(item.text)}
                   <span className="sbp-pub-pages">{item.pages}</span>
                 </p>
               </li>
@@ -594,11 +561,9 @@ export default function SandboxBelow() {
   const rootRef = useRef<HTMLDivElement>(null);
 
   useSectionIntros(rootRef);
-  useHairline(rootRef);
 
   return (
     <div className="sbp" ref={rootRef}>
-      <Watchword />
       <PracticeAreas />
       <Journey />
       <Publications />
