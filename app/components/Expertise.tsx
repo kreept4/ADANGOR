@@ -204,7 +204,7 @@ export default function Expertise() {
           font-weight: 400;
           line-height: 1.75;
           letter-spacing: -0.01em;
-          border-left: 1px solid #cd9610;
+          border-left: 1px solid #1d1e24;
           padding-left: clamp(14px, 1.4vw, 20px);
         }
 

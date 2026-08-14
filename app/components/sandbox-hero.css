@@ -1,0 +1,626 @@
+/* ---------------------------------------------------------------------------
+   The hero plate.
+
+   Tokens first, then layout, then type, then the CTA override, then the
+   breakpoints. Every colour on this surface is named here rather than written
+   inline, so the plate can be retoned from one block.
+   --------------------------------------------------------------------------- */
+
+.v2h {
+  --v2-gold: #c9a96a;
+  --v2-gold-ink: #563c02;
+  --v2-grey: #c8c8c8;
+  /* White, not cream. The cream read as an off-white that had faded rather
+     than as a colour, so every light surface on the page is now plain white
+     and the warmth is carried by the gold alone. */
+  --v2-ash: #ffffff;
+  --v2-navy: #1d1e24;
+  --v2-black: #120f17;
+
+  --v2-nav-h: 56px;
+  --v2-pad-x: 32px;
+  /* The Legal Insight card's composed width. A token rather than a literal
+     because the grid track and the card itself must never disagree — if one is
+     556 and the other is not, the card either overflows its column or floats
+     inside it. Both read from here. */
+  --v2-card-w: 556px;
+
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--v2-black);
+  font-family: var(--font-ui), sans-serif;
+}
+
+/* --- the canvas plate ---------------------------------------------------- */
+
+/* Both of these are static by contract. No transform, no scale, no opacity, no
+   filter, and nothing that creates a compositor layer — each one blanks the
+   WebGL surface underneath. */
+.v2h-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.v2h-beams {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Two gradients: one darkening the foot of the plate so the card and the CTA
+   sit on ink rather than on light, one pulling the top down behind the cream
+   bar. Above the canvas, and never in the way of a pointer. */
+.v2h-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* The second gradient is the one that matters: it holds the left of the
+     plate — the whole copy column — dark enough that a beam passing behind the
+     headline never competes with it. Without it the field cuts white streaks
+     through the type at exactly the width the letters are. */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 15, 23, 0.72) 0%,
+      rgba(18, 15, 23, 0) 26%,
+      rgba(18, 15, 23, 0) 52%,
+      rgba(18, 15, 23, 0.86) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(18, 15, 23, 0.92) 0%,
+      rgba(18, 15, 23, 0.82) 34%,
+      rgba(18, 15, 23, 0.34) 62%,
+      rgba(18, 15, 23, 0) 100%
+    );
+}
+
+/* --- the content dock ---------------------------------------------------- */
+
+.v2h-dock {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* The cream bar is absolute over the plate, so the dock reserves its height
+     itself rather than being pushed by it. */
+  padding: calc(var(--v2-nav-h) + 36px) var(--v2-pad-x) 40px;
+}
+
+/* The copy column. Below 1024 this is simply the natural flow; from 1024 it
+   becomes the dock's first grid item. */
+.v2h-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+}
+
+/* --- type ---------------------------------------------------------------- */
+
+.v2h-kicker {
+  margin: 0 0 18px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--v2-gold);
+}
+
+.v2h-title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 32px;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+/* The clip is what the wipe runs against. Without `overflow: hidden` the line
+   simply slides up from below and is visible the whole way. */
+.v2h-clip {
+  display: block;
+  overflow: hidden;
+}
+.v2h-clip > span {
+  display: block;
+}
+
+/* The two lines are deliberately not the same weight. The first is the setup
+   and sits back; the second is the claim and comes forward. */
+.v2h-line-1 > span {
+  font-weight: 300;
+  color: var(--v2-grey);
+}
+.v2h-line-2 > span {
+  font-weight: 500;
+  color: #fff;
+}
+
+.v2h-lede {
+  margin: 22px 0 0;
+  max-width: 34ch;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.62;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.v2h-cta {
+  margin-top: 28px;
+  width: 100%;
+}
+
+/* --- the CTA override ---------------------------------------------------- */
+
+/* ArrowButton's shared defaults are the page size — a soft 4px radius on a
+   large gold control. The hero wants a cream slab with a 2px corner and a gold
+   hairline, so it redeclares the variables rather than out-specifying the
+   component's own rules. */
+.v2h-abtn {
+  --abtn-fill: var(--v2-ash);
+  --abtn-ink: var(--v2-navy);
+  --abtn-border: var(--v2-gold-ink);
+  --abtn-cell-ink: var(--v2-navy);
+  /* Grey rather than the near-black navy. Against a white button the navy read
+     as a hole punched in the control; a mid grey marks the arrow cell without
+     the hover becoming the heaviest thing on the plate. */
+  --abtn-cell-hover-fill: #6b6c73;
+  --abtn-cell-hover-ink: #ffffff;
+  --abtn-radius: 2px;
+  --abtn-height: 52px;
+  --abtn-pad-x: 20px;
+  --abtn-cell-w: 56px;
+  --abtn-font: 14px;
+  width: 100%;
+}
+.v2h-abtn .abtn-label {
+  flex: 1;
+}
+
+/* --- the Legal Insight card ---------------------------------------------- */
+
+.v2h-article {
+  box-sizing: border-box;
+  margin-top: 32px;
+  width: 100%;
+  padding: 18px 20px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  /* One large corner, three small. The large one is on the outside edge of the
+     composition, which is what keeps the card from reading as a plain box. */
+  border-radius: 4px 28px 4px 4px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.v2h-article-label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--v2-gold);
+}
+
+.v2h-article-rule {
+  width: 44px;
+  height: 1px;
+  margin: 12px 0 14px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.v2h-article-body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  /* Citations run to wildly different lengths. Reserving the height of the
+     longer ones stops the card resizing under the reader on every tick, which
+     on desktop would shift the whole bottom-right of the plate. */
+  min-height: calc(4 * 1.6em);
+  animation: v2h-cite-in 0.5s ease both;
+}
+
+.v2h-article-pages {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@keyframes v2h-cite-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- 768 and up ---------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .v2h {
+    --v2-nav-h: 64px;
+    --v2-pad-x: 40px;
+  }
+  .v2h-dock {
+    padding-top: calc(var(--v2-nav-h) + 64px);
+  }
+  .v2h-kicker {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+  }
+  .v2h-title {
+    font-size: clamp(40px, 5.5vw, 52px);
+    line-height: 1.1;
+  }
+  .v2h-lede {
+    max-width: 42ch;
+    font-size: 16px;
+  }
+  .v2h-cta {
+    width: auto;
+  }
+  .v2h-abtn {
+    --abtn-height: 58px;
+    --abtn-pad-x: 26px;
+    --abtn-cell-w: 62px;
+    --abtn-font: 15px;
+    width: auto;
+  }
+  .v2h-abtn .abtn-label {
+    flex: initial;
+  }
+
+  /* Still stacked here, but the card stops being full-bleed and is held to its
+     composed width against the right edge. */
+  .v2h-article {
+    width: var(--v2-card-w);
+    max-width: 100%;
+    margin-left: auto;
+    margin-top: auto;
+    padding: 22px 26px 24px;
+  }
+  .v2h-article-body {
+    font-size: 14px;
+  }
+  .v2h-wordmark {
+    font-size: 16px;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* --- 1024 and up: the two-track grid ------------------------------------- */
+
+@media (min-width: 1024px) {
+  .v2h {
+    --v2-nav-h: 64px;
+    --v2-pad-x: 48px;
+  }
+
+  /* 1fr for the copy, a *fixed* 556px for the card.
+
+     The second track must not be `1fr`. A pair of equal fractions splits the
+     dock down the middle and the card is clamped well under 556 on anything
+     narrower than about 1200, which is the failure this grid exists to avoid. */
+  /* One row, two tracks. Both children are placed explicitly, so nothing can
+     drift into an implicit row. */
+  .v2h-dock {
+    display: grid;
+    grid-template-columns: 1fr var(--v2-card-w);
+    grid-template-rows: 1fr;
+    column-gap: 48px;
+    padding-top: calc(var(--v2-nav-h) + 100px);
+    padding-bottom: 56px;
+  }
+
+  /* Held off the foot of the plate rather than sitting on it, so the headline
+     reads as the centre of the composition. */
+  .v2h-copy {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  /* Column two, dropped to the foot of the plate. `align-self: end` is what
+     snaps it to the bottom-right rather than letting it ride up beside the
+     headline and compete with it. */
+  .v2h-article {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+    width: var(--v2-card-w);
+    margin: 0;
+    padding: 26px 30px 28px;
+    border-radius: 4px 40px 4px 4px;
+  }
+
+  .v2h-title {
+    font-size: clamp(48px, 4.4vw, 64px);
+    line-height: 1.08;
+  }
+  .v2h-kicker {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+  }
+  .v2h-lede {
+    max-width: 46ch;
+    font-size: 17px;
+  }
+  .v2h-abtn {
+    --abtn-height: 64px;
+    --abtn-pad-x: 30px;
+    --abtn-cell-w: 68px;
+    --abtn-font: 16px;
+  }
+  .v2h-article-body {
+    font-size: 15px;
+  }
+}
+
+/* --- 1440: the composed size --------------------------------------------- */
+
+@media (min-width: 1440px) {
+  .v2h {
+    --v2-pad-x: 64px;
+  }
+  /* Both, not either. `100dvh` alone lets a short laptop window crush the
+     composition; `1024px` alone leaves a tall display short of the fold. */
+  .v2h,
+  .v2h-dock {
+    min-height: max(100dvh, 1024px);
+  }
+  .v2h-title {
+    font-size: 64px;
+  }
+}
+
+/* --- the bottom of the ladder: smartwatches and ultra-narrow browsers ----- */
+
+/* At 360 and below the 32px headline is running to four and five lines and the
+   32px gutters are taking a fifth of the screen. Both come in. The composition
+   is unchanged — it is the same hero, smaller. */
+@media (max-width: 360px) {
+  .v2h {
+    --v2-nav-h: 48px;
+    --v2-pad-x: 16px;
+  }
+  .v2h-dock {
+    padding-top: calc(var(--v2-nav-h) + 24px);
+    padding-bottom: 28px;
+  }
+  .v2h-kicker {
+    margin-bottom: 12px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+  }
+  .v2h-title {
+    font-size: 26px;
+  }
+  .v2h-lede {
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .v2h-cta {
+    margin-top: 20px;
+  }
+  .v2h-abtn {
+    --abtn-height: 46px;
+    --abtn-pad-x: 14px;
+    --abtn-cell-w: 46px;
+    --abtn-font: 13px;
+  }
+  .v2h-article {
+    margin-top: 22px;
+    padding: 14px 16px 16px;
+    border-radius: 4px 20px 4px 4px;
+  }
+  .v2h-article-body {
+    font-size: 12px;
+  }
+  .v2h-wordmark {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+}
+
+/* Watch browsers and the narrowest phones still in use. The plate stops trying
+   to be a viewport-height composition here: at this size `100dvh` with a
+   headline, a lede, a button and a card in it means everything is 9px. The
+   plate grows to fit its contents instead and the reader scrolls. */
+@media (max-width: 300px) {
+  .v2h {
+    --v2-pad-x: 12px;
+    min-height: 0;
+  }
+  .v2h-dock {
+    min-height: 0;
+    padding-top: calc(var(--v2-nav-h) + 18px);
+  }
+  .v2h-title {
+    font-size: 21px;
+    letter-spacing: -0.02em;
+  }
+  .v2h-lede {
+    font-size: 12px;
+  }
+  .v2h-article-label,
+  .v2h-wordmark {
+    font-size: 10px;
+  }
+}
+
+/* --- the top of the ladder: large monitors, then TVs ---------------------- */
+
+/* Past about 2100 every measure in the composition has capped out and the plate
+   is a 64px headline stranded in the middle of a very large sheet. The type
+   steps up at fixed breakpoints from here rather than tracking the viewport,
+   because at these sizes the screen is being read from across a room rather
+   than from a desk — the same reasoning as the ladder in globals.css. */
+@media (min-width: 2100px) {
+  .v2h {
+    --v2-nav-h: 80px;
+    --v2-pad-x: 96px;
+    --v2-card-w: 720px;
+  }
+  .v2h-dock {
+    padding-top: calc(var(--v2-nav-h) + 140px);
+    padding-bottom: 80px;
+    column-gap: 72px;
+  }
+  .v2h-title {
+    font-size: 88px;
+  }
+  .v2h-kicker {
+    font-size: 16px;
+    letter-spacing: 0.22em;
+  }
+  .v2h-lede {
+    font-size: 23px;
+    max-width: 44ch;
+  }
+  .v2h-abtn {
+    --abtn-height: 78px;
+    --abtn-pad-x: 40px;
+    --abtn-cell-w: 84px;
+    --abtn-font: 21px;
+  }
+  .v2h-article {
+    padding: 34px 40px 36px;
+    border-radius: 6px 56px 6px 6px;
+  }
+  .v2h-article-label {
+    font-size: 14px;
+  }
+  .v2h-article-body {
+    font-size: 20px;
+  }
+  .v2h-wordmark {
+    font-size: 21px;
+  }
+}
+
+/* 4K panels and large-format displays. */
+@media (min-width: 2800px) {
+  .v2h {
+    --v2-nav-h: 104px;
+    --v2-pad-x: 128px;
+    --v2-card-w: 940px;
+  }
+  .v2h-dock {
+    padding-top: calc(var(--v2-nav-h) + 180px);
+    padding-bottom: 104px;
+  }
+  .v2h-title {
+    font-size: 120px;
+  }
+  .v2h-kicker {
+    font-size: 21px;
+  }
+  .v2h-lede {
+    font-size: 31px;
+  }
+  .v2h-abtn {
+    --abtn-height: 100px;
+    --abtn-pad-x: 52px;
+    --abtn-cell-w: 108px;
+    --abtn-font: 27px;
+  }
+  .v2h-article-body {
+    font-size: 26px;
+  }
+  .v2h-article-label {
+    font-size: 18px;
+  }
+  .v2h-wordmark {
+    font-size: 27px;
+  }
+}
+
+/* Wall-mounted 85" to 100" panels. */
+@media (min-width: 3600px) {
+  .v2h {
+    --v2-nav-h: 132px;
+    --v2-pad-x: 168px;
+    --v2-card-w: 1180px;
+  }
+  .v2h-title {
+    font-size: 156px;
+  }
+  .v2h-kicker {
+    font-size: 27px;
+  }
+  .v2h-lede {
+    font-size: 40px;
+  }
+  .v2h-abtn {
+    --abtn-height: 128px;
+    --abtn-pad-x: 66px;
+    --abtn-cell-w: 138px;
+    --abtn-font: 34px;
+  }
+  .v2h-article-body {
+    font-size: 33px;
+  }
+  .v2h-wordmark {
+    font-size: 34px;
+  }
+}
+
+/* --- landscape phones ---------------------------------------------------- */
+
+/* A phone on its side has enough width for the 1024 grid but nowhere near the
+   height, so a `100dvh` plate leaves the headline and the card fighting over
+   about 320px. The plate is allowed to exceed the fold here and the vertical
+   padding comes right in. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .v2h,
+  .v2h-dock {
+    min-height: 0;
+  }
+  .v2h-dock {
+    padding-top: calc(var(--v2-nav-h) + 20px);
+    padding-bottom: 28px;
+  }
+  .v2h-title {
+    font-size: clamp(26px, 3.4vw, 40px);
+  }
+  .v2h-lede {
+    margin-top: 14px;
+  }
+  .v2h-cta {
+    margin-top: 18px;
+  }
+}
+
+/* --- reduced motion ------------------------------------------------------ */
+
+/* The entrance is a lift from a resting state that already reads, so there is
+   nothing to undo here — the timeline simply never runs. These rules exist to
+   guarantee the resting state is the finished one even if a future edit adds an
+   initial `opacity: 0` in CSS. */
+@media (prefers-reduced-motion: reduce) {
+  .v2h-kicker,
+  .v2h-title,
+  .v2h-lede,
+  .v2h-cta,
+  .v2h-article,
+  .v2h-clip > span {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

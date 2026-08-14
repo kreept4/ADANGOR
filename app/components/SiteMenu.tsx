@@ -31,9 +31,37 @@ const MENU_ITEMS: MenuItem[] = [
   { label: "Contact", href: "/contact", ariaLabel: "Contact the firm" },
 ];
 
-/* The layers that sweep in ahead of the panel. Each is a step lighter than the
-   one behind it, so the open reads as depth rather than as a colour flash. */
-const PRELAYER_COLORS = ["#5A4103", "#3E2C01"];
+/* The layers that sweep in ahead of the panel. Each is a step nearer the
+   panel's own fill than the one behind it, so the open reads as depth rather
+   than as a colour flash.
+
+   Both tones step *toward* the panel colour rather than away from it, which is
+   why the light set runs dark-to-light and the espresso set light-to-dark. */
+const PRELAYERS = {
+  espresso: ["#5A4103", "#3E2C01"],
+  light: ["#cd9610", "#f0e3c8"],
+} as const;
+
+/* The two palettes. Everything the panel colours is named here so a tone is one
+   object rather than a scatter of conditionals through the stylesheet. */
+const TONES = {
+  espresso: {
+    panel: "#261900",
+    scrim: "rgba(38, 25, 0, 0.45)",
+    ink: "#fff8e5",
+    inkDim: "rgba(255, 248, 229, 0.72)",
+    eyebrow: "rgba(255, 248, 229, 0.45)",
+    accent: "#cd9610",
+  },
+  light: {
+    panel: "#ffffff",
+    scrim: "rgba(29, 30, 36, 0.4)",
+    ink: "#1d1e24",
+    inkDim: "rgba(29, 30, 36, 0.78)",
+    eyebrow: "rgba(29, 30, 36, 0.45)",
+    accent: "#cd9610",
+  },
+} as const;
 
 /**
  * The closed position is expressed in CSS, not set by GSAP on mount, so the
@@ -50,10 +78,20 @@ const CLOSED_TRANSFORM = { transform: "translateX(100%)" } as const;
 interface SiteMenuProps {
   open: boolean;
   onClose: () => void;
-  contactEmail?: string;
+  /** `light` is the white panel the homepage's cream bar opens. */
+  tone?: "espresso" | "light";
 }
 
-export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps) {
+export default function SiteMenu({
+  open,
+  onClose,
+  // White everywhere. The espresso panel is kept because it is a coherent
+  // palette and one prop away, but nothing asks for it now — the menu is the
+  // same white panel on every route.
+  tone = "light",
+}: SiteMenuProps) {
+  const palette = TONES[tone];
+  const prelayers = PRELAYERS[tone];
   const panelRef = useRef<HTMLElement>(null);
   const preLayersRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
@@ -69,12 +107,8 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
     timelineRef.current?.kill();
 
     const labels = Array.from(panel.querySelectorAll(".sm-item-label"));
-    const numbers = Array.from(panel.querySelectorAll(".sm-item-number"));
-    const meta = Array.from(panel.querySelectorAll(".sm-meta"));
 
     gsap.set(labels, { yPercent: 140, rotate: 8 });
-    gsap.set(numbers, { opacity: 0 });
-    gsap.set(meta, { y: 24, opacity: 0 });
 
     const tl = gsap.timeline();
     layers.forEach((layer, i) => {
@@ -98,16 +132,11 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
         { yPercent: 0, rotate: 0, duration: 1, ease: "power4.out", stagger: 0.07 },
         panelStart + 0.1
       )
-      .to(
-        numbers,
-        { opacity: 1, duration: 0.6, ease: "power2.out", stagger: 0.06 },
-        panelStart + 0.2
-      )
-      .to(
-        meta,
-        { y: 0, opacity: 1, duration: 0.55, ease: "power3.out", stagger: 0.08 },
-        panelStart + 0.3
-      );
+      // The entrance leaves an inline `transform` on every label, and an inline
+      // transform beats the `:hover` rule in the stylesheet — so without this
+      // the hover nudge silently stops working the first time the menu is
+      // opened. Clearing the property hands the labels back to CSS.
+      .set(labels, { clearProps: "transform" });
 
     timelineRef.current = tl;
   }, []);
@@ -157,6 +186,10 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
   return (
     <div
       className="sm-root"
+      // The palette is published as custom properties rather than branched
+      // through the stylesheet, so a tone is one object at the top of this file
+      // instead of a conditional at every colour.
+      data-tone={tone}
       // Position and clipping are inline, not in the stylesheet. The panel is
       // parked a full viewport to the right; until a stylesheet lands to clip
       // it, it widens the document and the page gains a horizontal scrollbar.
@@ -166,6 +199,12 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
         zIndex: 120,
         overflow: "hidden",
         pointerEvents: open ? "auto" : "none",
+        ["--sm-panel" as string]: palette.panel,
+        ["--sm-scrim" as string]: palette.scrim,
+        ["--sm-ink" as string]: palette.ink,
+        ["--sm-ink-dim" as string]: palette.inkDim,
+        ["--sm-eyebrow" as string]: palette.eyebrow,
+        ["--sm-accent" as string]: palette.accent,
       }}
       aria-hidden={!open}
     >
@@ -173,7 +212,7 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
       <div className="sm-scrim" style={{ opacity: open ? 1 : 0 }} onClick={onClose} />
 
       <div ref={preLayersRef} className="sm-prelayers" aria-hidden="true">
-        {PRELAYER_COLORS.map((color) => (
+        {prelayers.map((color) => (
           <div
             key={color}
             className="sm-prelayer"
@@ -183,8 +222,11 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
       </div>
 
       <aside id="site-menu-panel" ref={panelRef} style={CLOSED_TRANSFORM} className="sm-panel">
+        {/* No eyebrow. A panel that fills the screen the instant the menu
+            trigger is pressed does not also need the word "Menu" written at the
+            top of it — the five destinations below say what this is. The close
+            control keeps the row to itself and sits where the trigger was. */}
         <div className="sm-panel-head">
-          <span className="sm-panel-eyebrow">Menu</span>
           {/* The same control that opened the panel, already turned into its
               cross, so shutting the menu is the gesture that opened it rather
               than a bordered pill that shared nothing with the bar. */}
@@ -192,24 +234,24 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
         </div>
 
         <ul className="sm-list" role="list">
-          {MENU_ITEMS.map((item, index) => (
+          {MENU_ITEMS.map((item) => (
             <li key={item.href} className="sm-item">
+              {/* No index. Five destinations do not need numbering, and the
+                  numerals were the only thing on the panel competing with the
+                  labels for the reader's first look. */}
               <Link href={item.href} aria-label={item.ariaLabel} onClick={onClose} className="sm-link">
-                <span className="sm-item-number">{String(index + 1).padStart(2, "0")}</span>
                 <span className="sm-item-label">{item.label}</span>
               </Link>
             </li>
           ))}
         </ul>
 
-        <div className="sm-meta">
-          <p className="sm-meta-line">Built on Justice, Guided by Ethics.</p>
-          {contactEmail && (
-            <a href={`mailto:${contactEmail}`} className="sm-meta-cta">
-              Speak to a Lawyer
-            </a>
-          )}
-        </div>
+        {/* Nothing below the list.
+
+            The mailto button went first — "Contact" is already the fifth item
+            above it, so the panel offered the same destination twice. The strap
+            line went with it: it is the hero's headline, and repeating it in
+            small grey type at the foot of the menu made it furniture. */}
       </aside>
 
       <style jsx>{`
@@ -220,7 +262,7 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
         .sm-scrim {
           position: absolute;
           inset: 0;
-          background: rgba(38, 25, 0, 0.45);
+          background: var(--sm-scrim);
           backdrop-filter: blur(2px);
           -webkit-backdrop-filter: blur(2px);
           transition: opacity 0.3s ease;
@@ -253,7 +295,7 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
           display: flex;
           flex-direction: column;
           overflow-y: auto;
-          background: #261900;
+          background: var(--sm-panel);
           padding: 24px 24px 32px;
           box-sizing: border-box;
         }
@@ -263,20 +305,22 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
           }
         }
 
+        /* One child now the eyebrow is gone, held to the right so the close
+           control stays where the trigger that opened the panel was. */
         .sm-panel-head {
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: flex-end;
           margin-bottom: 32px;
           /* MenuTrigger's mark and label are currentColor, so the panel names
              the value here exactly as the bar does on its own cream. */
-          color: #fff8e5;
+          color: var(--sm-ink);
         }
         .sm-panel-eyebrow {
           font-size: var(--fs-small);
           text-transform: uppercase;
           letter-spacing: 0.2em;
-          color: rgba(255, 248, 229, 0.45);
+          color: var(--sm-eyebrow);
         }
         .sm-list {
           list-style: none;
@@ -305,53 +349,45 @@ export default function SiteMenu({ open, onClose, contactEmail }: SiteMenuProps)
             padding: 12px 0;
           }
         }
-        .sm-item-number {
-          font-size: var(--fs-small);
-          font-variant-numeric: tabular-nums;
-          color: #cd9610;
-          transition: color 0.2s ease;
-        }
+        /* Emphasis, not an event. The item under the pointer comes up to full
+           strength and steps a few pixels into the panel; everything else stays
+           exactly where it was. No roll, no wipe, no second copy of the word —
+           at this type size any of those is the loudest thing on the screen,
+           and this is a menu, not a feature. */
         .sm-item-label {
           display: inline-block;
-          transform-origin: bottom;
           font-size: clamp(1.75rem, 4.4vw, 2.5rem);
           font-weight: 600;
           text-transform: uppercase;
           line-height: 1.05;
           letter-spacing: -0.02em;
-          color: rgba(255, 248, 229, 0.72);
-          transition: color 0.2s ease;
+          color: var(--sm-ink-dim);
+          transition: color 0.25s ease, transform 0.25s ease;
         }
         :global(.sm-link):hover .sm-item-label,
-        :global(.sm-link):hover .sm-item-number,
         :global(.sm-link):focus-visible .sm-item-label {
-          color: #fff8e5;
+          color: var(--sm-ink);
+          transform: translateX(8px);
         }
 
-        .sm-meta {
-          margin-top: auto;
-          padding-top: 40px;
+        /* Touch screens hold :hover after a tap, which would leave the last
+           item tapped nudged across until something else was touched. */
+        @media (hover: none) {
+          :global(.sm-link):hover .sm-item-label {
+            transform: none;
+          }
         }
-        .sm-meta-line {
-          margin: 0;
-          font-size: var(--fs-small);
-          color: rgba(255, 248, 229, 0.5);
+
+        @media (prefers-reduced-motion: reduce) {
+          .sm-item-label {
+            transition: color 0.25s ease;
+          }
+          :global(.sm-link):hover .sm-item-label,
+          :global(.sm-link):focus-visible .sm-item-label {
+            transform: none;
+          }
         }
-        .sm-meta-cta {
-          display: inline-block;
-          margin-top: 16px;
-          padding: 12px 24px;
-          border-radius: 4px;
-          background: #cd9610;
-          color: #261900;
-          font-size: var(--fs-small);
-          font-weight: 500;
-          text-decoration: none;
-          transition: background-color 0.2s ease;
-        }
-        .sm-meta-cta:hover {
-          background: #ffde85;
-        }
+
       `}</style>
     </div>
   );

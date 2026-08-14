@@ -140,7 +140,16 @@ export default function ProfessionalJourney() {
       </div>
 
       <style jsx>{`
+        /* A full viewport, like the homepage's sections.
+
+           min-height rather than height: the timeline and its portrait are
+           taller than the fold on a short laptop window and on a phone, and a
+           fixed height would crop them. This sets the floor and lets the
+           section grow past it when the content needs the room. */
         .pj {
+          display: flex;
+          align-items: center;
+          min-height: 100dvh;
           width: 100%;
           background: #b48602;
           box-sizing: border-box;
@@ -149,6 +158,7 @@ export default function ProfessionalJourney() {
         .pj-inner {
           display: flex;
           flex-direction: column;
+          width: 100%;
           gap: clamp(28px, 4vw, 64px);
           padding: clamp(36px, 5vw, 80px) var(--page-gutter)
             clamp(44px, 6vw, 96px);
