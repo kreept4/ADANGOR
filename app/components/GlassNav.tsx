@@ -41,20 +41,36 @@ interface GlassNavProps {
   logo?: string;
   logoAlt?: string;
   firmName?: string;
-  contactEmail?: string;
+  /**
+   * `glass` is the floating cream pane described above.
+   *
+   * `cream` is the homepage's own header: a flush, opaque bar across the top of
+   * the hero plate carrying the Inria wordmark instead of the logo mark. It is
+   * absolute rather than fixed, because it is part of the hero's composition
+   * and should leave with the plate rather than follow the reader down a black
+   * practice list and a white archive.
+   */
+  variant?: "glass" | "cream";
+  /** The wordmark set in the cream bar. */
+  wordmark?: string;
 }
 
 export default function GlassNav({
   logo = "/logo-icon.svg",
   logoAlt = "Firm logo",
   firmName = "Prof. Z. Adangor (SAN) & Co",
-  contactEmail,
+  variant = "glass",
+  wordmark = "ADANGOR SAN, & CO.",
 }: GlassNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastYRef = useRef(0);
   const pathname = usePathname();
   const overlaysHero = pathname === "/";
+  // The homepage opens on the hero plate, whose composition includes its own
+  // cream header. Every other route keeps the floating glass pane. The prop is
+  // an override for a future page that wants the flush bar without being `/`.
+  const cream = variant === "cream" || overlaysHero;
 
   useEffect(() => {
     lastYRef.current = window.scrollY;
@@ -80,6 +96,38 @@ export default function GlassNav({
 
   // The bar must not slide away underneath an open panel — the trigger is in it.
   const isHidden = hidden && !menuOpen;
+
+  // The cream bar is a different object, not a restyled one: it is absolute
+  // rather than fixed, it does not hide on scroll (it leaves with the plate),
+  // and the wordmark is the mark. Only the menu behind it is shared.
+  if (cream) {
+    return (
+      <>
+        <header className="v2h-bar">
+          <Link href="/" className="v2h-wordmark" aria-label={`${firmName} — home`}>
+            {wordmark}
+          </Link>
+
+          <MenuTrigger
+            open={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+            ariaLabel={menuOpen ? "Close menu" : "Open menu"}
+            label="Menu"
+            ariaExpanded={menuOpen}
+            ariaControls="site-menu-panel"
+          />
+        </header>
+
+        {/* White panel, not espresso. The cream bar opens onto the hero's own
+            light surface, and the brown panel read as a different site. */}
+        <SiteMenu
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+          tone="light"
+        />
+      </>
+    );
+  }
 
   return (
     <>
@@ -111,7 +159,7 @@ export default function GlassNav({
       {/* Only the homepage opens on artwork the bar is meant to float over. */}
       {!overlaysHero && <div className="gn-spacer" aria-hidden="true" />}
 
-      <SiteMenu open={menuOpen} onClose={() => setMenuOpen(false)} contactEmail={contactEmail} />
+      <SiteMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
 
       <style jsx>{`
         .gn {
@@ -133,7 +181,7 @@ export default function GlassNav({
              through a heavy blur and dropped most of the way to grey, which is
              what stops the hero's gold from tinting the pane while still letting
              the artwork's light and shade move behind it. */
-          background: rgba(255, 248, 229, 0.9);
+          background: rgba(255, 255, 255, 0.9);
           border: 1px solid rgba(255, 253, 246, 0.75);
           box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.7),
             0 8px 30px rgba(38, 25, 0, 0.18);
@@ -163,14 +211,14 @@ export default function GlassNav({
            gold. Those browsers get the same cream, opaque. */
         @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
           .gn {
-            background: #fff8e5;
+            background: #ffffff;
           }
         }
         /* Off the homepage the bar floats over white, where cream on cream needs
            an edge to be a pane at all: nearly opaque, and an ink hairline in
            place of the highlight the gradient was providing. */
         .gn.on-white {
-          background: rgba(255, 248, 229, 0.94);
+          background: rgba(255, 255, 255, 0.94);
           border-color: rgba(47, 33, 0, 0.16);
           box-shadow: 0 6px 24px rgba(38, 25, 0, 0.1);
         }

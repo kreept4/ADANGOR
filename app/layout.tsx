@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto_Slab, Roboto_Mono, Inter, Roboto, Merriweather, Nunito, Instrument_Sans, Mona_Sans } from "next/font/google";
+import { Roboto_Slab, Roboto_Mono, Inter, Roboto, Merriweather, Nunito, Instrument_Sans, Mona_Sans, Inria_Serif } from "next/font/google";
 import "./globals.css";
 import GlassNav from "./components/GlassNav";
 import Preloader from "./components/Preloader";
@@ -44,6 +44,14 @@ const instrumentSans = Instrument_Sans({
 const monaSans = Mona_Sans({
   subsets: ["latin"],
   variable: "--font-mona-sans",
+});
+// The homepage's cream bar sets the wordmark in Inria Serif. Only the 400 cut
+// is used, and only for that one line — without it the wordmark falls back to
+// Georgia, which is a different width and throws the bar's balance out.
+const inriaSerif = Inria_Serif({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-inria",
 });
 const description =
   "Built on Justice, Guided by Ethics. A Nigerian law practice across election petitions, constitutional law, oil and gas, maritime and commercial matters.";
@@ -91,7 +99,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${robotoSlab.variable} ${robotoMono.variable} ${inter.variable} ${roboto.variable} ${merriweather.variable} ${nunito.variable} ${instrumentSans.variable} ${monaSans.variable}`}>
+      <body className={`${robotoSlab.variable} ${robotoMono.variable} ${inter.variable} ${roboto.variable} ${merriweather.variable} ${nunito.variable} ${instrumentSans.variable} ${monaSans.variable} ${inriaSerif.variable}`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -103,7 +111,6 @@ export default function RootLayout({
           logo="/logo-icon.svg"
           logoAlt="Prof. Z. Adangor (SAN) & Co"
           firmName="PROF. Z. ADANGOR (SAN) & CO"
-          contactEmail="Zacchaeusadangor@nigerianbar.ng"
         />
         {children}
         <Footer />

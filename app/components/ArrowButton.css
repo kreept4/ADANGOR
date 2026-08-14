@@ -1,0 +1,106 @@
+/* The framed CTA.
+
+   Everything a caller might want to change is a variable declared on `.abtn`,
+   so a surface restyles this control by redeclaring the variables on its own
+   class rather than by out-specifying these rules. */
+
+.abtn {
+  /* --- the caller's dials ------------------------------------------------ */
+  --abtn-fill: #a77d02;
+  --abtn-ink: #fff8e5;
+  --abtn-border: #563c02;
+  --abtn-cell-ink: #fff8e5;
+  --abtn-cell-hover-fill: #fff8e5;
+  --abtn-cell-hover-ink: #563c02;
+  --abtn-radius: 4px;
+  --abtn-height: clamp(52px, 5vw, 64px);
+  --abtn-pad-x: clamp(22px, 2.2vw, 30px);
+  --abtn-cell-w: clamp(48px, 4.4vw, 64px);
+  --abtn-font: clamp(14px, 1.2vw, 18px);
+  --abtn-weight: 500;
+
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: var(--abtn-height);
+  border: 1px solid var(--abtn-border);
+  border-radius: var(--abtn-radius);
+  background: var(--abtn-fill);
+  color: var(--abtn-ink);
+  text-decoration: none;
+  overflow: hidden;
+  font-family: var(--font-ui), sans-serif;
+}
+
+.abtn-label {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--abtn-pad-x);
+  font-size: var(--abtn-font);
+  font-weight: var(--abtn-weight);
+  line-height: 1.16;
+  letter-spacing: -0.007em;
+  white-space: nowrap;
+  color: inherit;
+}
+
+/* A vertical divider, not a capsule. The cell takes its edge from the frame's
+   own border colour so the control reads as one object cut in two. */
+.abtn-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--abtn-cell-w);
+  border-left: 1px solid var(--abtn-border);
+  color: var(--abtn-cell-ink);
+  transition: background-color 0.28s ease, color 0.28s ease;
+}
+
+.abtn-glyph {
+  width: clamp(15px, 1.35vw, 21px);
+  height: auto;
+  transition: transform 0.32s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Hover is pointer-only. On a touch screen `:hover` sticks after a tap, which
+   would leave the arrow cell inverted until the reader touched something else. */
+@media (hover: hover) and (pointer: fine) {
+  .abtn:hover .abtn-cell,
+  .abtn:focus-visible .abtn-cell {
+    background: var(--abtn-cell-hover-fill);
+    color: var(--abtn-cell-hover-ink);
+  }
+  .abtn:hover .abtn-glyph,
+  .abtn:focus-visible .abtn-glyph {
+    transform: translateX(3px);
+  }
+}
+
+/* Keyboard focus has to be visible on both fills, so it is drawn outside the
+   frame rather than relying on a colour change inside it. */
+.abtn:focus-visible {
+  outline: 2px solid var(--abtn-border);
+  outline-offset: 3px;
+}
+
+.abtn-cream {
+  --abtn-fill: #fff8e5;
+  --abtn-ink: #1d1e24;
+  --abtn-cell-ink: #563c02;
+  --abtn-cell-hover-fill: #563c02;
+  --abtn-cell-hover-ink: #fff8e5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abtn-cell,
+  .abtn-glyph {
+    transition: none;
+  }
+  .abtn:hover .abtn-glyph,
+  .abtn:focus-visible .abtn-glyph {
+    transform: none;
+  }
+}

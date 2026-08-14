@@ -26,6 +26,7 @@
      --------------------------------------------------------------------- */
   --page-gutter: clamp(14px, 4.17vw, 300px);
 
+
   --fs-hero: clamp(24px, 4.1vw, 62px);
   --fs-h2: clamp(22px, 3.3vw, 50px);
   --fs-h3: clamp(16px, 2.05vw, 31px);
@@ -97,6 +98,23 @@
 }
 
 body {
+  /* ---------------------------------------------------------------------
+     Font tokens.
+
+     `--font-mona-sans` and `--font-inria` are emitted by next/font, and
+     next/font puts them on the class it hands to <body> — not on :root. So
+     these aliases have to be declared here too. Declaring them on :root looks
+     right and silently fails: `--font-mona-sans` is undefined at that level,
+     which makes the whole `var()` invalid at computed-value time and drops
+     font-family back to the value below. The symptom is the entire site
+     rendering in Arial while every stylesheet appears to name the right face.
+
+     These give each surface the token names its design uses, so a component
+     can ask for `--font-ui` without knowing which face is mounted behind it.
+     --------------------------------------------------------------------- */
+  --font-mona: var(--font-mona-sans);
+  --font-ui: var(--font-mona-sans);
+
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;

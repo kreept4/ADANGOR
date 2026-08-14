@@ -1,0 +1,989 @@
+/* ---------------------------------------------------------------------------
+   Below the fold: Watchword, Practice, Journey, Publications.
+
+   Four sections, four surfaces — ash, black, ink, white — so the page reads as
+   a sequence of rooms rather than as one scroll. The tokens are declared once
+   on `.sbp` and every section draws from them.
+   --------------------------------------------------------------------------- */
+
+.sbp {
+  --sb-gold: #c5a059;
+  --sb-gold-soft: #b48d52;
+  --sb-ash: #ffffff;
+  --sb-ink: #1d1e24;
+  --sb-dot: #fa5c01;
+
+  /* The type ladder, 390 → 768 → 1024. Stated as variables rather than as
+     clamps because the design fixes each step, and a clamp would put the
+     display size somewhere between them at every width in between. */
+  --sb-fs-display: 28px;
+  --sb-fs-section: 32px;
+  --sb-fs-stat: 40px;
+  --sb-fs-row-title: 16px;
+  --sb-fs-row-body: 14px;
+
+  background: #010201;
+  font-family: var(--font-ui), sans-serif;
+}
+
+@media (min-width: 768px) {
+  .sbp {
+    --sb-fs-display: 40px;
+    --sb-fs-section: 40px;
+    --sb-fs-stat: 44px;
+    --sb-fs-row-title: 18px;
+    --sb-fs-row-body: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sbp {
+    --sb-fs-display: 54px;
+    --sb-fs-section: 54px;
+    --sb-fs-stat: 48px;
+    --sb-fs-row-title: 20px;
+    --sb-fs-row-body: 20px;
+  }
+}
+
+/* The compositor hint is set here and cleared under reduced motion, where
+   nothing will ever move and holding a layer per node is pure cost. */
+.sbp [data-h] {
+  will-change: transform, opacity;
+}
+
+/* --------------------------------------------------------------------------
+   Watchword
+   -------------------------------------------------------------------------- */
+
+/* A dense band, not a second hero. The height is what the hero leaves over,
+   floored so it cannot collapse on a short window — but it is deliberately not
+   `100dvh`, because a full-viewport motto immediately after a full-viewport
+   headline reads as two heroes competing. */
+.sbp-watch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: max(320px, calc(100dvh - 700px));
+  padding: 48px 24px;
+  background: var(--sb-ash);
+  color: var(--sb-ink);
+  text-align: center;
+}
+
+.sbp-watch-inner {
+  width: 100%;
+  max-width: 790px;
+}
+
+.sbp-eyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2.48px;
+  text-transform: uppercase;
+  color: var(--sb-gold-soft);
+}
+
+.sbp-rule {
+  width: 48px;
+  height: 2px;
+  margin: 18px auto 22px;
+  background: var(--sb-gold);
+}
+
+.sbp-watch-title {
+  margin: 0;
+  font-size: var(--sb-fs-display);
+  font-weight: 400;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+}
+.sbp-watch-title em {
+  font-style: italic;
+  color: var(--sb-gold);
+}
+
+/* The focal motion. `scaleX` is animated rather than `width` so the draw is a
+   compositor transform and never triggers layout on the column below it. */
+.sbp-hair {
+  width: 100%;
+  height: 1px;
+  margin: 30px 0;
+  background: rgba(29, 30, 36, 0.18);
+  transform-origin: center center;
+}
+
+.sbp-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin: 0;
+}
+
+.sbp-stat {
+  margin: 0;
+}
+
+.sbp-stat-num {
+  font-size: var(--sb-fs-stat);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--sb-ink);
+}
+
+.sbp-stat-label {
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(29, 30, 36, 0.55);
+}
+
+@media (min-width: 768px) {
+  .sbp-watch {
+    padding: 56px 40px;
+  }
+  .sbp-stats {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .sbp-stat {
+    flex: 1;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Practice areas
+   -------------------------------------------------------------------------- */
+
+.sbp-practice {
+  display: flex;
+  align-items: center;
+  min-height: 100dvh;
+  padding: 72px 24px;
+  background: #ffffff;
+}
+
+.sbp-practice-inner {
+  width: 100%;
+  max-width: 1342px;
+  margin: 0 auto;
+}
+
+.sbp-section-title {
+  margin: 0 0 32px;
+  font-size: var(--sb-fs-section);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  /* Right-aligned, so the list below runs back against it. The heading is the
+     one thing on this surface that is not left-aligned, which is what keeps it
+     from reading as another row. */
+  text-align: right;
+  color: var(--sb-ink);
+}
+
+/* On white the frosted panel has nothing to frost, so the list takes a faint
+   ink tint and a hairline of its own — otherwise it is an invisible box and
+   the rows read as loose paragraphs on the page. */
+.sbp-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: rgba(29, 30, 36, 0.025);
+  border: 1px solid rgba(29, 30, 36, 0.1);
+  border-radius: 21px;
+  overflow: hidden;
+}
+
+/* `position: relative` and `overflow: hidden` are both load-bearing: the hover
+   fill is absolutely positioned to this box and must be clipped by it, or a
+   row scaling its ground would paint over its neighbours. */
+.sbp-row {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 16px;
+  min-height: 96px;
+  padding: 20px 20px;
+}
+.sbp-row + .sbp-row {
+  border-top: 1px solid rgba(29, 30, 36, 0.12);
+}
+.sbp-row:focus-visible {
+  outline: 2px solid var(--sb-gold-soft);
+  outline-offset: -2px;
+}
+
+.sbp-row-index {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(29, 30, 36, 0.4);
+}
+
+.sbp-row-copy {
+  min-width: 0;
+}
+
+.sbp-row-title {
+  margin: 0;
+  font-size: var(--sb-fs-row-title);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--sb-ink);
+}
+
+/* No measure cap. A `max-width` in `ch` is the right default for running body
+   copy, but these are three-sentence rows inside a frame that is already held
+   to 1342px, so the cap was stopping the line well short of the row's own
+   padding and leaving a ragged column of dead space down the right of the
+   list. The row's padding is the measure here. */
+.sbp-row-body {
+  margin: 8px 0 0;
+  font-size: var(--sb-fs-row-body);
+  line-height: 1.55;
+  color: rgba(29, 30, 36, 0.62);
+}
+
+
+/* --- the hover wipe ------------------------------------------------------ */
+
+/* The ground that wipes in behind the copy. Parked at `scaleY: 0` here rather
+   than being set by GSAP on mount, so the row is clean in the first paint
+   instead of being covered until the script runs. `scaleY` is a compositor
+   transform, so the wipe never lays out the list underneath it.
+
+   An ink wash, kept deliberately faint.
+
+   It was a white wash while the list was black. On a white list white is
+   invisible, so the wash inverts with the surface — the row under the pointer
+   is now the slightly *darker* part of the list rather than the brighter one.
+   The intent is unchanged: say "this row" and nothing more.
+
+   The gradient runs from a touch stronger at the leading edge to almost
+   nothing at the far end, so the wash has a direction and does not read as a
+   flat grey box. */
+.sbp-row-fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  background: linear-gradient(
+    100deg,
+    rgba(29, 30, 36, 0.09) 0%,
+    rgba(29, 30, 36, 0.06) 55%,
+    rgba(29, 30, 36, 0.03) 100%
+  );
+  pointer-events: none;
+}
+
+/* Everything else in the row sits above the ground. Without this the fill would
+   paint straight over the copy it is meant to sit behind. */
+.sbp-row-index,
+.sbp-row-copy {
+  position: relative;
+  z-index: 1;
+}
+
+/* The type comes up rather than inverting. The ground is still dark under a
+   white wash, so ink here would be unreadable; the row is marked by its copy
+   reaching full strength instead. Colour only — nothing moves, so the row
+   cannot shift under a pointer that is about to click it. */
+.sbp-row-index,
+.sbp-row-title,
+.sbp-row-body {
+  transition: color 0.32s ease;
+}
+
+.sbp-row.is-hot .sbp-row-title {
+  color: #0d0d0d;
+}
+.sbp-row.is-hot .sbp-row-body {
+  color: rgba(29, 30, 36, 0.85);
+}
+.sbp-row.is-hot .sbp-row-index {
+  color: var(--sb-gold-soft);
+}
+
+@media (min-width: 768px) {
+  .sbp-practice {
+    padding: 88px 40px;
+  }
+  .sbp-section-title {
+    margin-bottom: 40px;
+  }
+  .sbp-row {
+    grid-template-columns: 64px 1fr;
+    gap: 28px;
+    min-height: 134px;
+    padding: 26px 32px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Journey
+   -------------------------------------------------------------------------- */
+
+.sbp-journey {
+  padding: 72px 24px;
+  background: #ffffff;
+  color: var(--sb-ink);
+}
+
+.sbp-journey-inner {
+  width: 100%;
+  max-width: 1342px;
+  margin: 0 auto;
+}
+
+.sbp-journey-head {
+  margin-bottom: 40px;
+}
+
+.sbp-journey-title {
+  margin: 0;
+  text-align: left;
+  color: var(--sb-ink);
+}
+
+.sbp-journey-body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.sbp-portrait {
+  margin: 0;
+}
+
+.sbp-portrait-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px 40px 4px 4px;
+  object-fit: cover;
+}
+
+.sbp-portrait-cap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 16px;
+}
+
+.sbp-portrait-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--sb-ink);
+}
+
+.sbp-portrait-rank {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sb-gold);
+}
+
+/* The wheel and the milestone it selects, side by side. The wheel is the
+   narrower of the two: it is a control, and the copy is what the reader came
+   for. */
+/* A fixed track for the wheel, the rest for the copy.
+
+   The wheel is `width: 100%; height: 100%` and lays its options out as
+   absolutely positioned children, so it contributes no intrinsic size at all:
+   dropped into an `auto` track it collapses to nothing in both directions and
+   the years never appear. Both dimensions are given to it here. */
+.sbp-arc {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  align-items: center;
+  gap: 32px;
+}
+
+/* The marker line the selected year sits against — the "arc" the years turn
+   on. Drawn on the wheel's own box so it lands exactly at the centre item,
+   whatever the wheel's height resolves to. */
+.sbp-arc-wheel {
+  position: relative;
+  width: 100%;
+  /* Five rows at the wheel's own pitch (2.2rem x 1.45), which leaves the three
+     years centred with a row of clear air above and below. */
+  height: 260px;
+}
+.sbp-arc-wheel::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -14px;
+  /* The one place the orange appears. It marks the selected position and
+     nothing else on the page uses it, which is what makes it read as a
+     position rather than as a colour in the palette. */
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--sb-dot);
+  pointer-events: none;
+}
+
+.sbp-arc-copy {
+  min-width: 0;
+  /* Held to the tallest milestone, so turning the wheel does not resize the
+     panel and shift the section under the reader. */
+  min-height: 148px;
+}
+
+.sbp-arc-title {
+  margin: 0;
+  font-size: var(--sb-fs-row-title);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--sb-ink);
+}
+
+.sbp-arc-summary {
+  margin: 8px 0 0;
+  max-width: 60ch;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(29, 30, 36, 0.65);
+}
+
+@media (min-width: 768px) {
+  .sbp-journey {
+    padding: 96px 40px;
+  }
+  .sbp-journey-body {
+    flex-direction: row;
+    gap: 56px;
+  }
+  .sbp-portrait {
+    flex: 0 0 40%;
+    max-width: 420px;
+  }
+  .sbp-arc {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Publications
+   -------------------------------------------------------------------------- */
+
+.sbp-pubs {
+  min-height: 100dvh;
+  padding: 72px 24px;
+  background: #fff;
+  color: #0d0d0d;
+}
+
+.sbp-pubs-inner {
+  width: 100%;
+  max-width: 1342px;
+  margin: 0 auto;
+}
+
+.sbp-pubs-head {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.sbp-pubs-title {
+  text-align: left;
+  color: #0d0d0d;
+  margin: 0;
+}
+
+.sbp-pubs-nav {
+  display: flex;
+  gap: 24px;
+}
+.sbp-pubs-nav a {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #808080;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.sbp-pubs-nav a:hover,
+.sbp-pubs-nav a:focus-visible {
+  color: #0d0d0d;
+}
+
+.sbp-pubs-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.sbp-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 34px;
+  border-radius: 17px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.22s ease, color 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.sbp-pill-ghost {
+  background: transparent;
+  border: 1px solid rgba(13, 13, 13, 0.25);
+  color: #0d0d0d;
+}
+.sbp-pill-ghost:hover {
+  border-color: #0d0d0d;
+}
+
+.sbp-pill-solid {
+  background: #0d0d0d;
+  border: 1px solid #0d0d0d;
+  color: #fff;
+}
+.sbp-pill-solid:hover {
+  background: #333;
+}
+
+.sbp-pill:focus-visible {
+  outline: 2px solid var(--sb-gold);
+  outline-offset: 2px;
+}
+
+.sbp-pubs-body {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sbp-feature {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 28px 24px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #402e1a, #d9b247);
+  color: #fff;
+}
+
+.sbp-feature-kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.sbp-feature-title {
+  /* The card is a fixed height and citations run to wildly different lengths,
+     so the title takes the space between the kicker and the byline rather than
+     the card resizing on every click. */
+  flex: 1;
+  margin: 20px 0 24px;
+  font-size: var(--sb-fs-row-title);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.sbp-feature-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sbp-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.sbp-feature-byline {
+  display: flex;
+  flex-direction: column;
+}
+
+.sbp-feature-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sbp-feature-rank {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.sbp-pub-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sbp-pub-item {
+  padding: 20px 0;
+}
+.sbp-pub-item + .sbp-pub-item {
+  border-top: 1px solid rgba(13, 13, 13, 0.1);
+}
+
+.sbp-pub-label {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sb-gold-soft);
+}
+
+.sbp-pub-cite {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #333;
+}
+
+.sbp-pub-pages {
+  color: #808080;
+}
+
+@media (min-width: 768px) {
+  .sbp-pubs {
+    padding: 96px 40px;
+  }
+  .sbp-pubs-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  .sbp-pubs-nav {
+    justify-content: flex-start;
+  }
+  /* The feature is the larger of the two, but not by so much that the side
+     list stops being readable — 1.55fr is where the citations in the list stop
+     wrapping every third word. */
+  .sbp-pubs-body {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 40px;
+  }
+  .sbp-feature {
+    min-height: 420px;
+    padding: 36px 34px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The ends of the ladder
+   -------------------------------------------------------------------------- */
+
+/* Smartwatches and ultra-narrow phones. The three-column practice row is the
+   thing that breaks first: an index, a copy column and a square in 272px leaves
+   the copy about ninety pixels wide. The index and the square go, and the row
+   becomes the copy alone — which is the part that carries the meaning. */
+@media (max-width: 360px) {
+  .sbp {
+    --sb-fs-display: 22px;
+    --sb-fs-section: 24px;
+    --sb-fs-stat: 30px;
+    --sb-fs-row-title: 14px;
+    --sb-fs-row-body: 12.5px;
+  }
+  .sbp-watch,
+  .sbp-practice,
+  .sbp-journey,
+  .sbp-pubs {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .sbp-watch {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+  .sbp-practice,
+  .sbp-journey,
+  .sbp-pubs {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .sbp-rows {
+    border-radius: 14px;
+  }
+  .sbp-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    min-height: 0;
+    padding: 16px 14px;
+  }
+  .sbp-row-index,
+  .sbp-stats {
+    gap: 20px;
+  }
+  .sbp-hair {
+    margin: 22px 0;
+  }
+  .sbp-arc-item {
+    grid-template-columns: 44px 8px 1fr;
+    gap: 10px;
+  }
+  .sbp-feature {
+    padding: 20px 18px;
+  }
+  .sbp-pill {
+    width: 46px;
+    height: 32px;
+  }
+}
+
+/* Watch browsers. `100dvh` sections are dropped: a full-viewport practice list
+   on a 200px-tall screen shows one row and a lot of black. */
+@media (max-width: 300px) {
+  .sbp {
+    --sb-fs-display: 19px;
+    --sb-fs-section: 20px;
+    --sb-fs-stat: 25px;
+  }
+  .sbp-practice,
+  .sbp-pubs {
+    min-height: 0;
+  }
+  .sbp-eyebrow,
+  .sbp-pub-label,
+  .sbp-feature-kicker {
+    font-size: 10px;
+    letter-spacing: 1.6px;
+  }
+  .sbp-arc-item {
+    grid-template-columns: 1fr;
+  }
+  .sbp-arc-dot {
+    display: none;
+  }
+}
+
+/* Landscape phones: the same reasoning as the hero — enough width for the wide
+   layouts, nowhere near the height for a viewport-tall section. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .sbp-practice,
+  .sbp-pubs {
+    min-height: 0;
+  }
+  .sbp-watch {
+    min-height: 0;
+  }
+}
+
+/* Large monitors. Past 2100 the 1342px frame is a column stranded in the middle
+   of the sheet, so the frame widens with the screen and the type steps up to
+   match the viewing distance. */
+@media (min-width: 2100px) {
+  .sbp {
+    --sb-fs-display: 76px;
+    --sb-fs-section: 76px;
+    --sb-fs-stat: 66px;
+    --sb-fs-row-title: 28px;
+    --sb-fs-row-body: 26px;
+  }
+  .sbp-watch-inner {
+    max-width: 1120px;
+  }
+  .sbp-practice-inner,
+  .sbp-journey-inner,
+  .sbp-pubs-inner {
+    max-width: 1900px;
+  }
+  .sbp-watch {
+    padding: 96px 96px;
+  }
+  .sbp-practice,
+  .sbp-journey,
+  .sbp-pubs {
+    padding: 140px 96px;
+  }
+  .sbp-eyebrow {
+    font-size: 16px;
+    letter-spacing: 3.4px;
+  }
+  .sbp-stat-label {
+    font-size: 17px;
+  }
+  .sbp-row {
+    grid-template-columns: 96px 1fr;
+    min-height: 190px;
+    padding: 38px 48px;
+  }
+  .sbp-row-index {
+    font-size: 18px;
+  }
+  .sbp-marquee-text {
+    font-size: 28px;
+  }
+  .sbp-arc-year,
+  .sbp-arc-summary,
+  .sbp-pub-cite {
+    font-size: 20px;
+  }
+  .sbp-arc-item {
+    grid-template-columns: 84px 16px 1fr;
+  }
+  .sbp-arc-dot {
+    width: 12px;
+    height: 12px;
+  }
+  .sbp-portrait-name,
+  .sbp-feature-name {
+    font-size: 22px;
+  }
+  .sbp-portrait-rank,
+  .sbp-feature-rank,
+  .sbp-pub-label,
+  .sbp-pubs-nav a,
+  .sbp-feature-kicker {
+    font-size: 15px;
+  }
+  .sbp-feature {
+    min-height: 600px;
+    padding: 52px 48px;
+  }
+  .sbp-avatar {
+    width: 56px;
+    height: 56px;
+  }
+  .sbp-pill {
+    width: 76px;
+    height: 48px;
+    border-radius: 24px;
+    font-size: 21px;
+  }
+}
+
+/* 4K and large-format displays. */
+@media (min-width: 2800px) {
+  .sbp {
+    --sb-fs-display: 104px;
+    --sb-fs-section: 104px;
+    --sb-fs-stat: 88px;
+    --sb-fs-row-title: 38px;
+    --sb-fs-row-body: 34px;
+  }
+  .sbp-watch-inner {
+    max-width: 1500px;
+  }
+  .sbp-practice-inner,
+  .sbp-journey-inner,
+  .sbp-pubs-inner {
+    max-width: 2500px;
+  }
+  .sbp-practice,
+  .sbp-journey,
+  .sbp-pubs {
+    padding: 190px 128px;
+  }
+  .sbp-row {
+    min-height: 250px;
+    padding: 48px 64px;
+  }
+  .sbp-marquee-text {
+    font-size: 38px;
+  }
+  .sbp-arc-year,
+  .sbp-arc-summary,
+  .sbp-pub-cite {
+    font-size: 27px;
+  }
+  .sbp-feature {
+    min-height: 780px;
+  }
+  .sbp-eyebrow {
+    font-size: 21px;
+  }
+}
+
+/* Wall-mounted 85" to 100" panels. */
+@media (min-width: 3600px) {
+  .sbp {
+    --sb-fs-display: 132px;
+    --sb-fs-section: 132px;
+    --sb-fs-stat: 112px;
+    --sb-fs-row-title: 48px;
+    --sb-fs-row-body: 42px;
+  }
+  .sbp-practice-inner,
+  .sbp-journey-inner,
+  .sbp-pubs-inner {
+    max-width: 3200px;
+  }
+  .sbp-practice,
+  .sbp-journey,
+  .sbp-pubs {
+    padding: 240px 168px;
+  }
+  .sbp-row {
+    min-height: 320px;
+  }
+  .sbp-marquee-text {
+    font-size: 48px;
+  }
+  .sbp-arc-year,
+  .sbp-arc-summary,
+  .sbp-pub-cite {
+    font-size: 34px;
+  }
+  .sbp-feature {
+    min-height: 980px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  /* The wipe is skipped, but the ground must still be there: the hot row sets
+     its type to ink, and ink on the black list with no gold behind it is
+     invisible. So the fill is present at full height the moment the row is
+     hot, as a state rather than as a movement. */
+  .sbp-row.is-hot .sbp-row-fill {
+    transform: scaleY(1);
+  }
+  .sbp-row-fill {
+    transition: none;
+  }
+
+  .sbp [data-h] {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .sbp-hair {
+    transform: none !important;
+  }
+
+  .sbp-pubs-nav a,
+  .sbp-pill {
+    transition: none;
+  }
+}
