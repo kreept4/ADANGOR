@@ -1,56 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import ConsultationForm from "./ConsultationForm";
 import { contactEmail, mapAlt, mapImage, offices } from "../data/offices";
 
-// Set NEXT_PUBLIC_FORMSPREE_ENDPOINT to the form's own address once one has
-// been created at formspree.io (it looks like https://formspree.io/f/xxxxabcd).
-//
-// Until that is set the form does not transmit. It previously posted to a
-// literal "YOUR_FORM_ID" placeholder, which meant a prospective client's name,
-// phone, email and description of their matter left their browser for a third
-// party the firm does not control, to reach a form that does not exist. For
-// enquiries that may carry confidences that is the wrong way to fail, so with
-// no endpoint configured the form now sends nothing at all and points the
-// visitor at the chambers' own address instead.
-const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ?? "";
-const isEndpointConfigured =
-  FORMSPREE_ENDPOINT.startsWith("https://formspree.io/f/") &&
-  !FORMSPREE_ENDPOINT.includes("YOUR_FORM_ID");
-
 export default function MapContact() {
-  const [form, setForm] = useState({ name: "", phone: "", message: "", email: "" });
-  const [status, setStatus] = useState<
-    "idle" | "sending" | "success" | "error" | "unconfigured"
-  >("idle");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!isEndpointConfigured) {
-      setStatus("unconfigured");
-      return;
-    }
-
-    setStatus("sending");
-
-    try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(form),
-      });
-
-      if (res.ok) {
-        setStatus("success");
-        setForm({ name: "", phone: "", message: "", email: "" });
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
-  };
 
   return (
     <section className="mc-section">
@@ -62,103 +15,15 @@ export default function MapContact() {
           <div className="mc-map-col">
             <div className="mc-col-head">
               <h3 className="mc-subheading">Visit Us</h3>
-              <p className="mc-intro">Two offices, one standard of care.</p>
             </div>
             <div className="mc-map">
               <img src={mapImage} alt={mapAlt} className="mc-map-img" />
             </div>
           </div>
 
-          <div className="mc-contact">
-            <div className="mc-col-head">
-              <h3 className="mc-subheading">Contact Us</h3>
-              <p className="mc-intro">From consultation to representation.</p>
-            </div>
+          {/* The enquiry form, beside the map as it has always been. */}
+          <ConsultationForm />
 
-            <form onSubmit={handleSubmit} className="mc-form">
-              <div className="mc-form-row">
-                <div className="mc-field">
-                  <label className="mc-label" htmlFor="mc-name">Name</label>
-                  <input
-                    id="mc-name"
-                    type="text"
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="mc-input"
-                  />
-                </div>
-                <div className="mc-field">
-                  <label className="mc-label" htmlFor="mc-phone">Phone</label>
-                  <input
-                    id="mc-phone"
-                    type="tel"
-                    required
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="mc-input"
-                  />
-                </div>
-              </div>
-
-              <div className="mc-field mc-field-full">
-                <label className="mc-label" htmlFor="mc-email">Email Address</label>
-                <input
-                  id="mc-email"
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="mc-input"
-                />
-              </div>
-
-              <div className="mc-field mc-field-full">
-                <label className="mc-label" htmlFor="mc-message">Message</label>
-                <textarea
-                  id="mc-message"
-                  required
-                  rows={3}
-                  value={form.message}
-                  onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="mc-input mc-textarea"
-                />
-              </div>
-
-              <button type="submit" className="mc-send" disabled={status === "sending"}>
-                <span className="mc-send-label">
-                  {status === "sending" ? "Sending" : "Send"}
-                </span>
-                <span className="mc-send-arrow" aria-hidden="true">
-                  <svg width="17" height="17" viewBox="0 0 17.2416 16.7702" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.0776 8.38509H16.164" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M8.62082 1.0776L16.164 8.38509L8.62082 15.6926" stroke="currentColor" strokeWidth="2.1552" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </button>
-
-              {status === "success" && (
-                <p className="mc-status mc-status-success">
-                  Message sent successfully. We&apos;ll be in touch soon.
-                </p>
-              )}
-              {status === "error" && (
-                <p className="mc-status mc-status-error">
-                  Something went wrong. Please try again, or call the number below.
-                </p>
-              )}
-              {status === "unconfigured" && (
-                <p className="mc-status mc-status-error">
-                  This form is not accepting messages yet, so nothing was sent.
-                  Please email{" "}
-                  <a className="mc-status-link" href={`mailto:${contactEmail}`}>
-                    {contactEmail}
-                  </a>{" "}
-                  or call the number below.
-                </p>
-              )}
-            </form>
-          </div>
         </div>
 
         {/* The address the mailto links already point at, given its own heading
@@ -239,13 +104,6 @@ export default function MapContact() {
           font-weight: 500;
           letter-spacing: -0.01em;
           text-transform: uppercase;
-        }
-        .mc-intro {
-          margin: 0;
-          color: #383131;
-          font-size: var(--fs-body);
-          font-weight: 400;
-          line-height: 1.6;
         }
 
         .mc-map-col {
