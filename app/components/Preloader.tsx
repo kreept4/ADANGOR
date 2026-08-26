@@ -15,6 +15,14 @@ import { useEffect, useState } from "react";
  * renders in the server markup so the very first paint is the mark, and a
  * stylesheet that has not landed yet would otherwise leave the page showing
  * through underneath it for a frame.
+ *
+ * The beat itself lives in globals.css for the same reason, and this is the
+ * one thing that must not be in `style jsx`: styled-jsx injects its rules from
+ * the client bundle, after hydration. The mark is in the server markup and
+ * paints immediately, so a rule that arrives late leaves it sitting perfectly
+ * still for the first part of the hold before it starts beating. In the
+ * document stylesheet the animation is live in the first frame that draws the
+ * mark.
  */
 
 const HOLD_MS = 3800;
@@ -68,41 +76,6 @@ export default function Preloader() {
     >
       <Mark />
 
-      <style jsx>{`
-        /* Two contractions and a rest, on a 1.25s pulse. The second beat is the
-           smaller of the pair, which is what makes it read as a heartbeat
-           rather than as a bounce. */
-        :global(.pl-mark) {
-          animation: pl-beat 1.25s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-          will-change: transform;
-        }
-        @keyframes pl-beat {
-          0% {
-            transform: scale(1);
-          }
-          12% {
-            transform: scale(1.18);
-          }
-          24% {
-            transform: scale(1);
-          }
-          36% {
-            transform: scale(1.1);
-          }
-          48%,
-          100% {
-            transform: scale(1);
-          }
-        }
-
-        /* Readers who have asked for less motion still get the hold and the
-           fade, but the mark sits still for it. */
-        @media (prefers-reduced-motion: reduce) {
-          :global(.pl-mark) {
-            animation: none;
-          }
-        }
-      `}</style>
     </div>
   );
 }

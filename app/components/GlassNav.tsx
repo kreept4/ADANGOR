@@ -76,11 +76,6 @@ export default function GlassNav({
     };
   }, []);
 
-  // An open menu must not be left with its masthead slid away.
-  useEffect(() => {
-    if (menuOpen) setHidden(false);
-  }, [menuOpen]);
-
   // The homepage's hero is a full-viewport plate that the bar is composed over
   // and which already pads itself clear of it. Everywhere else the bar would
   // otherwise sit on top of the first line of the page.
@@ -89,7 +84,12 @@ export default function GlassNav({
   return (
     <>
       <header
-        className={`v2h-bar${pinned ? " v2h-bar--pinned" : ""}${hidden ? " v2h-bar--hidden" : ""}`}
+        className={`v2h-bar${pinned ? " v2h-bar--pinned" : ""}${
+          // An open menu must not be left with its masthead slid away. Derived
+          // rather than pushed into state by an effect, which would be a second
+          // render just to undo the first.
+          hidden && !menuOpen ? " v2h-bar--hidden" : ""
+        }`}
       >
         {/* The chambers name sits under the wordmark, bracketed and a size
             down: it names the same practice, so it reads as a subtitle to the

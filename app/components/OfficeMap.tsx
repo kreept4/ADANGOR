@@ -75,16 +75,29 @@ export default function OfficeMap() {
       });
 
       L.tileLayer(BASE_TILES, { maxZoom: 20 }).addTo(map);
-      L.tileLayer(LABEL_TILES, { maxZoom: 20, className: "om-labels" }).addTo(map);
+
+      // The labels go in a pane of their own above the marker pane (600), so a
+      // pin can never sit on top of a place name. Markers are small and the
+      // lettering is the thing being read; where the two meet, the text wins.
+      // The pane ignores the pointer so the pins underneath stay clickable.
+      map.createPane("om-label-pane");
+      const labelPane = map.getPane("om-label-pane")!;
+      labelPane.style.zIndex = "650";
+      labelPane.style.pointerEvents = "none";
+      L.tileLayer(LABEL_TILES, {
+        maxZoom: 20,
+        pane: "om-label-pane",
+        className: "om-labels",
+      }).addTo(map);
 
       // Grey pins, as asked. Built as a divIcon so the colour is ours rather
       // than Leaflet's default blue sprite, and so the pulse can be pure CSS.
       const icon = L.divIcon({
         className: "om-pin",
         html: '<span class="om-pin-dot"><span class="om-pin-ring"></span></span>',
-        iconSize: [18, 18],
-        iconAnchor: [9, 9],
-        popupAnchor: [0, -10],
+        iconSize: [22, 22],
+        iconAnchor: [11, 11],
+        popupAnchor: [0, -12],
       });
 
       const markers = officePins.map((o) =>
@@ -148,19 +161,22 @@ export default function OfficeMap() {
 
         .om-pin-dot {
           display: block;
-          width: 12px;
-          height: 12px;
-          margin: 3px;
+          width: 13px;
+          height: 13px;
+          margin: 4.5px;
           border-radius: 50%;
-          background: #c9ab6a;
-          border: 1px solid rgba(255, 245, 220, 0.6);
+          background: #d8b568;
+          /* A dark collar first, so the gold is never sitting straight on a
+             road of similar value, then the ring. Without the collar the pin
+             dissolves wherever the basemap happens to be light. */
+          box-shadow: 0 0 0 2px rgba(12, 18, 15, 0.85), 0 0 10px rgba(216, 181, 104, 0.5);
           position: relative;
         }
         .om-pin-ring {
           position: absolute;
-          inset: -6px;
+          inset: -5.5px;
           border-radius: 50%;
-          border: 1px solid rgba(201, 171, 106, 0.5);
+          border: 1px solid rgba(216, 181, 104, 0.72);
         }
 
         /* Leaflet's own chrome, brought onto the dark ground. */
