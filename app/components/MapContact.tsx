@@ -1,7 +1,8 @@
 "use client";
 
 import ConsultationForm from "./ConsultationForm";
-import { contactEmail, mapAlt, mapImage, offices } from "../data/offices";
+import OfficeMap from "./OfficeMap";
+import { contactEmail, offices } from "../data/offices";
 
 export default function MapContact() {
 
@@ -13,11 +14,8 @@ export default function MapContact() {
 
         <div className="mc-row">
           <div className="mc-map-col">
-            <div className="mc-col-head">
-              <h3 className="mc-subheading">Visit Us</h3>
-            </div>
             <div className="mc-map">
-              <img src={mapImage} alt={mapAlt} className="mc-map-img" />
+              <OfficeMap />
             </div>
           </div>
 
@@ -51,15 +49,22 @@ export default function MapContact() {
       </div>
 
       <style jsx>{`
+        /* The green block still fills the viewport; the white band below it is
+           margin, not padding, so the section keeps its 100dvh and the gap
+           shows the page's own white before the footer starts. */
         .mc-section {
           display: flex;
           flex-direction: column;
           justify-content: center;
           width: 100%;
+          margin-bottom: clamp(56px, 7vw, 112px);
           /* Fills the viewport the way the other sections do, but still grows
              if the form and the info strip need more room. */
           min-height: 100svh;
-          background: #ffffff;
+          /* One ground for the whole strip. The map's tiles and the enquiry
+             panel are both dark; leaving the section white framed each of them
+             as a separate rectangle instead of one surface. */
+          background: #0d211c;
           font-family: var(--font-instrument-sans), sans-serif;
           box-sizing: border-box;
         }
@@ -71,7 +76,7 @@ export default function MapContact() {
         }
         .mc-heading {
           margin: 0;
-          color: #000;
+          color: #ffffff;
           font-size: var(--fs-h2);
           font-weight: 400;
           line-height: 1.5;
@@ -81,12 +86,15 @@ export default function MapContact() {
         .mc-rule {
           width: 100%;
           height: 1px;
-          background: #1d1e24;
+          background: rgba(255, 255, 255, 0.18);
           margin-top: clamp(16px, 2.2vw, 32px);
         }
 
+        /* stretch, so the map and the enquiry panel end up the same height
+           whichever of the two has more to say. */
         .mc-row {
           display: grid;
+          align-items: stretch;
           grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           gap: clamp(32px, 5vw, 72px);
           padding-top: clamp(36px, 4.4vw, 64px);
@@ -99,7 +107,7 @@ export default function MapContact() {
         }
         .mc-subheading {
           margin: 0;
-          color: #1d1e24;
+          color: #ffffff;
           font-size: var(--fs-h3);
           font-weight: 500;
           letter-spacing: -0.01em;
@@ -115,21 +123,13 @@ export default function MapContact() {
           position: relative;
           flex: 1 1 auto;
           overflow: hidden;
-          border: 1px solid rgba(205, 150, 16, 0.4);
+          border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 4px 32px 4px 32px;
-          background: #ffffff;
-        }
-        .mc-map-img {
-          display: block;
-          width: 100%;
-          height: 100%;
-          /* contain, not cover. The two pins sit about 2% and 90% down the
-             source image, so they are the first things a cover crop throws
-             away — the Abuja pin is close enough to the top edge that any
-             vertical crop at all removes it. Letterboxing against the panel's
-             own background is the lesser cost: a map that is missing both of
-             the offices it exists to show is not a map. */
-          object-fit: contain;
+          background: #0d211c;
+          /* The map is live now, so it has no intrinsic height to lend the
+             row. This is the floor; above it the grid stretches it to match
+             the enquiry panel beside it. */
+          min-height: 320px;
         }
 
         .mc-contact {
@@ -279,18 +279,18 @@ export default function MapContact() {
         .mc-info-mark {
           width: 46px;
           height: 1px;
-          background: #1d1e24;
+          background: rgba(255, 255, 255, 0.35);
           margin-bottom: 6px;
         }
         .mc-info-label {
           margin: 0;
-          color: #000;
+          color: #ffffff;
           font-size: var(--fs-body);
           font-weight: 600;
         }
         .mc-info-value {
           margin: 0;
-          color: #383131;
+          color: rgba(255, 255, 255, 0.62);
           font-size: var(--fs-body);
           font-weight: 400;
           line-height: 1.6;

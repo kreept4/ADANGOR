@@ -138,14 +138,19 @@ export default function ConsultationForm() {
           container: cf-panel / inline-size;
           width: 100%;
           height: 100%;
-          background: #0a0f0c;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: 4px 32px 4px 32px;
+          background: #0d211c;
           color: #ffffff;
           font-family: var(--font-instrument-sans), sans-serif;
           box-sizing: border-box;
         }
         .cf-inner {
           width: 100%;
-          padding: clamp(28px, 3.4vw, 52px);
+          padding: clamp(24px, 2.8vw, 40px);
           box-sizing: border-box;
         }
 
@@ -153,7 +158,7 @@ export default function ConsultationForm() {
            reader, so it is set at display size and allowed to run to two or
            three lines rather than being trimmed to fit one. */
         .cf-heading {
-          margin: 0 0 clamp(28px, 3vw, 44px);
+          margin: 0 0 clamp(22px, 2.2vw, 32px);
           max-width: 26ch;
           font-size: clamp(20px, 1.9vw, 30px);
           font-weight: 700;
@@ -173,7 +178,7 @@ export default function ConsultationForm() {
         .cf-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: clamp(30px, 3.6vw, 54px) clamp(28px, 5vw, 88px);
+          gap: clamp(20px, 2.2vw, 30px) clamp(24px, 3.4vw, 52px);
         }
         /* Keyed to the panel, not the viewport: this sits in a column roughly
            half the page wide, so a viewport media query would put two fields
@@ -228,7 +233,7 @@ export default function ConsultationForm() {
           flex-direction: column;
           align-items: flex-start;
           gap: 24px;
-          margin-top: clamp(28px, 3.2vw, 44px);
+          margin-top: clamp(24px, 2.4vw, 32px);
         }
         @container cf-panel (min-width: 420px) {
           .cf-foot {
@@ -264,7 +269,7 @@ export default function ConsultationForm() {
         .cf-submit:focus-visible:not(:disabled) {
           background: #ffffff;
           border-color: #ffffff;
-          color: #0a0f0c;
+          color: #0d211c;
         }
         .cf-submit:disabled {
           opacity: 0.55;
