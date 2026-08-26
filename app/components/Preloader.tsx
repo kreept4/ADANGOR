@@ -63,7 +63,10 @@ export default function Preloader() {
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 999,
+        // Above Leaflet's controls, which sit at 1000 of their own accord —
+        // at 999 the map's zoom buttons showed through the curtain on any
+        // reload with the Find Us section in view.
+        zIndex: 10000,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

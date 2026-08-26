@@ -1,9 +1,15 @@
 import type { NextConfig } from "next";
 
-// Everything the site loads is served from its own origin: next/font downloads
-// the faces at build time rather than calling Google at runtime, and the images
-// are local files. The one outbound call is the contact form, so formspree.io is
-// named explicitly and nothing else is allowed to be contacted.
+// Almost everything the site loads is served from its own origin: next/font
+// downloads the faces at build time rather than calling Google at runtime, and
+// the images are local files. There are two outbound exceptions, both named
+// explicitly, and nothing else may be contacted: the contact form posts to
+// formspree.io, and the Find Us map pulls its raster tiles from CARTO.
+//
+// The tiles are images, so they need `img-src`, not `connect-src` — Leaflet
+// loads them as <img> elements. Getting this wrong fails silently in a
+// particular way: the map renders, the pins render, and not one tile is ever
+// requested, because the browser blocks them before the network sees them.
 //
 // 'unsafe-inline' is unavoidable on both scripts and styles here. styled-jsx,
 // which every section of this site uses, injects its rules as inline <style>
@@ -15,7 +21,7 @@ const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  "img-src 'self' data: blob: https://basemaps.cartocdn.com",
   "font-src 'self'",
   "connect-src 'self' https://formspree.io",
   "form-action 'self' https://formspree.io",
