@@ -642,17 +642,19 @@
   }
 }
 
-/* Phones. The wheel and its milestone stop sitting side by side: a fixed
-   132px track beside a paragraph leaves the copy about 160px wide on a 375px
-   screen, which is the common case, not the edge case. Stacked, the wheel gets
-   the full column and the copy gets the width it needs to be read. */
+/* Phones. The wheel stays beside its milestone rather than stacking on top of
+   it — the pairing is the point, and a wheel above a paragraph reads as two
+   unrelated things. What gives way is the track: 132px beside a paragraph
+   leaves the copy about 160px wide on a 375px screen, so the track narrows to
+   96px and the wheel's type steps down with it (see WHEEL_STEPS), which buys
+   the copy back about fifty pixels. */
 @media (max-width: 767px) {
   .sbp-arc {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 16px;
   }
   .sbp-arc-wheel {
-    height: 190px;
+    height: 170px;
   }
 }
 
@@ -682,6 +684,15 @@
   }
   .sbp-row-index {
     display: none;
+  }
+  /* The one width where the pair does have to stack: 96px of track plus a gap
+     leaves under 180px of copy, which is four or five words a line. */
+  .sbp-arc {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .sbp-arc-wheel {
+    height: 190px;
   }
   .sbp-feature {
     padding: 20px 18px;

@@ -5,6 +5,7 @@ import GlassNav from "./components/GlassNav";
 import Preloader from "./components/Preloader";
 import SmoothScroll from "./components/SmoothScroll";
 import Footer from "./components/Footer";
+import ScrollTop from "./components/ScrollTop";
 import CookieNotice from "./components/CookieNotice";
 import { siteName, siteUrl } from "./lib/site";
 import { buildLawFirmJsonLd } from "./lib/structuredData";
@@ -115,6 +116,7 @@ export default function RootLayout({
         <GlassNav firmName="PROF. Z. ADANGOR (SAN) & CO" />
         {children}
         <Footer />
+        <ScrollTop />
         <CookieNotice />
       </body>
     </html>

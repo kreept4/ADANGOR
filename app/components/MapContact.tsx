@@ -57,7 +57,7 @@ export default function MapContact() {
           flex-direction: column;
           justify-content: center;
           width: 100%;
-          margin-bottom: clamp(56px, 7vw, 112px);
+          margin-bottom: clamp(96px, 11vw, 184px);
           /* Fills the viewport the way the other sections do, but still grows
              if the form and the info strip need more room. */
           min-height: 100svh;

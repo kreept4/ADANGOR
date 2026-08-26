@@ -165,7 +165,7 @@ const WHEEL_STEPS: { min: number; fontSize: number }[] = [
   { min: 2800, fontSize: 3.6 },
   { min: 2100, fontSize: 3.0 },
   { min: 768, fontSize: 2.2 },
-  { min: 0, fontSize: 2.0 },
+  { min: 0, fontSize: 1.5 },
 ];
 
 function useWheelMetrics() {

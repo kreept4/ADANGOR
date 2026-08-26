@@ -121,6 +121,23 @@
   color: #291c14;
 }
 
+/* Pinned, the bar leaves the top of the document and rides the viewport, so it
+   can come back the moment the reader turns around. It is already out of flow
+   when absolute, so nothing below it moves when the two swap. */
+.v2h-bar--pinned {
+  position: fixed;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 1px 0 rgba(41, 28, 20, 0.08);
+}
+.v2h-bar--hidden {
+  transform: translateY(-100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .v2h-bar--pinned {
+    transition: none;
+  }
+}
+
 /* Only the homepage's hero pads itself clear of the bar. Every other route
    needs the height back, or the bar sits on its first line. The height ladder
    below is repeated here because the spacer must always match the bar exactly. */
@@ -136,6 +153,21 @@
   color: #291c14;
   text-decoration: none;
   white-space: nowrap;
+  /* Two lines in a bar that is only 56px tall, so they are packed tight and
+     the whole lockup is centred as one block. */
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  line-height: 1.05;
+}
+/* `em`, so the sub-line rides the wordmark's own responsive size ladder
+   instead of needing an entry at every breakpoint. */
+.v2h-wordmark-sub {
+  font-size: 0.82em;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(41, 28, 20, 0.82);
 }
 .v2h-wordmark:focus-visible {
   outline: 2px solid #291c14;

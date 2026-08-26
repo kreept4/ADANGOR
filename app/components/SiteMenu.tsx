@@ -36,10 +36,14 @@ const MENU_ITEMS: MenuItem[] = [
    than as a colour flash.
 
    Both tones step *toward* the panel colour rather than away from it, which is
-   why the light set runs dark-to-light and the espresso set light-to-dark. */
+   why the light set runs dark-to-light and the espresso set light-to-dark.
+
+   Grey and black rather than gold and cream: the sweep fired on every tap, and
+   a full-bleed gold flash four times a session read as a colour error rather
+   than as the accent it was meant to be. Neutral, the folds read as depth. */
 const PRELAYERS = {
-  espresso: ["#5A4103", "#3E2C01"],
-  light: ["#cd9610", "#f0e3c8"],
+  espresso: ["#8b8f92", "#3a3d40"],
+  light: ["#1d1e24", "#8b8f92"],
 } as const;
 
 /* The two palettes. Everything the panel colours is named here so a tone is one

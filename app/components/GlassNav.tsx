@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SiteMenu from "./SiteMenu";
 import MenuTrigger from "./MenuTrigger";
+import { firm } from "../data/firm";
 
 /**
  * The site masthead: a flush white bar across the top of the page carrying the
@@ -39,7 +40,46 @@ export default function GlassNav({
   wordmark = "ADANGOR SAN, & CO.",
 }: GlassNavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  // `pinned` swaps the bar from absolute to fixed once it would have scrolled
+  // away; `hidden` slides it off while the reader is going down. Both false at
+  // the top of the page, where the bar simply sits in place.
+  const [pinned, setPinned] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+  const frame = useRef<number | null>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const BAR = 56;
+    const read = () => {
+      frame.current = null;
+      const y = window.scrollY;
+      const delta = y - lastY.current;
+      setPinned(y > BAR);
+      // A few pixels of slack, so a trackpad's jitter around zero does not
+      // flicker the bar in and out.
+      if (Math.abs(delta) > 4) {
+        setHidden(delta > 0 && y > BAR * 2);
+        lastY.current = y;
+      }
+      if (y <= BAR) setHidden(false);
+    };
+    const onScroll = () => {
+      if (frame.current == null) frame.current = requestAnimationFrame(read);
+    };
+    lastY.current = window.scrollY;
+    read();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame.current != null) cancelAnimationFrame(frame.current);
+    };
+  }, []);
+
+  // An open menu must not be left with its masthead slid away.
+  useEffect(() => {
+    if (menuOpen) setHidden(false);
+  }, [menuOpen]);
 
   // The homepage's hero is a full-viewport plate that the bar is composed over
   // and which already pads itself clear of it. Everywhere else the bar would
@@ -48,9 +88,15 @@ export default function GlassNav({
 
   return (
     <>
-      <header className="v2h-bar">
+      <header
+        className={`v2h-bar${pinned ? " v2h-bar--pinned" : ""}${hidden ? " v2h-bar--hidden" : ""}`}
+      >
+        {/* The chambers name sits under the wordmark, bracketed and a size
+            down: it names the same practice, so it reads as a subtitle to the
+            wordmark rather than as a second mark competing with it. */}
         <Link href="/" className="v2h-wordmark" aria-label={`${firmName} — home`}>
-          {wordmark}
+          <span className="v2h-wordmark-name">{wordmark}</span>
+          <span className="v2h-wordmark-sub">({firm.chambers})</span>
         </Link>
 
         <MenuTrigger

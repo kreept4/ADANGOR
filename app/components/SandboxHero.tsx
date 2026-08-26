@@ -78,16 +78,10 @@ export default function SandboxHero() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
+      // The two headline lines wipe up out of their own clip, which is what
+      // makes the lockup read as being revealed rather than as fading in.
+      // Each line owns a `.v2h-clip` with `overflow: hidden` for this.
       tl.fromTo(
-        ".v2h-kicker",
-        { opacity: 0, y: 10 },
-        { opacity: 1, y: 0, duration: 0.45 },
-        0.28
-      )
-        // The two headline lines wipe up out of their own clip, which is what
-        // makes the lockup read as being revealed rather than as fading in.
-        // Each line owns a `.v2h-clip` with `overflow: hidden` for this.
-        .fromTo(
           ".v2h-line-1 span",
           { yPercent: 108 },
           { yPercent: 0, duration: 0.7 },
@@ -152,8 +146,6 @@ export default function SandboxHero() {
             headline, lede and button each in a row of their own and pushes the
             button off the plate. One wrapper is one grid item. */}
         <div className="v2h-copy">
-          <p className="v2h-kicker">{firm.chambers}</p>
-
           <h1 className="v2h-title">
             <span className="v2h-clip v2h-line-1">
               <span>Built on Justice.</span>
