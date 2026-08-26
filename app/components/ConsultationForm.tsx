@@ -143,7 +143,7 @@ export default function ConsultationForm() {
           justify-content: center;
           border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 4px 32px 4px 32px;
-          background: #0d211c;
+          background: #101a17;
           color: #ffffff;
           font-family: var(--font-instrument-sans), sans-serif;
           box-sizing: border-box;
@@ -269,7 +269,7 @@ export default function ConsultationForm() {
         .cf-submit:focus-visible:not(:disabled) {
           background: #ffffff;
           border-color: #ffffff;
-          color: #0d211c;
+          color: #101a17;
         }
         .cf-submit:disabled {
           opacity: 0.55;

@@ -64,7 +64,7 @@ export default function MapContact() {
           /* One ground for the whole strip. The map's tiles and the enquiry
              panel are both dark; leaving the section white framed each of them
              as a separate rectangle instead of one surface. */
-          background: #0d211c;
+          background: #101a17;
           font-family: var(--font-instrument-sans), sans-serif;
           box-sizing: border-box;
         }
@@ -125,7 +125,7 @@ export default function MapContact() {
           overflow: hidden;
           border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 4px 32px 4px 32px;
-          background: #0d211c;
+          background: #101a17;
           /* The map is live now, so it has no intrinsic height to lend the
              row. This is the floor; above it the grid stretches it to match
              the enquiry panel beside it. */

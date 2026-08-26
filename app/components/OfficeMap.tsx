@@ -119,14 +119,14 @@ export default function OfficeMap() {
           width: 100%;
           height: 100%;
           min-height: 320px;
-          background: #0d211c;
+          background: #101a17;
           overflow: hidden;
         }
         .om-map {
           width: 100%;
           flex: 1 1 auto;
           min-height: 320px;
-          background: #0d211c;
+          background: #101a17;
         }
         /* The tiles are a neutral near-black; the section is green. This wash
            sits over the tile pane and under the markers, so the basemap takes
@@ -138,9 +138,9 @@ export default function OfficeMap() {
           content: "";
           position: absolute;
           inset: 0;
-          background: #0d211c;
+          background: #101a17;
           mix-blend-mode: color;
-          opacity: 0.9;
+          opacity: 0.78;
           pointer-events: none;
           z-index: 450;
         }
@@ -181,7 +181,7 @@ export default function OfficeMap() {
 
         /* Leaflet's own chrome, brought onto the dark ground. */
         .leaflet-container {
-          background: #0d211c;
+          background: #101a17;
           font-family: var(--font-instrument-sans), sans-serif;
         }
         .leaflet-control-zoom a {
@@ -199,7 +199,7 @@ export default function OfficeMap() {
         }
         .leaflet-popup-content-wrapper,
         .leaflet-popup-tip {
-          background: #16302a;
+          background: #1b2723;
           color: #ffffff;
           border-radius: 4px;
           box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
