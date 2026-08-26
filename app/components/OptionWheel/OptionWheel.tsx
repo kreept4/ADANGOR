@@ -20,6 +20,9 @@ export interface OptionWheelProps {
   smoothing?: number;
   inset?: number;
   loop?: boolean;
+  /** Draw the circle the options ride on. */
+  orbit?: boolean;
+  orbitColor?: string;
   draggable?: boolean;
   soundUrl?: string;
   soundVolume?: number;
@@ -75,6 +78,8 @@ const OptionWheel = ({
   smoothing = 200,
   inset = 80,
   loop = false,
+  orbit = false,
+  orbitColor = 'rgba(0,0,0,0.12)',
   draggable = true,
   soundUrl = '',
   soundVolume = 0.5,
@@ -99,6 +104,13 @@ const OptionWheel = ({
   const [isDragging, setIsDragging] = useState(false);
 
   const remPx = typeof window !== 'undefined' ? parseFloat(getComputedStyle(document.documentElement).fontSize) || 16 : 16;
+
+  // The orbit's radius, derived exactly as `runFrame` derives it, so the drawn
+  // circle and the laid-out options can never disagree. Published as a custom
+  // property because only CSS needs it.
+  const rowHpx = Math.max(fontSize * spacing * remPx, 1);
+  const tiltRadians = (tilt * Math.PI) / 180;
+  const radiusPx = tiltRadians > 0.0005 ? rowHpx / tiltRadians : 0;
 
   onChangeRef.current = onChange;
   cfgRef.current = {
@@ -161,8 +173,13 @@ const OptionWheel = ({
         rot = (mirror * ang * 180) / Math.PI;
       }
       el.style.transform = `translate(${x.toFixed(2)}px, calc(${y.toFixed(2)}px - 50%)) rotate(${rot.toFixed(3)}deg)`;
-      el.style.opacity = String(Math.max(cfg.minOpacity, 1 - dist * cfg.fade));
-      el.style.filter = cfg.blur > 0 ? `blur(${(dist * cfg.blur).toFixed(2)}px)` : 'none';
+      // Depth is published as custom properties rather than written straight to
+      // `opacity` / `filter`, because an inline declaration cannot be overridden
+      // by a stylesheet — and the hover state has to be able to pull an option
+      // out of the haze the loop just put it in. The properties are read back
+      // in the CSS, which is free to ignore them while a pointer is on the item.
+      el.style.setProperty('--ow-dim', Math.max(cfg.minOpacity, 1 - dist * cfg.fade).toFixed(4));
+      el.style.setProperty('--ow-blur', cfg.blur > 0 ? `${(dist * cfg.blur).toFixed(2)}px` : '0px');
       el.style.setProperty('--ow-p', Math.max(0, 1 - Math.min(dist, 1)).toFixed(4));
     }
 
@@ -319,7 +336,9 @@ const OptionWheel = ({
           '--ow-text-color': textColor,
           '--ow-active-color': activeColor,
           '--ow-font-size': `${fontSize}rem`,
-          '--ow-inset': `${inset}px`
+          '--ow-inset': `${inset}px`,
+          '--ow-radius': `${radiusPx}px`,
+          '--ow-orbit-color': orbit ? orbitColor : 'transparent'
         } as CSSProperties
       }
       onPointerDown={handlePointerDown}
@@ -328,6 +347,9 @@ const OptionWheel = ({
       onPointerCancel={handlePointerEnd}
       onKeyDown={handleKeyDown}
     >
+      {/* First in the DOM so the options paint over it without needing a
+          stacking context of their own. */}
+      {orbit && radiusPx > 0 && <div className="option-wheel__orbit" aria-hidden="true" />}
       {items.map((label, index) => (
         <div
           key={`${label}-${index}`}

@@ -3,6 +3,9 @@
   --ow-active-color: #ffffff;
   --ow-font-size: 3rem;
   --ow-inset: 80px;
+  /* The orbit line's colour. Transparent by default: a wheel that has not
+     asked for the guide should not pay for one. */
+  --ow-orbit-color: transparent;
 
   position: relative;
   width: 100%;
@@ -33,6 +36,14 @@
   will-change: transform, opacity, filter;
   /* --ow-p goes 0 -> 1 as an option approaches the middle of the wheel */
   color: color-mix(in srgb, var(--ow-active-color) calc(var(--ow-p, 0) * 100%), var(--ow-text-color));
+  /* --ow-dim and --ow-blur are the depth the rAF loop last computed. Reading
+     them here rather than taking them as inline styles is what lets :hover
+     lift an option clear of the haze. */
+  opacity: var(--ow-dim, 1);
+  filter: blur(var(--ow-blur, 0px));
+  /* Deliberately not transitioned: the loop rewrites the depth every frame
+     while the wheel turns, and easing toward a value that has already moved
+     leaves the fade trailing behind the motion. */
 }
 
 .option-wheel--right .option-wheel__item {
@@ -43,4 +54,77 @@
 
 .option-wheel__item--selected {
   font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   The orbit
+   --------------------------------------------------------------------------
+   The options already ride a real circle — the loop puts them there. This just
+   draws it, so the path reads as a path instead of being inferred from three
+   years that happen to lean.
+
+   It is one element: a full circle, radius `--ow-radius`, parked so its
+   rightmost point lands exactly on the pivot the options rotate about. The
+   wheel's `overflow: hidden` does the rest, cropping it to the sliver of arc
+   that passes through the column. No SVG, no path data, and it cannot drift
+   out of step with the options because it is positioned from the same radius
+   the loop lays them out with.
+
+   Note the arc bows toward NEGATIVE x — away from the pivot — so a wheel with
+   too small an `inset` clips its own orbit off. */
+.option-wheel__orbit {
+  position: absolute;
+  top: 50%;
+  left: var(--ow-inset);
+  width: calc(var(--ow-radius, 0px) * 2);
+  height: calc(var(--ow-radius, 0px) * 2);
+  /* Pull the box left by its full width and up by half its height: the circle
+     ends up centred at (inset - radius, 50%), which puts its right extreme on
+     the pivot. */
+  margin-left: calc(var(--ow-radius, 0px) * -2);
+  margin-top: calc(var(--ow-radius, 0px) * -1);
+  border: 1px solid var(--ow-orbit-color);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Mirrored, the pivot is on the right and the arc bows the other way. */
+.option-wheel--right .option-wheel__orbit {
+  left: auto;
+  right: var(--ow-inset);
+  margin-left: 0;
+  margin-right: calc(var(--ow-radius, 0px) * -2);
+}
+
+/* --------------------------------------------------------------------------
+   Hover
+   --------------------------------------------------------------------------
+   Hovering is not selecting, and the two must not look alike. Selection owns
+   weight — `--selected` is the only thing that gets it. Hover owns focus: the
+   option steps out of the haze and takes the active colour, which is the same
+   thing proximity to the centre already does, just granted early.
+
+   Nothing scales and nothing re-weights. A hovered option that grows drags the
+   eye off the arc and reads as a button; the wheel is not a row of buttons.
+
+   Not transitioned, for the reason the depth properties are not: the loop
+   rewrites them every frame, so easing toward a value that has already moved
+   leaves the emphasis trailing the motion.
+
+   Guarded by `hover: hover` so a touch device, where :hover latches after a
+   tap, cannot leave an option stuck lit. */
+@media (hover: hover) {
+  .option-wheel__item:hover {
+    opacity: 1;
+    filter: blur(0px);
+    color: var(--ow-active-color);
+  }
+
+  /* A drag is the reader turning the wheel, not pointing at one option — the
+     emphasis would otherwise fire on whichever option swept past the cursor. */
+  .option-wheel--dragging .option-wheel__item:hover {
+    opacity: var(--ow-dim, 1);
+    filter: blur(var(--ow-blur, 0px));
+    color: color-mix(in srgb, var(--ow-active-color) calc(var(--ow-p, 0) * 100%), var(--ow-text-color));
+  }
 }

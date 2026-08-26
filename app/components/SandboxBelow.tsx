@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import OptionWheel from "./OptionWheel/OptionWheel";
@@ -150,6 +149,39 @@ function useSectionIntros(rootRef: React.RefObject<HTMLElement | null>) {
    practice area is a claim the firm did not make. */
 const BRIEF =
   "Matters in this area are taken on instruction and prepared in chambers from the record upward, with the same team carrying the file from first advice through to judgment.";
+
+/**
+ * The wheel sizes itself in JS — `rowH`, and therefore the orbit radius, are
+ * derived from `fontSize`, so a media query cannot resize it without the drawn
+ * arc and the laid-out years disagreeing. This picks the size instead, at the
+ * same breakpoints the stylesheet steps the rest of the section.
+ *
+ * `inset` travels with it: the arc bows away from the pivot, so the room the
+ * curve needs scales with the type. 11x the font size clears the bow at every
+ * step with margin to spare.
+ */
+const WHEEL_STEPS: { min: number; fontSize: number }[] = [
+  { min: 3600, fontSize: 4.4 },
+  { min: 2800, fontSize: 3.6 },
+  { min: 2100, fontSize: 3.0 },
+  { min: 768, fontSize: 2.2 },
+  { min: 0, fontSize: 2.0 },
+];
+
+function useWheelMetrics() {
+  // 2.2 is the desktop step, and the one the server renders.
+  const [fontSize, setFontSize] = useState(2.2);
+  useEffect(() => {
+    const read = () => {
+      const w = window.innerWidth;
+      setFontSize((WHEEL_STEPS.find((s) => w >= s.min) ?? WHEEL_STEPS[3]).fontSize);
+    };
+    read();
+    window.addEventListener('resize', read);
+    return () => window.removeEventListener('resize', read);
+  }, []);
+  return { fontSize, inset: Math.round(fontSize * 11) };
+}
 
 type PracticeRow = {
   index: string;
@@ -311,16 +343,16 @@ function Journey() {
   // it has settled on. This holds whose milestone the panel is showing.
   const [shown, setShown] = useState(0);
   const current = MILESTONES[shown] ?? MILESTONES[0];
+  const wheel = useWheelMetrics();
 
   return (
     <section className="sbp-journey" data-sb-section>
       <div className="sbp-journey-inner">
-        {/* No eyebrow. "Professional Journey" above "Four decades at the
-            Nigerian Bar." said the same thing twice, and the heading says it
-            better. */}
+        {/* No eyebrow. "Professional Journey" above the heading said the same
+            thing twice, and the heading says it better. */}
         <div className="sbp-journey-head">
           <h2 className="sbp-section-title sbp-journey-title" data-h="1">
-            Four decades at the Nigerian Bar.
+            Over three and a half decades at the Nigerian Bar.
           </h2>
         </div>
 
@@ -360,15 +392,24 @@ function Journey() {
               //
               // Only the size is dialled down: three years beside a paragraph
               // is a smaller object than the reference's twelve-item demo.
-              fontSize={2.2}
+              fontSize={wheel.fontSize}
               spacing={1.45}
               curve={1}
               tilt={6}
               blur={1.2}
               fade={0.35}
               smoothing={220}
-              inset={0}
+              // The arc bows away from the pivot, so the inset is not padding —
+              // it is the room the curve needs to exist inside the wheel's box.
+              // Too small and the orbit, and the lean of the lowest year, fall
+              // outside the frame and get cropped away. Scales with the type.
+              inset={wheel.inset}
               loop={false}
+              // The path the years ride, drawn rather than left to be inferred.
+              // Lighter than the dimmest year so it reads as the track behind
+              // them, not as a fourth thing on the same level.
+              orbit
+              orbitColor="rgba(29,30,36,0.13)"
               draggable
             />
 
@@ -484,11 +525,6 @@ function Publications() {
           <h2 className="sbp-section-title sbp-pubs-title" data-h="1">
             Publications
           </h2>
-
-          <nav className="sbp-pubs-nav" data-h="4">
-            <Link href="/publications">Full archive</Link>
-            <Link href="/contact">Enquiries</Link>
-          </nav>
 
           <div className="sbp-pubs-controls" data-h="4">
             <button

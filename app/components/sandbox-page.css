@@ -406,24 +406,6 @@
   margin: 0;
 }
 
-.sbp-pubs-nav {
-  display: flex;
-  gap: 24px;
-}
-.sbp-pubs-nav a {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #808080;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-.sbp-pubs-nav a:hover,
-.sbp-pubs-nav a:focus-visible {
-  color: #0d0d0d;
-}
-
 .sbp-pubs-controls {
   display: flex;
   gap: 10px;
@@ -622,15 +604,14 @@
   .sbp-pubs {
     padding: 96px 40px;
   }
+  /* Two children now — the title and the pager. The title takes the slack so
+     the pager stays pinned to the right edge. */
   .sbp-pubs-head {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto;
     align-items: center;
     gap: 32px;
     margin-bottom: 40px;
-  }
-  .sbp-pubs-nav {
-    justify-content: flex-start;
   }
   /* The feature is the larger of the two, but not by so much that the side
      list stops being readable — 1.55fr is where the citations in the list stop
@@ -649,6 +630,31 @@
 /* --------------------------------------------------------------------------
    The ends of the ladder
    -------------------------------------------------------------------------- */
+
+/* The section heading is right-aligned so the practice list runs back against
+   it — a relationship that only exists once the rows are wide enough to have a
+   right edge worth meeting. Stacked into one narrow column, the same heading
+   just reads as misaligned, so below the tablet breakpoint it sits left with
+   everything else. Journey and Publications already set their own left. */
+@media (max-width: 767px) {
+  .sbp-section-title {
+    text-align: left;
+  }
+}
+
+/* Phones. The wheel and its milestone stop sitting side by side: a fixed
+   132px track beside a paragraph leaves the copy about 160px wide on a 375px
+   screen, which is the common case, not the edge case. Stacked, the wheel gets
+   the full column and the copy gets the width it needs to be read. */
+@media (max-width: 767px) {
+  .sbp-arc {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .sbp-arc-wheel {
+    height: 190px;
+  }
+}
 
 /* Smartwatches and ultra-narrow phones. The practice row is the thing that
    breaks first: an index column and a copy column in 272px leaves the copy
@@ -676,15 +682,6 @@
   }
   .sbp-row-index {
     display: none;
-  }
-  /* The wheel and its milestone stack rather than sitting side by side; at this
-     width a 132px track leaves the copy unreadable. */
-  .sbp-arc {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .sbp-arc-wheel {
-    height: 190px;
   }
   .sbp-feature {
     padding: 20px 18px;
@@ -761,6 +758,14 @@
   .sbp-pub-cite {
     font-size: 20px;
   }
+  /* The wheel steps with the section — its type is set in SandboxBelow at the
+     same breakpoint, so the track and the box have to make room for it. */
+  .sbp-arc {
+    grid-template-columns: 180px minmax(0, 1fr);
+  }
+  .sbp-arc-wheel {
+    height: 320px;
+  }
   .sbp-portrait-name,
   .sbp-feature-name {
     font-size: 22px;
@@ -768,7 +773,6 @@
   .sbp-portrait-rank,
   .sbp-feature-rank,
   .sbp-pub-label,
-  .sbp-pubs-nav a,
   .sbp-feature-kicker {
     font-size: 15px;
   }
@@ -817,6 +821,14 @@
   .sbp-pub-cite {
     font-size: 27px;
   }
+  /* The wheel steps with the section — its type is set in SandboxBelow at the
+     same breakpoint, so the track and the box have to make room for it. */
+  .sbp-arc {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+  .sbp-arc-wheel {
+    height: 400px;
+  }
   .sbp-feature {
     min-height: 780px;
   }
@@ -850,6 +862,14 @@
   .sbp-pub-cite {
     font-size: 34px;
   }
+  /* The wheel steps with the section — its type is set in SandboxBelow at the
+     same breakpoint, so the track and the box have to make room for it. */
+  .sbp-arc {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+  .sbp-arc-wheel {
+    height: 480px;
+  }
   .sbp-feature {
     min-height: 980px;
   }
@@ -878,7 +898,6 @@
   }
 
 
-  .sbp-pubs-nav a,
   .sbp-pill {
     transition: none;
   }

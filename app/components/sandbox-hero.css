@@ -19,7 +19,7 @@
 
   --v2-nav-h: 56px;
   --v2-pad-x: 32px;
-  /* The Legal Insight card's composed width. A token rather than a literal
+  /* The Publications card's composed width. A token rather than a literal
      because the grid track and the card itself must never disagree — if one is
      556 and the other is not, the card either overflows its column or floats
      inside it. Both read from here. */
@@ -190,7 +190,7 @@
   flex: 1;
 }
 
-/* --- the Legal Insight card ---------------------------------------------- */
+/* --- the Publications card ------------------------------------------------ */
 
 .v2h-article {
   box-sizing: border-box;

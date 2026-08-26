@@ -13,7 +13,7 @@ import "./sandbox-hero.css";
  *
  * The composition is a dark room with one headline in it. The beams behind are
  * atmosphere and nothing else — they carry no information and are never the
- * reason to look here. The Legal Insight card is secondary by construction: it
+ * reason to look here. The Publications card is secondary by construction: it
  * is snapped to the bottom-right on desktop, so the eye reaches it after the
  * headline and the action rather than competing with them.
  *
@@ -187,7 +187,7 @@ export default function SandboxHero() {
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={() => setPaused(false)}
         >
-          <p className="v2h-article-label">Legal Insight</p>
+          <p className="v2h-article-label">Publications</p>
           <div className="v2h-article-rule" />
 
           {/* Keyed on the index so each citation is a fresh element and replays
