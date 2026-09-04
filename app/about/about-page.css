@@ -126,7 +126,6 @@
   font-size: clamp(14px, 2.4vw, 22px);
   font-weight: 400;
   letter-spacing: -0.02em;
-  text-transform: uppercase;
   color: var(--about-creds);
 }
 
