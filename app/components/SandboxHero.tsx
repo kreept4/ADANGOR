@@ -156,7 +156,7 @@ export default function SandboxHero() {
           </h1>
 
           <p className="v2h-lede">
-            A distinguished Nigerian law firm serving individuals, businesses,
+            A Nigerian law firm serving individuals, businesses,
             institutions and government across complex legal matters.
           </p>
 
